@@ -1,0 +1,50 @@
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+.navigation/
+captures/
+
+# Local machine configuration
+local.properties
+*.env
+*.env.*
+!.env.example
+
+# Gradle / Kotlin build state
+.gradle/
+.kotlin/
+build/
+*/build/
+**/build/
+out/
+*/out/
+**/out/
+
+# Android build outputs
+*.apk
+*.ap_
+*.aab
+*.idsig
+*.dex
+*.class
+*.hprof
+app/release/
+app/debug/
+
+!gradle/wrapper/gradle-wrapper.jar
+
+# Logs, temp files, and OS/editor noise
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+tmp/
+temp/
+.cache/
+.DS_Store
+Thumbs.db
+desktop.ini
