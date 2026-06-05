@@ -1,0 +1,66 @@
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+.navigation/
+captures/
+
+# Local machine configuration
+local.properties
+*.env
+*.env.*
+!.env.example
+
+# Gradle / Kotlin build state
+.gradle/
+.kotlin/
+build/
+*/build/
+**/build/
+out/
+*/out/
+**/out/
+
+# Android build outputs
+*.apk
+*.ap_
+*.aab
+*.idsig
+*.dex
+*.class
+*.hprof
+app/release/
+app/debug/
+
+# Keep the Gradle wrapper binary if broad binary rules are added later.
+!gradle/wrapper/gradle-wrapper.jar
+
+# Reverse-engineering / unpacked artifacts
+/source_only/*
+!/source_only/README.md
+/assets/apktool_res_2x/
+/assets/apktool_smali/
+/apktool*/
+/jadx*/
+/smali*/
+/dex*/
+*.apktool.yml
+
+# Generated reports from unpacked sources
+/docs/reports/*
+!/docs/reports/README.md
+
+# Logs, temp files, and OS/editor noise
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+tmp/
+temp/
+.cache/
+.DS_Store
+Thumbs.db
+desktop.ini
