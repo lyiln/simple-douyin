@@ -1,6 +1,8 @@
 package com.simpledouyin.api.auth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.simpledouyin.api.auth.dto.LoginRequest;
+import com.simpledouyin.api.auth.dto.LoginResponse;
 import com.simpledouyin.api.auth.dto.RegisterRequest;
 import com.simpledouyin.api.auth.dto.RegisterResponse;
 import com.simpledouyin.api.auth.dto.UserSummary;
@@ -123,6 +125,70 @@ class AuthControllerTest {
                                 """))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.code").value(40901))
+                .andExpect(jsonPath("$.data").doesNotExist())
+                .andExpect(jsonPath("$.requestId").isNotEmpty());
+    }
+
+    @Test
+    void returnsOkLoginResponseAndSanitizesSensitiveLogFields() throws Exception {
+        when(authService.login(any(LoginRequest.class))).thenReturn(
+                new LoginResponse(
+                        new UserSummary(1001L, "alice", "Alice", null),
+                        ACCESS_TOKEN,
+                        7200
+                )
+        );
+
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .header("X-Request-Id", REQUEST_ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "username": "alice",
+                                  "password": "Passw0rd!"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(header().string("X-Request-Id", REQUEST_ID))
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.message").value("ok"))
+                .andExpect(jsonPath("$.requestId").value(REQUEST_ID))
+                .andExpect(jsonPath("$.data.user.id").value(1001))
+                .andExpect(jsonPath("$.data.user.username").value("alice"))
+                .andExpect(jsonPath("$.data.user.nickname").value("Alice"))
+                .andExpect(jsonPath("$.data.user.avatarUrl").doesNotExist())
+                .andExpect(jsonPath("$.data.accessToken").value(ACCESS_TOKEN))
+                .andExpect(jsonPath("$.data.expiresIn").value(7200));
+
+        ArgumentCaptor<RequestLogEntry> logEntry = ArgumentCaptor.forClass(RequestLogEntry.class);
+        verify(requestLogRepository).save(logEntry.capture());
+
+        assertThat(logEntry.getValue().requestId()).isEqualTo(REQUEST_ID);
+        assertThat(logEntry.getValue().path()).isEqualTo("/api/v1/auth/login");
+        assertThat(logEntry.getValue().requestBody()).contains("\"password\":\"***\"");
+        assertThat(logEntry.getValue().requestBody()).doesNotContain(PLAIN_PASSWORD);
+        assertThat(logEntry.getValue().responseBody()).doesNotContain(ACCESS_TOKEN);
+        assertThat(logEntry.getValue().businessCode()).isZero();
+        assertThat(logEntry.getValue().statusCode()).isEqualTo(200);
+    }
+
+    @Test
+    void returnsUnauthorizedForInvalidLogin() throws Exception {
+        when(authService.login(any(LoginRequest.class))).thenThrow(
+                new BusinessException(ErrorCode.UNAUTHORIZED)
+        );
+
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "username": "alice",
+                                  "password": "wrong-password"
+                                }
+                                """))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40101))
+                .andExpect(jsonPath("$.message").value("unauthorized"))
                 .andExpect(jsonPath("$.data").doesNotExist())
                 .andExpect(jsonPath("$.requestId").isNotEmpty());
     }

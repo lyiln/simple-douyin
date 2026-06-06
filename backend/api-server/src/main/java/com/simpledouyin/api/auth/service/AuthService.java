@@ -1,9 +1,12 @@
 package com.simpledouyin.api.auth.service;
 
+import com.simpledouyin.api.auth.dto.LoginRequest;
+import com.simpledouyin.api.auth.dto.LoginResponse;
 import com.simpledouyin.api.auth.dto.RegisterRequest;
 import com.simpledouyin.api.auth.dto.RegisterResponse;
 import com.simpledouyin.api.auth.dto.UserSummary;
 import com.simpledouyin.api.auth.model.UserAccount;
+import com.simpledouyin.api.auth.model.UserCredentials;
 import com.simpledouyin.api.auth.repository.UserRepository;
 import com.simpledouyin.api.auth.security.PasswordHasher;
 import com.simpledouyin.api.auth.token.HmacTokenService;
@@ -76,6 +79,35 @@ public class AuthService {
         );
     }
 
+    @Transactional(readOnly = true)
+    public LoginResponse login(LoginRequest request) {
+        if (request == null) {
+            throw missing("request");
+        }
+
+        String username = requiredTrimmed(request.username(), "username");
+        String password = required(request.password(), "password");
+        validateCredentials(username, password);
+
+        UserCredentials user = userRepository.findByUsername(username)
+                .orElseThrow(this::unauthorized);
+        if (!passwordHasher.matches(password, user.passwordHash())) {
+            throw unauthorized();
+        }
+
+        IssuedToken token = tokenService.issue(user.id());
+        return new LoginResponse(
+                new UserSummary(
+                        user.id(),
+                        user.username(),
+                        user.nickname(),
+                        user.avatarUrl()
+                ),
+                token.value(),
+                token.expiresIn()
+        );
+    }
+
     private String requiredTrimmed(String value, String field) {
         return required(value, field).trim();
     }
@@ -95,6 +127,13 @@ public class AuthService {
         }
     }
 
+    private void validateCredentials(String username, String password) {
+        if (username.length() > MAX_USERNAME_LENGTH
+                || password.getBytes(StandardCharsets.UTF_8).length > MAX_BCRYPT_PASSWORD_BYTES) {
+            throw new BusinessException(ErrorCode.INVALID_PARAMETER);
+        }
+    }
+
     private BusinessException missing(String field) {
         return new BusinessException(
                 ErrorCode.REQUIRED_VALUE_MISSING,
@@ -107,5 +146,9 @@ public class AuthService {
                 ErrorCode.CONFLICT,
                 "username already exists"
         );
+    }
+
+    private BusinessException unauthorized() {
+        return new BusinessException(ErrorCode.UNAUTHORIZED);
     }
 }

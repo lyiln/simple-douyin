@@ -1,5 +1,6 @@
 package com.simpledouyin.api.auth.repository;
 
+import com.simpledouyin.api.auth.model.UserCredentials;
 import com.simpledouyin.api.auth.model.UserAccount;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserRepository {
@@ -30,6 +33,18 @@ public class UserRepository {
                 created_at,
                 updated_at
             ) VALUES (?, ?, ?, NULL, 'active', CURRENT_TIMESTAMP(3), CURRENT_TIMESTAMP(3))
+            """;
+
+    private static final String FIND_BY_USERNAME_SQL = """
+            SELECT
+                id,
+                username,
+                password_hash,
+                nickname,
+                avatar_url,
+                status
+            FROM users
+            WHERE username = ?
             """;
 
     private final JdbcTemplate jdbcTemplate;
@@ -61,5 +76,21 @@ public class UserRepository {
             throw new IllegalStateException("User ID was not generated");
         }
         return new UserAccount(generatedId.longValue(), username, nickname, null);
+    }
+
+    public Optional<UserCredentials> findByUsername(String username) {
+        List<UserCredentials> users = jdbcTemplate.query(
+                FIND_BY_USERNAME_SQL,
+                (resultSet, rowNumber) -> new UserCredentials(
+                        resultSet.getLong("id"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password_hash"),
+                        resultSet.getString("nickname"),
+                        resultSet.getString("avatar_url"),
+                        resultSet.getString("status")
+                ),
+                username
+        );
+        return users.stream().findFirst();
     }
 }

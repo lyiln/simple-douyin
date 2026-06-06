@@ -1,5 +1,7 @@
 package com.simpledouyin.api.auth.controller;
 
+import com.simpledouyin.api.auth.dto.LoginRequest;
+import com.simpledouyin.api.auth.dto.LoginResponse;
 import com.simpledouyin.api.auth.dto.RegisterRequest;
 import com.simpledouyin.api.auth.dto.RegisterResponse;
 import com.simpledouyin.api.auth.service.AuthService;
@@ -29,5 +31,13 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(ApiResponse.success(response));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<LoginResponse>> login(
+            @RequestBody LoginRequest request
+    ) {
+        LoginResponse response = authService.login(request);
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

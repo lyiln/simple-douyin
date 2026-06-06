@@ -1,9 +1,12 @@
 package com.simpledouyin.api.auth.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.simpledouyin.api.auth.dto.LoginRequest;
+import com.simpledouyin.api.auth.dto.LoginResponse;
 import com.simpledouyin.api.auth.dto.RegisterRequest;
 import com.simpledouyin.api.auth.dto.RegisterResponse;
 import com.simpledouyin.api.auth.model.UserAccount;
+import com.simpledouyin.api.auth.model.UserCredentials;
 import com.simpledouyin.api.auth.repository.UserRepository;
 import com.simpledouyin.api.auth.security.PasswordHasher;
 import com.simpledouyin.api.auth.token.HmacTokenService;
@@ -12,6 +15,8 @@ import com.simpledouyin.api.common.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -92,11 +97,85 @@ class AuthServiceTest {
                 );
     }
 
+    @Test
+    void logsInUserWithValidPasswordAndToken() {
+        String passwordHash = passwordHasher.hash("Passw0rd!");
+        when(userRepository.findByUsername("alice")).thenReturn(Optional.of(
+                new UserCredentials(
+                        1001L,
+                        "alice",
+                        passwordHash,
+                        "Alice",
+                        null,
+                        "active"
+                )
+        ));
+
+        LoginResponse response = authService.login(new LoginRequest("alice", "Passw0rd!"));
+
+        assertThat(response.user().id()).isEqualTo(1001L);
+        assertThat(response.user().username()).isEqualTo("alice");
+        assertThat(response.user().nickname()).isEqualTo("Alice");
+        assertThat(response.user().avatarUrl()).isNull();
+        assertThat(response.expiresIn()).isEqualTo(7200);
+        assertThat(response.accessToken()).isNotBlank();
+        assertThat(tokenService.parseUserId(response.accessToken())).isEqualTo(1001L);
+    }
+
+    @Test
+    void rejectsLoginMissingUsername() {
+        assertLoginMissing(new LoginRequest(" ", "Passw0rd!"));
+    }
+
+    @Test
+    void rejectsLoginMissingPassword() {
+        assertLoginMissing(new LoginRequest("alice", " "));
+    }
+
+    @Test
+    void rejectsLoginForUnknownUser() {
+        when(userRepository.findByUsername("missing")).thenReturn(Optional.empty());
+
+        assertUnauthorized(new LoginRequest("missing", "Passw0rd!"));
+    }
+
+    @Test
+    void rejectsLoginForWrongPassword() {
+        String passwordHash = passwordHasher.hash("Passw0rd!");
+        when(userRepository.findByUsername("alice")).thenReturn(Optional.of(
+                new UserCredentials(
+                        1001L,
+                        "alice",
+                        passwordHash,
+                        "Alice",
+                        null,
+                        "active"
+                )
+        ));
+
+        assertUnauthorized(new LoginRequest("alice", "wrong-password"));
+    }
+
     private void assertMissing(RegisterRequest request) {
         assertThatThrownBy(() -> authService.register(request))
                 .isInstanceOfSatisfying(BusinessException.class, exception ->
                         assertThat(exception.errorCode())
                                 .isEqualTo(ErrorCode.REQUIRED_VALUE_MISSING)
+                );
+    }
+
+    private void assertLoginMissing(LoginRequest request) {
+        assertThatThrownBy(() -> authService.login(request))
+                .isInstanceOfSatisfying(BusinessException.class, exception ->
+                        assertThat(exception.errorCode())
+                                .isEqualTo(ErrorCode.REQUIRED_VALUE_MISSING)
+                );
+    }
+
+    private void assertUnauthorized(LoginRequest request) {
+        assertThatThrownBy(() -> authService.login(request))
+                .isInstanceOfSatisfying(BusinessException.class, exception ->
+                        assertThat(exception.errorCode()).isEqualTo(ErrorCode.UNAUTHORIZED)
                 );
     }
 }
