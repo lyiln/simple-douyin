@@ -65,7 +65,7 @@ Method：`ListRecommendedVideos`
 | `strategy` | string | 是 | 固定 `like_count_desc_exclude_viewed` |
 | `debugMessage` | string | 否 | 仅开发环境可返回 |
 
-## 4. 推荐规则
+## 4. 推荐规则（课程必做）
 
 P0 推荐规则必须简单、确定、可测试：
 
@@ -77,6 +77,8 @@ P0 推荐规则必须简单、确定、可测试：
 | 4 | 排除当前用户在 `video_views` 表中已访问的视频 |
 | 5 | 按 `like_count DESC` 排序 |
 | 6 | 点赞数相同按 `created_at DESC, id DESC` 排序 |
+
+以上排序和过滤规则是固定验收口径，不扩展复杂推荐算法。Spring Boot API Server 不得绕过 gRPC 在 REST Controller 内直接生成推荐结果。
 
 推荐游标建议编码以下字段：
 
@@ -140,3 +142,12 @@ Recommend Service 查询 MySQL 8，返回 ID 列表，不负责拼完整视频�
 | 分页测试 | 第一页和第二页无重复 |
 | gRPC 调用测试 | REST 推荐接口必须经过 `RecommendService.ListRecommendedVideos` |
 | 异常测试 | gRPC 不可用时 REST 返回 500 并有日志 |
+
+## 10. 评分点证据
+
+| 评分点 | 设计证据 | 测试 / 演示证据 |
+| --- | --- | --- |
+| 主端访问推荐系统使用 RPC | API Server 的推荐 REST 入口只通过 gRPC 调 `ListRecommendedVideos` | R08 观察 mock、调用日志或 trace |
+| 按点赞数最高推荐 | `ORDER BY like_count DESC, created_at DESC, id DESC` | R01、R02 |
+| 访问过不再推荐 | Recommend Service 排除当前用户 `video_views` | R03、R04 |
+| 集成监控 | REST requestId 传入 gRPC，记录 REST 与 gRPC 耗时和异常 | L05、L06、E10、H03 |

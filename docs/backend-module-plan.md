@@ -30,7 +30,7 @@ API Server 和 Recommend Service 都可以访问 MySQL 8。视频文件由 API S
 | `view` | 记录访问过的视频 | `POST /videos/{videoId}/views/me` |
 | `feed` | 推荐流 REST 入口，调用 gRPC 后补详情 | `GET /feeds/recommended/videos` |
 | `recommend-client` | gRPC 客户端封装 | 被 `feed` 模块调用 |
-| `comment` | P0-lite 评论列表和发表评论 | `GET/POST /videos/{videoId}/comments` |
+| `comment` | P0-lite、最终演示必做的评论列表和发表评论 | `GET/POST /videos/{videoId}/comments` |
 | `logging` | 统一 requestId、输入/输出/耗时日志 | 所有 REST 接口 |
 | `security` | 鉴权中间件、权限校验、敏感字段脱敏 | 所有需登录接口 |
 | `monitoring` | 健康检查 | `GET /health` |
@@ -62,7 +62,7 @@ flowchart LR
     API --> Video["video/uploads"]
     API --> Like["like"]
     API --> View["view"]
-    API --> Comment["comment P0-lite"]
+    API --> Comment["comment P0-lite / demo required"]
     Feed --> RecClient["recommend-client"]
     RecClient -->|"gRPC"| RecSvc["gRPC Recommend Service"]
     RecSvc --> DB["MySQL 8"]
@@ -105,6 +105,18 @@ flowchart LR
 
 先实现核心 P0：账号、日志、发布、我的视频、删除、点赞、访问记录、gRPC 推荐、推荐流、健康检查。
 
-再实现 P0-lite：评论列表和发表评论。
+再实现 P0-lite：评论列表和发表评论。P0-lite 只表示顺序后置，必须在前端最终联调和演示前完成。
 
 最后再考虑 Bonus：上传凭证、收藏、关注、分享、消息、搜索、metrics。
+
+## 8. Android 前端联调边界
+
+| 前端能力 | 当前状态 | 后续必做接入 |
+| --- | --- | --- |
+| 上下滑播放 | Android Compose Demo 已具备 | 推荐列表改为真实 REST 数据，保持查看上一个/下一个视频 |
+| 登录态 | 当前缺真实账号接口 | 接入注册、登录、退出、`GET /me` 和 Bearer token |
+| 推荐与浏览 | 当前为本地 mock | 接入推荐流；视频开始展示时调用访问记录接口 |
+| 点赞 | 当前为本地状态 | 接入点赞/取消点赞并使用服务端计数 |
+| 发布与我的视频 | 当前为本地 Demo | 接入 multipart 发布、我的视频分页、删除权限 |
+| 评论 | 当前有本地弹层 | 接入评论列表和发表评论，纳入最终演示闭环 |
+| 收藏、关注、分享、消息、搜索 | 已有部分本地界面 | 不作为主线，不得挤占课程评分点开发时间 |

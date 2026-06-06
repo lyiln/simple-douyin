@@ -49,7 +49,7 @@ Core P0 course requirements must be completed before P0-lite and Bonus features:
 
 - Login, register, logout.
 - Recommended video feed.
-- Recommendation rule: recommend by highest like count.
+- Recommendation rule: `like_count DESC, created_at DESC, id DESC`.
 - Videos already visited by the user must not be recommended again.
 - Video vertical swipe support.
 - Video like support.
@@ -63,12 +63,13 @@ Core P0 course requirements must be completed before P0-lite and Bonus features:
 - Security checks: account system and permission control.
 - Main app access to the recommendation system must use gRPC.
 
-P0-lite / low-priority required scenario:
+P0-lite / later implementation but mandatory final demo scenario:
 
 - `GET /api/v1/videos/{videoId}/comments`
 - `POST /api/v1/videos/{videoId}/comments`
 - `comments` table is included in schema planning.
-- Implement comments after core P0 recommendation, like, publish, my videos, delete, and logging work.
+- Implement comments after core P0 recommendation, like, publish, my videos, delete, and logging work, but before final frontend integration and demonstration.
+- Comments are part of the official demonstration flow and must not be treated as Bonus.
 
 Bonus features must not be prioritized before P0 and P0-lite:
 
@@ -81,6 +82,27 @@ Bonus features must not be prioritized before P0 and P0-lite:
 - Metrics endpoint.
 
 Do not implement `auth_tokens` in the current plan. Logout is simplified: the client deletes the token and `POST /auth/logout` returns success.
+
+## Course Grading And Delivery
+
+Planning and implementation must remain traceable to the course grading points through API contracts, database tables, tests, and demonstration steps.
+
+The two required demonstration flows are:
+
+1. Recommended feed / swipe videos -> like -> view comments -> submit comment.
+2. Login / register -> publish video -> paginated my videos -> delete own video.
+
+Final delivery must include:
+
+- Public Git repository URL and complete `.gitignore`.
+- Final source package with `README.md` deployment steps.
+- Requirements document.
+- Technical design document.
+- Test document with case design and case list.
+- Defense PPT.
+- Team division document with workload percentages.
+- Internal member score sheet.
+- Two-minute demonstration video.
 
 ## Coding Workflow
 

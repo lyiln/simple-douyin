@@ -10,7 +10,7 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 
 Core P0 测试覆盖：账号、`GET /me`、推荐、浏览过滤、点赞、本地 `uploads/` 发布、我的视频分页、删除权限、日志和 `GET /health`。
 
-P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后。
+P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后，但属于最终演示和交付必做测试。
 
 `POST /media-upload-tokens`、`GET /metrics`、收藏、关注、分享、消息、搜索为 Bonus，不纳入主线验收。
 
@@ -33,7 +33,16 @@ P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后
 | N13 | 记录访问 | 前端切换到视频并开始展示 | 调 `POST /videos/{videoId}/views/me` | 返回 viewed=true；video_views 有记录 |
 | N14 | 健康检查 | 服务启动 | 调 `GET /health` | 返回 API Server、MySQL 8、gRPC Recommend Service 状态 |
 
-## 3. Core P0 异常用例
+## 3. 幂等与数据一致性用例
+
+| 编号 | 用例 | 步骤 | 预期 |
+| --- | --- | --- | --- |
+| I01 | 重复点赞 | 连续两次调用点赞接口 | 两次均返回 200；`video_likes` 只有一条关系；`like_count` 只增加一次 |
+| I02 | 重复取消点赞 | 连续两次调用取消点赞接口 | 两次均返回 200；关系不存在；`like_count` 不为负且只减少一次 |
+| I03 | 重复记录访问 | 同一用户重复调用访问接口 | `(user_id, video_id)` 只有一条记录；推荐过滤稳定生效 |
+| I04 | 重复删除 | 对已删除的本人视频再次删除 | 返回 200，不产生额外副作用 |
+
+## 4. Core P0 异常用例
 
 | 编号 | 用例 | 步骤 | 预期 |
 | --- | --- | --- | --- |
@@ -48,7 +57,7 @@ P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后
 | E09 | 访问不存在视频 | `POST /videos/unknown/views/me` | 404，`40401` |
 | E10 | gRPC 推荐服务不可用 | 停止 Recommend Service 后请求推荐流 | 500，`50001`，日志记录 gRPC 异常 |
 
-## 4. 权限测试
+## 5. 权限测试
 
 | 编号 | 用例 | 步骤 | 预期 |
 | --- | --- | --- | --- |
@@ -58,8 +67,10 @@ P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后
 | P04 | 未登录点赞 | 不带 token 调点赞接口 | 401 |
 | P05 | 删除他人视频 | 用户 A 删除用户 B 视频 | 403，`40301` |
 | P06 | 我的列表隔离 | 用户 A 调 `GET /me/videos` | 不出现用户 B 的视频 |
+| P07 | 未登录查看评论 | 不带 token 调评论列表 | 401 |
+| P08 | 未登录发表评论 | 不带 token 提交评论 | 401 |
 
-## 5. 推荐规则测试
+## 6. 推荐规则测试
 
 | 编号 | 数据准备 | 步骤 | 预期 |
 | --- | --- | --- | --- |
@@ -72,18 +83,19 @@ P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后
 | R07 | 私密视频高赞 | 请求推荐流 | `visibility=private` 不返回 |
 | R08 | REST 是否调用 gRPC | 观察日志或 mock gRPC | 推荐 REST 产生 `RecommendService.ListRecommendedVideos` 调用 |
 
-## 6. 日志测试
+## 7. 日志测试
 
 | 编号 | 用例 | 验收 |
 | --- | --- | --- |
-| L01 | 成功请求日志 | `request_logs` 记录 requestId、userId、method、path、request_body、response_body、status_code、duration_ms |
+| L01 | 成功请求日志 | `request_logs` 记录 requestId、userId、method、path、query、request_body、response_body、status_code、business_code、duration_ms、error_message、created_at |
 | L02 | 未登录请求日志 | userId 为空，但 path、status_code=401、duration_ms 存在 |
 | L03 | 异常请求日志 | 错误响应也记录 response_body 和 error_message |
 | L04 | 敏感字段脱敏 | 登录/注册日志中 password 和 token 不得明文出现 |
 | L05 | 接口耗时 | 每条日志 `duration_ms > 0`，推荐接口额外可记录 gRPC 耗时 |
 | L06 | requestId 串联 | 响应体 requestId 与 request_logs.request_id 一致 |
+| L07 | 监控聚合 | 从 `request_logs` 按 path 聚合请求数、错误数、平均耗时和最大耗时，结果可用于答辩展示 |
 
-## 7. 健康检查测试
+## 8. 健康检查测试
 
 | 编号 | 用例 | 预期 |
 | --- | --- | --- |
@@ -94,9 +106,9 @@ P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后
 
 `GET /metrics` 不属于 P0，不纳入测试。
 
-## 8. P0-lite 评论测试
+## 9. P0-lite 评论测试（最终演示必做）
 
-评论测试在 Core P0 全部通过后执行。
+评论测试在 Core P0 全部通过后执行，但必须在前端最终联调和演示录屏前通过。
 
 | 编号 | 用例 | 步骤 | 预期 |
 | --- | --- | --- | --- |
@@ -107,7 +119,40 @@ P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后
 | C05 | 评论内容过长 | content 超过 300 字 | 返回 400，`40003` |
 | C06 | 评论不存在视频 | 对不存在视频发表评论 | 返回 404，`40401` |
 
-## 9. 回归测试清单
+## 10. 数据库与存储测试
+
+| 编号 | 用例 | 验收 |
+| --- | --- | --- |
+| D01 | MySQL 8 schema 初始化 | `sql/schema.sql` 可执行，创建 `users`、`videos`、`video_likes`、`video_views`、`request_logs`、`comments` |
+| D02 | 唯一约束 | 用户名、点赞关系、访问关系、requestId 唯一约束生效 |
+| D03 | 推荐与分页索引 | 推荐排序、我的视频分页、评论分页的索引与设计一致 |
+| D04 | 非必做表检查 | 不创建 `auth_tokens`；不把 `upload_objects` 作为 P0 |
+| S01 | 本地视频可访问 | multipart 发布后文件保存在 `uploads/`，返回 URL 可被 Android 播放 |
+
+## 11. 前端演示链路测试
+
+| 编号 | 场景 | 步骤 | 预期 |
+| --- | --- | --- | --- |
+| F01 | 推荐主场景 | 登录 -> 拉取推荐 -> 上下滑动 -> 点赞 -> 查看评论 -> 提交评论 | 真实接口完成完整链路；切换展示时记录访问；刷新后已访问视频不再出现 |
+| F02 | 视频管理主场景 | 注册或登录 -> multipart 发布 -> 我的列表分页 -> 删除自己的视频 | 发布文件可播放；列表仅显示本人数据；删除成功且刷新后消失 |
+| F03 | 权限演示 | 未登录访问业务接口；用户 A 删除用户 B 视频 | 分别返回 401 和 403 |
+| F04 | 后台能力演示 | 调推荐、登录等接口后查看日志和 health | 可展示输入输出、耗时、脱敏、gRPC 调用和三个组件健康状态 |
+
+## 12. 作业材料验收
+
+| 编号 | 交付项 | 验收 |
+| --- | --- | --- |
+| A01 | Git 项目管理 | Git 地址公开，提交历史可追溯，`.gitignore` 忽略 target、IDE、编译产物和本地上传文件 |
+| A02 | README | 最终代码包包含 README，部署步骤可复现 |
+| A03 | 需求文档 | 覆盖全部课程评分点和两个主要场景 |
+| A04 | 技术设计文档 | 覆盖架构、REST、gRPC、MySQL、uploads、日志、安全 |
+| A05 | 测试文档 | 包含 case 设计逻辑、case 列表、执行结果 |
+| A06 | 答辩 PPT | 可在 8 分钟内讲清需求、架构、实现、测试和结果 |
+| A07 | 团队分工与评分 | 有工作分工、工作量占比和项目成员内部分数评定表 |
+| A08 | 演示视频 | 约 2 分钟，覆盖 F01、F02 和关键后台证据 |
+| A09 | 最终代码包 | 与公开 Git 最终版本一致，包含所需文档与 README |
+
+## 13. 回归测试清单
 
 | 回归项 | 原因 |
 | --- | --- |

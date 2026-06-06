@@ -2,7 +2,7 @@
 
 ## 1. 设计目标
 
-数据库使用 MySQL 8。表设计服务于课程 Core P0 功能：账号系统、视频发布、推荐排序、访问过滤、点赞、我的视频分页、删除权限、请求日志。`comments` 是 P0-lite / 低优先级必备表，先写入 schema 规划，业务实现排在核心 P0 后。
+数据库使用 MySQL 8。表设计服务于课程 Core P0 功能：账号系统、视频发布、推荐排序、访问过滤、点赞、我的视频分页、删除权限、请求日志。`comments` 是 P0-lite / 最终演示必做表，写入最终 schema；其业务实现排在核心 P0 后，但必须在最终联调和演示前完成。
 
 数据库初始化先提供 `sql/schema.sql`。如果后续 Spring Boot Maven 项目结构自然适合 Flyway，可以同时补 Flyway migration，但不要为了 Flyway 增加复杂度。
 
@@ -26,7 +26,7 @@
 | `video_likes` | Core P0 | 点赞关系和幂等 |
 | `video_views` | Core P0 | 访问记录和推荐过滤 |
 | `request_logs` | Core P0 | 请求输入、输出、耗时 |
-| `comments` | P0-lite | 评论列表和发表评论 |
+| `comments` | P0-lite，最终演示必做 | 评论列表和发表评论 |
 
 当前不做：
 
@@ -130,7 +130,7 @@
 | `user_id` | `BIGINT UNSIGNED` | NULL | 未登录请求为空 |
 | `method` | `VARCHAR(10)` | NOT NULL | HTTP 方法 |
 | `path` | `VARCHAR(255)` | NOT NULL | 接口路径 |
-| `query_string` | `VARCHAR(1024)` | NULL | 查询参数 |
+| `query` | `VARCHAR(1024)` | NULL | 查询参数 |
 | `request_body` | `TEXT` | NULL | 请求体，敏感字段脱敏 |
 | `response_body` | `MEDIUMTEXT` | NULL | 响应体，可限制长度 |
 | `status_code` | `INT` | NOT NULL | HTTP 状态码 |
@@ -151,7 +151,11 @@
 | `idx_request_logs_path_time` | `path, created_at` | NORMAL | 接口耗时和错误分析 |
 | `idx_request_logs_created` | `created_at` | NORMAL | 日志清理和查询 |
 
-## 8. comments P0-lite
+`request_logs` 必须覆盖 `request_id`、`user_id`、`method`、`path`、`query`、`request_body`、`response_body`、`status_code`、`business_code`、`duration_ms`、`error_message`、`created_at`。密码、token 等敏感字段必须脱敏，multipart 文件内容不写入正文，只记录文件名、类型、大小等摘要。
+
+答辩时不新增独立 `GET /metrics` 必做接口，可直接从 `request_logs` 按 `path`、时间范围、状态码聚合请求数、错误数、平均耗时和最大耗时，证明集成监控能力。
+
+## 8. comments P0-lite（最终演示必做）
 
 | 字段 | 类型 | 约束 | 说明 |
 | --- | --- | --- | --- |
@@ -180,3 +184,15 @@
 | 点赞状态 | 查询 `video_likes` 是否存在 `(current_user.id, video_id)` |
 | 访问过滤 | 查询 `video_views` 是否存在 `(current_user.id, video_id)` |
 | 评论分页 | 查询 `comments.video_id = video_id` 且 `deleted_at IS NULL`，按 `created_at DESC, id DESC` |
+
+## 10. 作业要求到表的映射
+
+| 作业要求 | 主要表 | 关键约束 / 索引 |
+| --- | --- | --- |
+| 注册、登录、账号安全 | `users` | `username` 唯一，密码仅保存哈希 |
+| 按点赞数推荐 | `videos` | `idx_videos_recommend` 支持确定性排序 |
+| 访问过不再推荐 | `video_views` | `(user_id, video_id)` 唯一 |
+| 点赞幂等 | `video_likes`、`videos` | `(user_id, video_id)` 唯一，维护 `like_count` |
+| 发布、我的视频分页、删除权限 | `videos` | `author_id`、分页索引、软删除字段 |
+| 查看和提交评论 | `comments`、`videos` | 评论分页索引，维护 `comment_count` |
+| 请求输入、输出、耗时与监控聚合 | `request_logs` | requestId 唯一，用户/接口/时间索引 |

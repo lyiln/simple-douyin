@@ -22,6 +22,27 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | 分页 | `cursor` + `limit`，默认 `limit=10`，最大 30 |
 | 统一响应 | HTTP 状态码表达请求级结果，业务 `code` 表达应用级错误 |
 
+课程主要演示场景中的评论接口属于最终交付必做内容，仅在实现顺序上排在核心 P0 之后。
+
+## 2. 接口总览与评分点
+
+| 优先级 | 接口 | 评分点 / 用途 |
+| --- | --- | --- |
+| Core P0 | `POST /api/v1/auth/register` | 注册 |
+| Core P0 | `POST /api/v1/auth/login` | 登录 |
+| Core P0 | `POST /api/v1/auth/logout` | 取消登录；客户端删除 token |
+| Core P0 | `GET /api/v1/me` | 当前用户与前端登录态 |
+| Core P0 | `GET /api/v1/feeds/recommended/videos` | gRPC 推荐、点赞排序、访问过滤 |
+| Core P0 | `POST /api/v1/videos/{videoId}/views/me` | 记录访问，支持已访问过滤 |
+| Core P0 | `PUT /api/v1/videos/{videoId}/likes/me` | 点赞幂等 |
+| Core P0 | `DELETE /api/v1/videos/{videoId}/likes/me` | 取消点赞幂等 |
+| Core P0 | `POST /api/v1/videos` | 本地 `uploads/` 发布视频 |
+| Core P0 | `GET /api/v1/me/videos` | 我的视频分页 |
+| Core P0 | `DELETE /api/v1/videos/{videoId}` | 删除权限与幂等 |
+| Core P0 | `GET /api/v1/health` | API Server、MySQL、gRPC 集成健康检查 |
+| P0-lite，最终演示必做 | `GET /api/v1/videos/{videoId}/comments` | 查看评论 |
+| P0-lite，最终演示必做 | `POST /api/v1/videos/{videoId}/comments` | 提交评论 |
+
 成功响应：
 
 ```json
@@ -44,7 +65,7 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 }
 ```
 
-## 2. 状态码和业务码
+## 3. 状态码和业务码
 
 | HTTP | 业务码 | 场景 |
 | --- | --- | --- |
@@ -62,7 +83,7 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | 429 | 42901 | 请求过于频繁 |
 | 500 | 50001 | 服务端异常 |
 
-## 3. 核心数据模型
+## 4. 核心数据模型
 
 ### UserSummary
 
@@ -131,9 +152,9 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 }
 ```
 
-## 4. 账号接口
+## 5. 账号接口
 
-### 4.1 注册
+### 5.1 注册
 
 ```http
 POST /api/v1/auth/register
@@ -167,7 +188,7 @@ Content-Type: application/json
 
 状态码：`201`、`400`、`409`。
 
-### 4.2 登录
+### 5.2 登录
 
 ```http
 POST /api/v1/auth/login
@@ -200,7 +221,7 @@ Content-Type: application/json
 
 状态码：`200`、`400`、`401`、`429`。
 
-### 4.3 退出
+### 5.3 退出
 
 ```http
 POST /api/v1/auth/logout
@@ -219,9 +240,9 @@ Authorization: Bearer <token>
 
 状态码：`200`、`401`。
 
-## 5. 当前用户
+## 6. 当前用户
 
-### 5.1 获取当前用户信息
+### 6.1 获取当前用户信息
 
 ```http
 GET /api/v1/me
@@ -245,9 +266,9 @@ Authorization: Bearer <token>
 
 状态码：`200`、`401`。
 
-## 6. 推荐流
+## 7. 推荐流
 
-### 6.1 获取推荐视频
+### 7.1 获取推荐视频
 
 ```http
 GET /api/v1/feeds/recommended/videos?cursor=&limit=10
@@ -276,7 +297,7 @@ Authorization: Bearer <token>
 
 状态码：`200`、`400`、`401`、`500`。
 
-### 6.2 记录访问过的视频
+### 7.2 记录访问过的视频
 
 ```http
 POST /api/v1/videos/{videoId}/views/me
@@ -307,9 +328,9 @@ Content-Type: application/json
 
 状态码：`200`、`201`、`400`、`401`、`404`。
 
-## 7. 点赞
+## 8. 点赞
 
-### 7.1 点赞视频
+### 8.1 点赞视频
 
 ```http
 PUT /api/v1/videos/{videoId}/likes/me
@@ -328,7 +349,7 @@ Authorization: Bearer <token>
 
 状态码：`200`、`401`、`404`。
 
-### 7.2 取消点赞
+### 8.2 取消点赞
 
 ```http
 DELETE /api/v1/videos/{videoId}/likes/me
@@ -347,9 +368,9 @@ Authorization: Bearer <token>
 
 状态码：`200`、`401`、`404`。
 
-## 8. 视频发布与管理
+## 9. 视频发布与管理
 
-### 8.1 发布视频
+### 9.1 发布视频
 
 ```http
 POST /api/v1/videos
@@ -414,7 +435,7 @@ multipart 字段：
 
 状态码：`201`、`400`、`401`、`413`、`500`。
 
-### 8.2 分页查看我的视频
+### 9.2 分页查看我的视频
 
 ```http
 GET /api/v1/me/videos?cursor=&limit=18
@@ -433,7 +454,7 @@ Authorization: Bearer <token>
 
 状态码：`200`、`400`、`401`。
 
-### 8.3 删除我的视频
+### 9.3 删除我的视频
 
 ```http
 DELETE /api/v1/videos/{videoId}
@@ -453,9 +474,9 @@ Authorization: Bearer <token>
 
 状态码：`200`、`401`、`403`、`404`。
 
-## 9. 健康检查
+## 10. 健康检查
 
-### 9.1 获取服务健康状态
+### 10.1 获取服务健康状态
 
 ```http
 GET /api/v1/health
@@ -476,11 +497,13 @@ GET /api/v1/health
 
 状态码：`200`、`500`。
 
-## 10. P0-lite 评论接口
+健康检查必须实际检查 API Server 自身、MySQL 8 连接和 gRPC Recommend Service 连通性，不能只返回固定字符串。
 
-评论是 P0-lite / 低优先级必备场景。实现顺序排在核心推荐、点赞、发布、我的视频、删除和日志之后。
+## 11. P0-lite 评论接口（最终演示必做）
 
-### 10.1 获取视频评论
+评论实现顺序排在核心推荐、点赞、发布、我的视频、删除和日志之后，但必须在前端最终联调、测试验收和演示录屏前完成。
+
+### 11.1 获取视频评论
 
 ```http
 GET /api/v1/videos/{videoId}/comments?cursor=&limit=20
@@ -500,7 +523,7 @@ Authorization: Bearer <token>
 
 状态码：`200`、`400`、`401`、`404`。
 
-### 10.2 发表评论
+### 11.2 发表评论
 
 ```http
 POST /api/v1/videos/{videoId}/comments
@@ -536,9 +559,9 @@ Content-Type: application/json
 }
 ```
 
-状态码：`201`、`400`、`401`、`404`、`429`.
+状态码：`201`、`400`、`401`、`404`、`429`。
 
-## 11. Bonus / 不作为 P0 的接口
+## 12. Bonus / 不作为必做主线的接口
 
 | 接口组 | 状态 |
 | --- | --- |
