@@ -2,73 +2,91 @@
 
 ## 1. 总体结构
 
-后端只规划两个服务：
+固定架构：
 
-| 服务 | 模块 | 职责 |
+```text
+Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC Recommend Service -> MySQL 8
+```
+
+后端只规划两个运行单元：
+
+| 服务 | 技术 | 职责 |
 | --- | --- | --- |
-| API Server | HTTP REST API | 面向 Android 客户端 |
-| Recommend Service | RPC | 面向 API Server，提供推荐视频 ID |
+| Spring Boot API Server | Java 17 + Spring Boot + Maven | 面向 Android 客户端提供 RESTful HTTP/JSON API |
+| gRPC Recommend Service | Java 17 + gRPC + Maven | 面向 API Server 提供推荐 videoIds |
 
-不规划收藏、关注、分享、消息、搜索等非课程必需模块；这些可在 Bonus 阶段增加。
+API Server 和 Recommend Service 都可以访问 MySQL 8。视频文件由 API Server 保存到本地 `uploads/` 目录。
 
-## 2. API Server 模块
+收藏、关注、分享、消息、搜索等非课程必需功能只作为 Bonus。
+
+## 2. Spring Boot API Server 模块
 
 | 模块 | 职责 | 对应接口 |
 | --- | --- | --- |
 | `auth` | 注册、登录、退出、token 签发/校验、密码哈希 | `POST /auth/register`、`POST /auth/login`、`POST /auth/logout` |
 | `user` | 当前用户资料 | `GET /me` |
-| `video` | 发布视频、我的视频分页、删除视频、视频详情拼装 | `POST /videos`、`GET /me/videos`、`DELETE /videos/{videoId}` |
-| `media` | 上传凭证、视频/封面存储元数据 | `POST /media-upload-tokens` |
+| `video` | multipart 上传到 `uploads/`、发布视频、我的视频分页、删除视频、视频详情拼装 | `POST /videos`、`GET /me/videos`、`DELETE /videos/{videoId}` |
 | `like` | 点赞、取消点赞、计数一致性 | `PUT /videos/{videoId}/likes/me`、`DELETE /videos/{videoId}/likes/me` |
 | `view` | 记录访问过的视频 | `POST /videos/{videoId}/views/me` |
-| `feed` | 推荐流 REST 入口，调用 RPC 后补详情 | `GET /feeds/recommended/videos` |
-| `recommend-client` | RPC 客户端封装 | 被 `feed` 模块调用 |
+| `feed` | 推荐流 REST 入口，调用 gRPC 后补详情 | `GET /feeds/recommended/videos` |
+| `recommend-client` | gRPC 客户端封装 | 被 `feed` 模块调用 |
+| `comment` | P0-lite 评论列表和发表评论 | `GET/POST /videos/{videoId}/comments` |
 | `logging` | 统一 requestId、输入/输出/耗时日志 | 所有 REST 接口 |
 | `security` | 鉴权中间件、权限校验、敏感字段脱敏 | 所有需登录接口 |
-| `monitoring` | 健康检查、基础指标 | `GET /health`，可选 `GET /metrics` |
+| `monitoring` | 健康检查 | `GET /health` |
 
-## 3. Recommend Service 模块
+不作为 P0 的 API Server 模块：
+
+| 模块 | 状态 |
+| --- | --- |
+| `media-upload-token` | Bonus；P0 不做 `POST /media-upload-tokens` |
+| `metrics` | Bonus / 不做 |
+| `favorite`、`follow`、`share`、`message`、`search` | Bonus |
+
+## 3. gRPC Recommend Service 模块
 
 | 模块 | 职责 | 对应 RPC |
 | --- | --- | --- |
-| `recommend-api` | RPC 契约定义 | `ListRecommendedVideos` |
+| `recommend-api` | gRPC proto / 契约定义 | `RecommendService.ListRecommendedVideos` |
 | `recommend-core` | 推荐规则：按点赞数降序，过滤访问记录 | `ListRecommendedVideos` |
-| `recommend-repository` | 查询 videos、video_views | `ListRecommendedVideos` |
-| `recommend-logging` | RPC requestId、耗时、异常日志 | 全部 RPC |
+| `recommend-repository` | 查询 `videos`、`video_views` | `ListRecommendedVideos` |
+| `recommend-logging` | gRPC requestId、耗时、异常日志 | 全部 gRPC |
 
 ## 4. 模块依赖
 
 ```mermaid
 flowchart LR
-    Client["Android Client"] --> API["API Server"]
+    Client["Android Frontend"] -->|"RESTful API over HTTP/JSON"| API["Spring Boot API Server"]
     API --> Auth["auth/security"]
     API --> Feed["feed"]
-    API --> Video["video/media"]
+    API --> Video["video/uploads"]
     API --> Like["like"]
     API --> View["view"]
+    API --> Comment["comment P0-lite"]
     Feed --> RecClient["recommend-client"]
-    RecClient --> RecSvc["Recommend Service"]
-    RecSvc --> DB["MySQL"]
+    RecClient -->|"gRPC"| RecSvc["gRPC Recommend Service"]
+    RecSvc --> DB["MySQL 8"]
     API --> DB
 ```
 
 ## 5. 接口到模块映射
 
-| 接口 | API Server 模块 | 数据表 | RPC |
+| 接口 | API Server 模块 | 数据表 | gRPC |
 | --- | --- | --- | --- |
 | `POST /auth/register` | `auth` | `users` | 无 |
-| `POST /auth/login` | `auth` | `users`、可选 `auth_tokens` | 无 |
-| `POST /auth/logout` | `auth` | 可选 `auth_tokens` | 无 |
+| `POST /auth/login` | `auth` | `users` | 无 |
+| `POST /auth/logout` | `auth` | 无；客户端删除 token | 无 |
 | `GET /me` | `user` | `users`、`videos` | 无 |
 | `GET /feeds/recommended/videos` | `feed`、`recommend-client` | `videos`、`video_likes`、`video_views` | `RecommendService.ListRecommendedVideos` |
 | `POST /videos/{videoId}/views/me` | `view` | `video_views`、`videos` | 无 |
 | `PUT /videos/{videoId}/likes/me` | `like` | `video_likes`、`videos` | 无 |
 | `DELETE /videos/{videoId}/likes/me` | `like` | `video_likes`、`videos` | 无 |
-| `POST /media-upload-tokens` | `media` | `upload_objects` | 无 |
-| `POST /videos` | `video` | `videos`、`upload_objects` | 无 |
+| `POST /videos` | `video` | `videos` | 无 |
 | `GET /me/videos` | `video` | `videos` | 无 |
 | `DELETE /videos/{videoId}` | `video`、`security` | `videos` | 无 |
-| `GET /health` | `monitoring` | 可检查 DB/RPC | 可选 ping RPC |
+| `GET /videos/{videoId}/comments` | `comment` | `comments`、`videos` | 无 |
+| `POST /videos/{videoId}/comments` | `comment` | `comments`、`videos` | 无 |
+| `GET /health` | `monitoring` | 可检查 MySQL/gRPC | 可 ping 推荐服务 |
 
 ## 6. 权限规则
 
@@ -79,16 +97,14 @@ flowchart LR
 | 点赞 | 必须登录，只能为当前用户写 `video_likes` |
 | 发布视频 | 必须登录，作者固定为当前用户 |
 | 我的列表 | 必须登录，只查询当前用户视频 |
-| 删除视频 | 必须登录，且 `videos.author_id == currentUser.id` |
-| 上传凭证 | 必须登录，上传对象归属当前用户 |
+| 删除视频 | 必须登录，且 `videos.author_id == currentUser.id`；重复删除返回 200 |
+| 评论列表 | 必须登录 |
+| 发表评论 | 必须登录，作者固定为当前用户 |
 
-## 7. Bonus 模块
+## 7. 实现顺序原则
 
-| 模块 | 接口 | 状态 |
-| --- | --- | --- |
-| `comment` | `GET/POST /videos/{videoId}/comments` | Bonus |
-| `favorite` | `/favorites/me` | 暂不做 |
-| `follow` | `/following/users` | 暂不做 |
-| `share` | `/shares` | 暂不做 |
-| `message` | `/message-overview` | 暂不做 |
-| `search` | `/videos?q=` | 暂不做 |
+先实现核心 P0：账号、日志、发布、我的视频、删除、点赞、访问记录、gRPC 推荐、推荐流、健康检查。
+
+再实现 P0-lite：评论列表和发表评论。
+
+最后再考虑 Bonus：上传凭证、收藏、关注、分享、消息、搜索、metrics。

@@ -2,17 +2,24 @@
 
 ## 1. 通用约定
 
-接口前缀：`/api/v1`
+固定架构：
 
-保留 `frontend/docs/API_DESIGN.md` 中有价值的 RESTful 约定：
+```text
+Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC Recommend Service -> MySQL 8
+```
+
+接口前缀：`/api/v1`
 
 | 约定 | 内容 |
 | --- | --- |
-| 请求格式 | JSON 接口使用 `Content-Type: application/json; charset=utf-8` |
+| 后端技术栈 | Java 17 + Spring Boot + Maven |
+| RPC | gRPC |
+| 数据库 | MySQL 8 |
+| 视频存储 | 后端本地 `uploads/` 目录 |
+| 请求格式 | JSON 接口使用 `Content-Type: application/json; charset=utf-8`；发布视频优先使用 `multipart/form-data` |
 | 认证方式 | 需登录接口使用 `Authorization: Bearer <accessToken>` |
-| 时间格式 | ISO 8601 UTC 字符串，如 `2026-06-05T08:30:00Z` |
+| 时间格式 | ISO 8601 UTC 字符串 |
 | 分页 | `cursor` + `limit`，默认 `limit=10`，最大 30 |
-| 关系资源 | 点赞、浏览记录使用当前用户关系资源，如 `/videos/{videoId}/likes/me` |
 | 统一响应 | HTTP 状态码表达请求级结果，业务 `code` 表达应用级错误 |
 
 成功响应：
@@ -41,8 +48,8 @@
 
 | HTTP | 业务码 | 场景 |
 | --- | --- | --- |
-| 200 | 0 | 查询、幂等更新、删除成功 |
-| 201 | 0 | 注册、发布视频、创建访问记录成功 |
+| 200 | 0 | 查询、幂等更新、删除、退出成功 |
+| 201 | 0 | 注册、发布视频、创建访问记录、创建评论成功 |
 | 400 | 40001 | 参数非法 |
 | 400 | 40002 | 必填内容为空 |
 | 400 | 40003 | 内容超长 |
@@ -50,7 +57,7 @@
 | 403 | 40301 | 无权限，例如删除他人视频 |
 | 404 | 40401 | 视频不存在 |
 | 404 | 40402 | 用户不存在 |
-| 409 | 40901 | 用户名已存在或上传资源未完成 |
+| 409 | 40901 | 用户名已存在或发布状态冲突 |
 | 413 | 41301 | 视频文件过大 |
 | 429 | 42901 | 请求过于频繁 |
 | 500 | 50001 | 服务端异常 |
@@ -64,7 +71,7 @@
   "id": 1001,
   "username": "alice",
   "nickname": "Alice",
-  "avatarUrl": "https://cdn.example.com/avatars/1001.webp"
+  "avatarUrl": null
 }
 ```
 
@@ -87,11 +94,11 @@
     "id": 1001,
     "username": "alice",
     "nickname": "Alice",
-    "avatarUrl": "https://cdn.example.com/avatars/1001.webp"
+    "avatarUrl": null
   },
   "caption": "夜里的山风和星空",
-  "videoUrl": "https://cdn.example.com/videos/2001.mp4",
-  "coverUrl": "https://cdn.example.com/covers/2001.webp",
+  "videoUrl": "/uploads/videos/2001.mp4",
+  "coverUrl": null,
   "durationMs": 7000,
   "likeCount": 32800,
   "viewCount": 120000,
@@ -104,6 +111,23 @@
     "viewed": false,
     "owner": false
   }
+}
+```
+
+### Comment
+
+```json
+{
+  "id": 3001,
+  "videoId": 2001,
+  "author": {
+    "id": 1001,
+    "username": "alice",
+    "nickname": "Alice",
+    "avatarUrl": null
+  },
+  "content": "这个视频很适合演示推荐流。",
+  "createdAt": "2026-06-05T08:10:00Z"
 }
 ```
 
@@ -141,14 +165,7 @@ Content-Type: application/json
 }
 ```
 
-状态码：
-
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 201 | 0 | 注册成功 |
-| 400 | 40001 | 用户名或密码格式非法 |
-| 400 | 40002 | 用户名、密码或昵称为空 |
-| 409 | 40901 | 用户名已存在 |
+状态码：`201`、`400`、`409`。
 
 ### 4.2 登录
 
@@ -181,14 +198,7 @@ Content-Type: application/json
 }
 ```
 
-状态码：
-
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 200 | 0 | 登录成功 |
-| 400 | 40002 | 用户名或密码为空 |
-| 401 | 40101 | 用户名或密码错误 |
-| 429 | 42901 | 登录尝试过于频繁 |
+状态码：`200`、`400`、`401`、`429`。
 
 ### 4.3 退出
 
@@ -197,7 +207,7 @@ POST /api/v1/auth/logout
 Authorization: Bearer <token>
 ```
 
-请求：无 body。
+退出登录简化为客户端删除 token；服务端不维护 `auth_tokens`，该接口返回成功即可。
 
 响应 `200`：
 
@@ -207,12 +217,7 @@ Authorization: Bearer <token>
 }
 ```
 
-状态码：
-
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 200 | 0 | 退出成功 |
-| 401 | 40101 | token 无效 |
+状态码：`200`、`401`。
 
 ## 5. 当前用户
 
@@ -238,12 +243,7 @@ Authorization: Bearer <token>
 }
 ```
 
-状态码：
-
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 200 | 0 | 查询成功 |
-| 401 | 40101 | 未登录 |
+状态码：`200`、`401`。
 
 ## 6. 推荐流
 
@@ -258,8 +258,8 @@ Authorization: Bearer <token>
 
 | 项 | 内容 |
 | --- | --- |
-| 调用链 | API Server 必须通过 RPC 调用 RecommendService |
-| 排序 | `like_count desc, created_at desc` |
+| 调用链 | Spring Boot API Server 必须通过 gRPC 调用 RecommendService |
+| 排序 | `like_count desc, created_at desc, id desc` |
 | 过滤 | 排除 `video_views` 中当前用户已访问视频 |
 | 详情补全 | RecommendService 返回 videoId 列表，API Server 批量查询视频详情和 `viewerState` |
 
@@ -267,46 +267,14 @@ Authorization: Bearer <token>
 
 ```json
 {
-  "items": [
-    {
-      "id": 2001,
-      "author": {
-        "id": 1001,
-        "username": "alice",
-        "nickname": "Alice",
-        "avatarUrl": null
-      },
-      "caption": "夜里的山风和星空",
-      "videoUrl": "https://cdn.example.com/videos/2001.mp4",
-      "coverUrl": "https://cdn.example.com/covers/2001.webp",
-      "durationMs": 7000,
-      "likeCount": 32800,
-      "viewCount": 120000,
-      "commentCount": 0,
-      "visibility": "public",
-      "status": "published",
-      "createdAt": "2026-06-05T08:00:00Z",
-      "viewerState": {
-        "liked": false,
-        "viewed": false,
-        "owner": false
-      }
-    }
-  ],
-  "nextCursor": "eyJsaWtlQ291bnQiOjMyODAwLCJpZCI6MjAwMX0",
-  "hasMore": true,
+  "items": [],
+  "nextCursor": null,
+  "hasMore": false,
   "strategy": "like_count_desc_exclude_viewed"
 }
 ```
 
-状态码：
-
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 200 | 0 | 查询成功，可为空列表 |
-| 400 | 40001 | `cursor` 或 `limit` 非法 |
-| 401 | 40101 | 未登录 |
-| 500 | 50001 | RPC 推荐服务不可用或服务端异常 |
+状态码：`200`、`400`、`401`、`500`。
 
 ### 6.2 记录访问过的视频
 
@@ -316,12 +284,14 @@ Authorization: Bearer <token>
 Content-Type: application/json
 ```
 
+前端触发时机固定为：切换到视频并开始展示时调用。
+
 请求：
 
 ```json
 {
   "source": "recommended_feed",
-  "watchDurationMs": 1200
+  "watchDurationMs": 0
 }
 ```
 
@@ -335,15 +305,7 @@ Content-Type: application/json
 }
 ```
 
-状态码：
-
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 200 | 0 | 已存在访问记录，幂等成功 |
-| 201 | 0 | 新建访问记录成功 |
-| 400 | 40001 | 参数非法 |
-| 401 | 40101 | 未登录 |
-| 404 | 40401 | 视频不存在 |
+状态码：`200`、`201`、`400`、`401`、`404`。
 
 ## 7. 点赞
 
@@ -364,13 +326,7 @@ Authorization: Bearer <token>
 }
 ```
 
-状态码：
-
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 200 | 0 | 点赞成功或已点赞，幂等成功 |
-| 401 | 40101 | 未登录 |
-| 404 | 40401 | 视频不存在 |
+状态码：`200`、`401`、`404`。
 
 ### 7.2 取消点赞
 
@@ -389,86 +345,37 @@ Authorization: Bearer <token>
 }
 ```
 
-状态码：
-
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 200 | 0 | 取消成功或原本未点赞，幂等成功 |
-| 401 | 40101 | 未登录 |
-| 404 | 40401 | 视频不存在 |
+状态码：`200`、`401`、`404`。
 
 ## 8. 视频发布与管理
 
-### 8.1 申请媒体上传凭证
-
-```http
-POST /api/v1/media-upload-tokens
-Authorization: Bearer <token>
-Content-Type: application/json
-```
-
-请求：
-
-```json
-{
-  "files": [
-    {
-      "mediaType": "video",
-      "fileName": "demo.mp4",
-      "contentType": "video/mp4",
-      "fileSize": 257280
-    },
-    {
-      "mediaType": "cover",
-      "fileName": "demo.webp",
-      "contentType": "image/webp",
-      "fileSize": 66084
-    }
-  ]
-}
-```
-
-响应 `201`：
-
-```json
-{
-  "uploads": [
-    {
-      "uploadId": "up_2001_video",
-      "mediaType": "video",
-      "objectKey": "videos/2026/06/06/up_2001_video.mp4",
-      "uploadUrl": "https://storage.example.com/upload-url",
-      "publicUrl": "https://cdn.example.com/videos/2001.mp4",
-      "expiresAt": "2026-06-06T01:15:00Z"
-    }
-  ]
-}
-```
-
-状态码：
-
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 201 | 0 | 创建上传凭证成功 |
-| 400 | 40001 | 文件类型非法 |
-| 401 | 40101 | 未登录 |
-| 413 | 41301 | 文件过大 |
-
-### 8.2 发布视频
+### 8.1 发布视频
 
 ```http
 POST /api/v1/videos
 Authorization: Bearer <token>
-Content-Type: application/json
+Content-Type: multipart/form-data
 ```
 
-请求：
+P0 默认使用 multipart 上传到后端本地 `uploads/` 目录。开发期如需先打通后端流程，可临时接受 `videoUrl` 字段，但最终演示优先使用 multipart。
+
+multipart 字段：
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `caption` | string | 是 | 1 到 200 字 |
+| `videoFile` | file | 是 | 视频文件 |
+| `coverFile` | file | 否 | 封面文件 |
+| `durationMs` | int | 否 | 视频时长 |
+| `visibility` | string | 否 | 默认 `public` |
+
+开发期 JSON 简化请求：
 
 ```json
 {
   "caption": "今天的本地短视频展示",
-  "videoUploadId": "up_2001_video",
-  "coverUploadId": "up_2001_cover",
+  "videoUrl": "/uploads/videos/demo.mp4",
+  "coverUrl": null,
   "durationMs": 7000,
   "visibility": "public"
 }
@@ -487,8 +394,8 @@ Content-Type: application/json
       "avatarUrl": null
     },
     "caption": "今天的本地短视频展示",
-    "videoUrl": "https://cdn.example.com/videos/2001.mp4",
-    "coverUrl": "https://cdn.example.com/covers/2001.webp",
+    "videoUrl": "/uploads/videos/2001.mp4",
+    "coverUrl": null,
     "durationMs": 7000,
     "likeCount": 0,
     "viewCount": 0,
@@ -505,17 +412,9 @@ Content-Type: application/json
 }
 ```
 
-状态码：
+状态码：`201`、`400`、`401`、`413`、`500`。
 
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 201 | 0 | 发布成功 |
-| 400 | 40002 | 标题为空 |
-| 400 | 40003 | 标题超长 |
-| 401 | 40101 | 未登录 |
-| 409 | 40901 | 上传资源不存在、未完成或不属于当前用户 |
-
-### 8.3 分页查看我的视频
+### 8.2 分页查看我的视频
 
 ```http
 GET /api/v1/me/videos?cursor=&limit=18
@@ -532,20 +431,16 @@ Authorization: Bearer <token>
 }
 ```
 
-状态码：
+状态码：`200`、`400`、`401`。
 
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 200 | 0 | 查询成功 |
-| 400 | 40001 | 分页参数非法 |
-| 401 | 40101 | 未登录 |
-
-### 8.4 删除我的视频
+### 8.3 删除我的视频
 
 ```http
 DELETE /api/v1/videos/{videoId}
 Authorization: Bearer <token>
 ```
+
+重复删除按幂等处理，固定返回 `200`。
 
 响应 `200`：
 
@@ -556,39 +451,102 @@ Authorization: Bearer <token>
 }
 ```
 
-权限规则：
+状态码：`200`、`401`、`403`、`404`。
 
-| 规则 | 结果 |
+## 9. 健康检查
+
+### 9.1 获取服务健康状态
+
+```http
+GET /api/v1/health
+```
+
+响应 `200`：
+
+```json
+{
+  "status": "UP",
+  "components": {
+    "apiServer": "UP",
+    "mysql": "UP",
+    "recommendService": "UP"
+  }
+}
+```
+
+状态码：`200`、`500`。
+
+## 10. P0-lite 评论接口
+
+评论是 P0-lite / 低优先级必备场景。实现顺序排在核心推荐、点赞、发布、我的视频、删除和日志之后。
+
+### 10.1 获取视频评论
+
+```http
+GET /api/v1/videos/{videoId}/comments?cursor=&limit=20
+Authorization: Bearer <token>
+```
+
+响应 `200`：
+
+```json
+{
+  "items": [],
+  "nextCursor": null,
+  "hasMore": false,
+  "commentCount": 0
+}
+```
+
+状态码：`200`、`400`、`401`、`404`。
+
+### 10.2 发表评论
+
+```http
+POST /api/v1/videos/{videoId}/comments
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+请求：
+
+```json
+{
+  "content": "这个视频很适合演示推荐流。"
+}
+```
+
+响应 `201`：
+
+```json
+{
+  "comment": {
+    "id": 3001,
+    "videoId": 2001,
+    "author": {
+      "id": 1001,
+      "username": "alice",
+      "nickname": "Alice",
+      "avatarUrl": null
+    },
+    "content": "这个视频很适合演示推荐流。",
+    "createdAt": "2026-06-05T08:10:00Z"
+  },
+  "commentCount": 1
+}
+```
+
+状态码：`201`、`400`、`401`、`404`、`429`.
+
+## 11. Bonus / 不作为 P0 的接口
+
+| 接口组 | 状态 |
 | --- | --- |
-| `videos.author_id == currentUser.id` | 允许删除 |
-| `videos.author_id != currentUser.id` | 返回 403 |
-| 视频已删除 | 可返回 200 幂等成功，或 404；建议 200 幂等成功 |
-
-状态码：
-
-| HTTP | 业务码 | 场景 |
-| --- | --- | --- |
-| 200 | 0 | 删除成功或已删除 |
-| 401 | 40101 | 未登录 |
-| 403 | 40301 | 删除他人视频 |
-| 404 | 40401 | 视频不存在 |
-
-## 9. 评论接口 Bonus
-
-评论不是课程 P0。若团队时间允许，可保留 API_DESIGN.md 中：
-
-| 接口 | 状态 |
-| --- | --- |
-| `GET /videos/{videoId}/comments` | Bonus |
-| `POST /videos/{videoId}/comments` | Bonus |
-
-## 10. 主线不实现的接口
-
-| 接口组 | 原因 |
-| --- | --- |
-| 收藏 `/favorites` | 非课程必须 |
-| 关注 `/following` | 非课程必须 |
-| 分享 `/shares` | 非课程必须 |
-| 消息 `/message-overview` | 非课程必须 |
-| 搜索 `/videos?q=` | 非课程必须 |
-| 他人主页 `/users/{userId}` | 非课程必须 |
+| `POST /api/v1/media-upload-tokens` | Bonus；P0 使用本地 `uploads/` multipart 上传 |
+| `GET /api/v1/metrics` | Bonus / 不做 |
+| 收藏 `/favorites` | Bonus |
+| 关注 `/following` | Bonus |
+| 分享 `/shares` | Bonus |
+| 消息 `/message-overview` | Bonus |
+| 搜索 `/videos?q=` | Bonus |
+| 他人主页 `/users/{userId}` | Bonus |

@@ -23,9 +23,29 @@ Before each task, Codex must first read the planning documents under `docs/`, es
 
 Use these documents to decide scope, priority, API shape, database design, RPC design, and test expectations.
 
+## Fixed Architecture And Technology
+
+The project architecture is fixed as:
+
+```text
+Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC Recommend Service -> MySQL 8
+```
+
+Implementation defaults:
+
+- Java 17.
+- Spring Boot.
+- Maven.
+- gRPC for recommendation RPC.
+- MySQL 8.
+- Backend local `uploads/` directory for video storage.
+- Database initialization starts with `sql/schema.sql`; Flyway is optional only if it fits naturally.
+
+Both the Spring Boot API Server and the gRPC Recommend Service may access MySQL 8. The Android frontend must only call the Spring Boot API Server over RESTful HTTP/JSON.
+
 ## Priority Rules
 
-P0 course requirements must be completed before Bonus features:
+Core P0 course requirements must be completed before P0-lite and Bonus features:
 
 - Login, register, logout.
 - Recommended video feed.
@@ -33,38 +53,34 @@ P0 course requirements must be completed before Bonus features:
 - Videos already visited by the user must not be recommended again.
 - Video vertical swipe support.
 - Video like support.
-- Publish video.
+- Publish video using local `uploads/` storage.
 - View my videos with pagination.
 - Delete my videos with permission control.
-- Database design.
-- Video storage design.
+- `GET /me`.
+- `GET /health`.
+- MySQL 8 database design.
 - Logs for user request input, output, and endpoint duration.
 - Security checks: account system and permission control.
-- Main app access to the recommendation system must use RPC.
+- Main app access to the recommendation system must use gRPC.
 
-Bonus features must not be prioritized before P0:
+P0-lite / low-priority required scenario:
 
+- `GET /api/v1/videos/{videoId}/comments`
+- `POST /api/v1/videos/{videoId}/comments`
+- `comments` table is included in schema planning.
+- Implement comments after core P0 recommendation, like, publish, my videos, delete, and logging work.
+
+Bonus features must not be prioritized before P0 and P0-lite:
+
+- `POST /media-upload-tokens`.
 - Favorites.
 - Follow / friends feed.
 - Share.
 - Messages.
 - Search.
+- Metrics endpoint.
 
-## Fixed Architecture
-
-The project architecture is fixed as:
-
-```text
-Frontend -> REST API Server -> RPC Recommend Service -> MySQL
-```
-
-Do not introduce a complex microservice architecture. Keep the backend to:
-
-- REST API Server.
-- RPC Recommend Service.
-- MySQL.
-
-The frontend calls REST APIs only. The REST API Server calls the RPC Recommend Service for recommendation results.
+Do not implement `auth_tokens` in the current plan. Logout is simplified: the client deletes the token and `POST /auth/logout` returns success.
 
 ## Coding Workflow
 
@@ -85,6 +101,8 @@ After coding, Codex must report:
 
 Do not delete existing frontend code.
 
+Do not modify `frontend/` unless the user explicitly requests frontend work.
+
 Do not process unrelated git deletion items unless the user explicitly asks for that. If `git status` shows unrelated deletions or moved files, leave them alone and mention them only when relevant.
 
-Do not prioritize or implement Bonus features unless the P0 scope is complete or the user explicitly asks for a Bonus feature.
+Do not prioritize or implement Bonus features unless the P0 and P0-lite scope is complete or the user explicitly asks for a Bonus feature.
