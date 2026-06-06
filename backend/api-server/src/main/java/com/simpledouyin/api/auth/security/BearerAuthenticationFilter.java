@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 public class BearerAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String LOGOUT_PATH = "/api/v1/auth/logout";
+    private static final String ME_PATH = "/api/v1/me";
     private static final String BEARER_PREFIX = "Bearer ";
 
     private final HmacTokenService tokenService;
@@ -69,8 +70,10 @@ public class BearerAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean requiresAuthentication(HttpServletRequest request) {
-        return "POST".equalsIgnoreCase(request.getMethod())
-                && LOGOUT_PATH.equals(request.getRequestURI());
+        String method = request.getMethod();
+        String path = request.getRequestURI();
+        return ("POST".equalsIgnoreCase(method) && LOGOUT_PATH.equals(path))
+                || ("GET".equalsIgnoreCase(method) && ME_PATH.equals(path));
     }
 
     private void writeUnauthorized(HttpServletRequest request, HttpServletResponse response) throws IOException {
