@@ -17,7 +17,13 @@ app:
       expires-in-seconds: ${AUTH_TOKEN_EXPIRES_IN_SECONDS:7200}
   uploads:
     root: ${UPLOADS_DIR:uploads}
-    public-path: /uploads/
+    public-path: ${UPLOADS_PUBLIC_PATH:/uploads/}
+    video-directory: ${UPLOADS_VIDEO_DIR:videos}
+    cover-directory: ${UPLOADS_COVER_DIR:covers}
+    max-video-size: ${UPLOADS_MAX_VIDEO_SIZE:100MB}
+    max-cover-size: ${UPLOADS_MAX_COVER_SIZE:10MB}
+    allowed-video-mime-types: ${UPLOADS_ALLOWED_VIDEO_MIME_TYPES:video/mp4}
+    allowed-cover-mime-types: ${UPLOADS_ALLOWED_COVER_MIME_TYPES:image/jpeg,image/png,image/webp}
   request-log:
     max-body-length: ${REQUEST_LOG_MAX_BODY_LENGTH:16384}
     max-query-length: ${REQUEST_LOG_MAX_QUERY_LENGTH:1024}

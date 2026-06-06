@@ -24,6 +24,8 @@ public class BearerAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String LOGOUT_PATH = "/api/v1/auth/logout";
     private static final String ME_PATH = "/api/v1/me";
+    private static final String VIDEOS_PATH = "/api/v1/videos";
+    private static final String MY_VIDEOS_PATH = "/api/v1/me/videos";
     private static final String BEARER_PREFIX = "Bearer ";
 
     private final HmacTokenService tokenService;
@@ -73,7 +75,18 @@ public class BearerAuthenticationFilter extends OncePerRequestFilter {
         String method = request.getMethod();
         String path = request.getRequestURI();
         return ("POST".equalsIgnoreCase(method) && LOGOUT_PATH.equals(path))
-                || ("GET".equalsIgnoreCase(method) && ME_PATH.equals(path));
+                || ("GET".equalsIgnoreCase(method) && ME_PATH.equals(path))
+                || ("POST".equalsIgnoreCase(method) && VIDEOS_PATH.equals(path))
+                || ("GET".equalsIgnoreCase(method) && MY_VIDEOS_PATH.equals(path))
+                || ("DELETE".equalsIgnoreCase(method) && isVideoDeletePath(path));
+    }
+
+    private boolean isVideoDeletePath(String path) {
+        if (!path.startsWith(VIDEOS_PATH + "/")) {
+            return false;
+        }
+        String videoId = path.substring((VIDEOS_PATH + "/").length());
+        return !videoId.isBlank() && videoId.indexOf('/') < 0;
     }
 
     private void writeUnauthorized(HttpServletRequest request, HttpServletResponse response) throws IOException {

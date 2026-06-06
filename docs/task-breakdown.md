@@ -61,25 +61,27 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | M6 评分点验收 | 课程评分点均有实现、接口、表、测试和演示证据 |
 | M7 交付 | 公开 Git、README、需求、技术设计、测试、PPT、团队分工、内部分数评定表、演示视频和最终代码包齐全 |
 
-## 4. 最新第一个编码任务
+## 4. 最新下一项编码任务
 
-任务名：**T01 + T02 后端基础结构与数据库 schema**。
+任务名：**T13 点赞 / 取消点赞**。
 
 范围：
 
-- 创建 Java 17 + Spring Boot + Maven 后端基础结构。
-- 建立 Spring Boot API Server 与 gRPC Recommend Service 的目录/模块边界。
-- 配置 MySQL 8 连接约定。
-- 准备本地 `uploads/` 目录约定。
-- 创建 `sql/schema.sql`。
-- 创建 Core P0 表：`users`、`videos`、`video_likes`、`video_views`、`request_logs`。
-- 创建 P0-lite 表：`comments`。
-- 不创建 `auth_tokens`；不把 `upload_objects` 作为 P0 表。
+- 实现 `PUT /api/v1/videos/{videoId}/likes/me`。
+- 实现 `DELETE /api/v1/videos/{videoId}/likes/me`。
+- 必须要求 Bearer Token 鉴权。
+- 只为当前登录用户写入或删除 `video_likes`。
+- 维护 `videos.like_count`。
+- 点赞和取消点赞均按幂等处理。
+- 不实现访问记录、推荐流、gRPC、评论、health 或 Bonus 功能。
 
 验收标准：
 
-- Maven 项目结构可识别。
-- `sql/schema.sql` 可在 MySQL 8 执行成功。
-- Core P0/P0-lite 表、主键、唯一索引和推荐/分页索引符合最终数据库设计。
-- 架构边界符合固定链路。
-- 不实现业务接口，不实现 Bonus 功能。
+- `PUT /api/v1/videos/{videoId}/likes/me` 可用且必须登录。
+- `DELETE /api/v1/videos/{videoId}/likes/me` 可用且必须登录。
+- 重复点赞不重复增加 `like_count`。
+- 重复取消点赞不导致 `like_count` 为负。
+- 视频不存在返回 `404/40401`。
+- 响应使用统一结构并返回 requestId。
+- request_logs 对已登录请求可记录 userId。
+- 未实现本批任务之外的接口。
