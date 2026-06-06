@@ -2,6 +2,7 @@ package com.simpledouyin.api.auth.service;
 
 import com.simpledouyin.api.auth.dto.LoginRequest;
 import com.simpledouyin.api.auth.dto.LoginResponse;
+import com.simpledouyin.api.auth.dto.LogoutResponse;
 import com.simpledouyin.api.auth.dto.RegisterRequest;
 import com.simpledouyin.api.auth.dto.RegisterResponse;
 import com.simpledouyin.api.auth.dto.UserSummary;
@@ -106,6 +107,10 @@ public class AuthService {
                 token.value(),
                 token.expiresIn()
         );
+    }
+
+    public LogoutResponse logout() {
+        return new LogoutResponse(true);
     }
 
     private String requiredTrimmed(String value, String field) {

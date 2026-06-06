@@ -156,6 +156,11 @@ class AuthServiceTest {
         assertUnauthorized(new LoginRequest("alice", "wrong-password"));
     }
 
+    @Test
+    void logsOutWithoutServerSideTokenState() {
+        assertThat(authService.logout().loggedOut()).isTrue();
+    }
+
     private void assertMissing(RegisterRequest request) {
         assertThatThrownBy(() -> authService.register(request))
                 .isInstanceOfSatisfying(BusinessException.class, exception ->
