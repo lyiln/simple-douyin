@@ -22,6 +22,11 @@ out/
 */out/
 **/out/
 
+# Maven build state
+target/
+*/target/
+**/target/
+
 # Android build outputs
 *.apk
 *.ap_
@@ -48,3 +53,7 @@ temp/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Local uploaded media
+uploads/*
+!uploads/.gitkeep

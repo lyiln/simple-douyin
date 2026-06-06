@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: simple-douyin-recommend-service
+  datasource:
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/simple_douyin?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: ${RECOMMEND_ADMIN_PORT:8081}
+
+recommend:
+  grpc:
+    port: ${RECOMMEND_GRPC_PORT:9090}
