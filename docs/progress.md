@@ -78,3 +78,5 @@ git diff --name-only -- frontend
 - 点赞和取消点赞都需要幂等。
 - 不实现访问记录、推荐流、评论或 Bonus。
 - 验收重点是计数一致性、重复调用幂等、统一响应、requestId、请求日志和不修改 `frontend/`。
+
+后续团队分工见 `docs/team-task-assignment.md`。该文档已将 T13-T31 分配给成员 A、成员 B、成员 C，并包含主审人与合并负责人安排。
