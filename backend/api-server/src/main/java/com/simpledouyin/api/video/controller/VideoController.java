@@ -4,7 +4,10 @@ import com.simpledouyin.api.common.ApiResponse;
 import com.simpledouyin.api.video.dto.CreateVideoJsonRequest;
 import com.simpledouyin.api.video.dto.CreateVideoResponse;
 import com.simpledouyin.api.video.dto.DeleteVideoResponse;
+import com.simpledouyin.api.video.dto.LikeResponse;
 import com.simpledouyin.api.video.dto.MyVideosResponse;
+import com.simpledouyin.api.video.dto.ViewRequest;
+import com.simpledouyin.api.video.dto.ViewResponse;
 import com.simpledouyin.api.video.service.VideoService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -79,5 +83,32 @@ public class VideoController {
             @PathVariable long videoId
     ) {
         return ResponseEntity.ok(ApiResponse.success(videoService.deleteMyVideo(request, videoId)));
+    }
+
+    @PutMapping("/videos/{videoId}/likes/me")
+    public ResponseEntity<ApiResponse<LikeResponse>> likeVideo(
+            HttpServletRequest request,
+            @PathVariable long videoId
+    ) {
+        return ResponseEntity.ok(ApiResponse.success(videoService.likeVideo(request, videoId)));
+    }
+
+    @DeleteMapping("/videos/{videoId}/likes/me")
+    public ResponseEntity<ApiResponse<LikeResponse>> unlikeVideo(
+            HttpServletRequest request,
+            @PathVariable long videoId
+    ) {
+        return ResponseEntity.ok(ApiResponse.success(videoService.unlikeVideo(request, videoId)));
+    }
+
+    @PostMapping(value = "/videos/{videoId}/views/me", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<ViewResponse>> recordView(
+            HttpServletRequest request,
+            @PathVariable long videoId,
+            @RequestBody(required = false) ViewRequest body
+    ) {
+        ViewResponse response = videoService.recordView(request, videoId, body);
+        HttpStatus status = response.created() ? HttpStatus.CREATED : HttpStatus.OK;
+        return ResponseEntity.status(status).body(ApiResponse.success(response));
     }
 }

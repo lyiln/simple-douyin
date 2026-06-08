@@ -6,8 +6,11 @@ import com.simpledouyin.api.common.RequestContext;
 import com.simpledouyin.api.video.dto.CreateVideoJsonRequest;
 import com.simpledouyin.api.video.dto.CreateVideoResponse;
 import com.simpledouyin.api.video.dto.DeleteVideoResponse;
+import com.simpledouyin.api.video.dto.LikeResponse;
 import com.simpledouyin.api.video.dto.MyVideosResponse;
 import com.simpledouyin.api.video.dto.VideoPostResponse;
+import com.simpledouyin.api.video.dto.ViewRequest;
+import com.simpledouyin.api.video.dto.ViewResponse;
 import com.simpledouyin.api.video.model.VideoAuthor;
 import com.simpledouyin.api.video.model.VideoCreateCommand;
 import com.simpledouyin.api.video.model.VideoOwnership;
@@ -145,6 +148,51 @@ public class VideoService {
             videoRepository.softDelete(videoId);
         }
         return new DeleteVideoResponse(videoId, true);
+    }
+
+    @Transactional
+    public LikeResponse likeVideo(HttpServletRequest request, long videoId) {
+        if (videoId <= 0) {
+            throw new BusinessException(ErrorCode.INVALID_PARAMETER, "invalid videoId");
+        }
+        long currentUserId = currentUserId(request);
+        if (!videoRepository.videoExists(videoId)) {
+            throw new BusinessException(ErrorCode.VIDEO_NOT_FOUND);
+        }
+        videoRepository.like(currentUserId, videoId);
+        long likeCount = videoRepository.findLikeCount(videoId);
+        return new LikeResponse(videoId, true, likeCount);
+    }
+
+    @Transactional
+    public LikeResponse unlikeVideo(HttpServletRequest request, long videoId) {
+        if (videoId <= 0) {
+            throw new BusinessException(ErrorCode.INVALID_PARAMETER, "invalid videoId");
+        }
+        long currentUserId = currentUserId(request);
+        if (!videoRepository.videoExists(videoId)) {
+            throw new BusinessException(ErrorCode.VIDEO_NOT_FOUND);
+        }
+        videoRepository.unlike(currentUserId, videoId);
+        long likeCount = videoRepository.findLikeCount(videoId);
+        return new LikeResponse(videoId, false, likeCount);
+    }
+
+    @Transactional
+    public ViewResponse recordView(HttpServletRequest request, long videoId, ViewRequest body) {
+        if (videoId <= 0) {
+            throw new BusinessException(ErrorCode.INVALID_PARAMETER, "invalid videoId");
+        }
+        long currentUserId = currentUserId(request);
+        if (!videoRepository.videoExists(videoId)) {
+            throw new BusinessException(ErrorCode.VIDEO_NOT_FOUND);
+        }
+        String source = body != null && body.source() != null ? body.source() : "recommended_feed";
+        Integer watchDurationMs = body != null ? body.watchDurationMs() : null;
+        // recordView 返回 true 表示首次访问，false 表示重复访问
+        boolean created = videoRepository.recordView(currentUserId, videoId, source, watchDurationMs);
+        long viewCount = videoRepository.findViewCount(videoId);
+        return new ViewResponse(videoId, true, viewCount, created);
     }
 
     private long currentUserId(HttpServletRequest request) {

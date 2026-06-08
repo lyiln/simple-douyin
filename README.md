@@ -39,13 +39,17 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | T10 发布视频 | 已完成 | 已实现 `POST /api/v1/videos`，支持 multipart 上传和开发期 JSON `videoUrl` 分支。 |
 | T11 我的列表分页 | 已完成 | 已实现 `GET /api/v1/me/videos`，只返回当前用户未删除视频，支持 cursor + limit。 |
 | T12 删除视频权限控制 | 已完成 | 已实现 `DELETE /api/v1/videos/{videoId}`，支持所有权校验、软删除和重复删除幂等。 |
-| T13 点赞 | 未完成 | 点赞和取消点赞接口尚未实现。 |
-| T14 访问记录 | 未完成 | 浏览记录接口尚未实现。 |
+| T13 点赞 | 已完成 | 已实现 `PUT/DELETE /api/v1/videos/{videoId}/likes/me`，INSERT IGNORE 幂等，维护 like_count。 |
+| T14 访问记录 | 已完成 | 已实现 `POST /api/v1/videos/{videoId}/views/me`，ON DUPLICATE KEY UPDATE 幂等，首次访问递增 view_count。 |
 | T15-T17 gRPC 推荐和推荐流 | 部分完成 | 已有 recommend-service 模块边界，proto、gRPC server、推荐规则和 REST 推荐流接口尚未实现。 |
-| T18 health | 未完成 | `GET /api/v1/health` 尚未实现。 |
-| T23-T24 评论闭环 | 未完成 | 评论列表和发表评论接口尚未实现。 |
-| 前端真实联调 | 未完成 | `frontend/` 是 Android Demo，当前未确认已接入真实后端 API。 |
-| 交付材料 | 未完成 | 需求文档、技术设计文档、测试文档、答辩 PPT、团队分工、成员评分表、演示视频和公开 Git 地址仍需准备。 |
+| T18 health | 已完成 | `GET /api/v1/health` 已完成，检查 API Server、MySQL、gRPC Recommend Service。 |
+| T19 核心接口测试 | 已完成（成员A） | 新增 LikeControllerTest (12)、ViewControllerTest (8)、HealthControllerTest (6)，覆盖正常/异常/幂等。 |
+| T20 推荐规则测试 | 未完成（成员B） | 依赖 T15-T17 完成后编写。 |
+| T21 权限测试 | 已完成（成员A） | 点赞、取消点赞、访问记录接口的未登录/无效 token 测试全部通过。 |
+| T22 日志测试 | 已完成（成员A） | requestId、userId、path、statusCode、businessCode、durationMs 记录验证通过。 |
+| T23-T25 评论闭环 | 未完成（成员C） | 评论列表、发表评论及测试，最终演示必做。 |
+| T26-T27 前端联调 | 未完成（成员C） | Android Demo 当前使用 `MockRepository` 本地假数据，需接入真实后端 API。 |
+| T28-T31 验收与交付 | 未完成（成员C） | 评分点矩阵、文档、PPT、演示视频和最终提交检查。 |
 
 ## 已实现接口
 
@@ -60,16 +64,16 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | `POST /api/v1/videos` | 是 | 发布视频，multipart 保存到本地 uploads，也支持开发期 JSON `videoUrl` | 已实现 |
 | `GET /api/v1/me/videos` | 是 | 分页查看当前用户未删除视频 | 已实现 |
 | `DELETE /api/v1/videos/{videoId}` | 是 | 软删除自己的视频，重复删除返回成功 | 已实现 |
+| `PUT /api/v1/videos/{videoId}/likes/me` | 是 | 点赞视频，幂等，维护 like_count | 已实现 |
+| `DELETE /api/v1/videos/{videoId}/likes/me` | 是 | 取消点赞，幂等，维护 like_count | 已实现 |
+| `POST /api/v1/videos/{videoId}/views/me` | 是 | 记录视频访问，首次访问递增 view_count | 已实现 |
+| `GET /api/v1/health` | 否 | 检查 API Server、MySQL、gRPC Recommend Service | 已实现 |
 
 ## 未实现接口 / 后续计划
 
 | 方法和路径 | 主要用途 | 当前状态 |
 | --- | --- | --- |
-| `PUT /api/v1/videos/{videoId}/likes/me` | 点赞视频 | 未实现 |
-| `DELETE /api/v1/videos/{videoId}/likes/me` | 取消点赞 | 未实现 |
-| `POST /api/v1/videos/{videoId}/views/me` | 前端开始展示视频时记录访问 | 未实现 |
 | `GET /api/v1/feeds/recommended/videos` | 推荐视频流，API Server 通过 gRPC 获取推荐 videoIds | 未实现 |
-| `GET /api/v1/health` | 检查 API Server、MySQL、gRPC Recommend Service | 未实现 |
 | `GET /api/v1/videos/{videoId}/comments` | 评论列表，最终演示闭环必做 | 未实现 |
 | `POST /api/v1/videos/{videoId}/comments` | 发表评论，最终演示闭环必做 | 未实现 |
 
@@ -100,10 +104,10 @@ mysql -u root -p < sql/schema.sql
 mvn -q test
 ```
 
-启动 API Server 示例：
+启动 API Server（PowerShell，需先初始化数据库）：
 
-```bash
-mvn -pl backend/api-server spring-boot:run
+```powershell
+$env:MYSQL_PASSWORD="password"; mvn -pl backend/api-server clean spring-boot:run
 ```
 
 启动 Recommend Service 骨架示例：
@@ -145,7 +149,25 @@ git diff --check
 git diff --name-only -- frontend
 ```
 
-当前测试主要覆盖统一响应、账号接口、鉴权、请求日志、本地上传存储、发布视频、我的视频分页和删除权限。测试不依赖真实 MySQL；真实落库和完整启动仍需要本地 MySQL 8 环境。
+当前 78 个测试用例全部通过，覆盖范围：
+
+| 测试类 | 用例数 | 覆盖内容 |
+| --- | --- | --- |
+| `AuthControllerTest` | 9 | 注册、登录、退出正常/异常/日志 |
+| `AuthServiceTest` | 11 | 注册/登录逻辑、密码验证、token |
+| `UserControllerTest` | 4 | 当前用户、他人主页 |
+| `UserProfileRepositoryTest` | 1 | 用户数据查询 |
+| `UserServiceTest` | 3 | 用户业务逻辑 |
+| `VideoControllerTest` | 6 | 发布/我的视频/删除正常/异常 |
+| `LikeControllerTest` | 12 | 点赞/取消正常、幂等、404、权限、日志 |
+| `ViewControllerTest` | 8 | 访问记录、首次/重复、404、权限、日志 |
+| `HealthControllerTest` | 6 | 全UP/部分DOWN、无鉴权、日志 |
+| `VideoServiceTest` | 10 | 发布/分页/删除业务逻辑 |
+| `LocalUploadStorageServiceTest` | 6 | 文件保存/读取/类型校验 |
+| `UploadStoragePropertiesTest` | 1 | 配置注入 |
+| `UploadWebMvcConfigTest` | 1 | 静态资源映射 |
+
+测试不依赖真实 MySQL；真实落库和完整启动仍需要本地 MySQL 8 环境。
 
 ## 前端说明
 
@@ -175,11 +197,10 @@ http://10.0.2.2:8080
 
 按当前代码状态和任务顺序，建议继续：
 
-| 顺序 | 任务 | 说明 |
-| --- | --- | --- |
-| 1 | T13 点赞 | 实现点赞和取消点赞，维护 `video_likes` 和 `videos.like_count`。 |
-| 2 | T14 访问记录 | 实现展示视频时记录访问，供推荐过滤使用。 |
-| 3 | T15-T17 gRPC 推荐和推荐流 | 实现 proto、Recommend Service、推荐规则和 REST 推荐流。 |
-| 4 | T18 health | 实现 API Server、MySQL、gRPC Recommend Service 健康检查。 |
-| 5 | T23-T24 评论 | 实现评论列表和发表评论，完成演示闭环。 |
-| 6 | 测试、前端联调、交付材料 | 补齐测试文档、答辩 PPT、团队分工、成员评分表、演示视频和公开 Git 地址。 |
+| 顺序 | 任务 | 负责人 | 说明 |
+| --- | --- | --- | --- |
+| 1 | T15-T17 gRPC 推荐和推荐流 | 成员 B | 实现 proto、Recommend Service、推荐规则和 REST 推荐流。依赖 T13/T14 已就绪。 |
+| 2 | T20 推荐规则测试 | 成员 B | 验证推荐排序、访问过滤、分页连续性。 |
+| 3 | T23-T25 评论闭环 | 成员 C | 实现评论列表和发表评论，完成演示闭环，编写测试。 |
+| 4 | T26-T27 前端联调 | 成员 C | Android 接入真实后端 API，覆盖推荐流和视频管理两大场景。 |
+| 5 | T28-T31 验收和交付 | 成员 C | 评分点矩阵、文档、PPT、演示视频和最终提交。 |

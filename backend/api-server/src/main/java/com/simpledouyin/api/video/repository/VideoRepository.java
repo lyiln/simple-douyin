@@ -132,6 +132,66 @@ public class VideoRepository {
               AND deleted_at IS NULL
             """;
 
+    private static final String INSERT_LIKE_SQL = """
+            INSERT IGNORE INTO video_likes (user_id, video_id, created_at)
+            VALUES (?, ?, CURRENT_TIMESTAMP(3))
+            """;
+
+    private static final String DELETE_LIKE_SQL = """
+            DELETE FROM video_likes
+            WHERE user_id = ?
+              AND video_id = ?
+            """;
+
+    private static final String INCREMENT_LIKE_COUNT_SQL = """
+            UPDATE videos
+            SET like_count = like_count + 1,
+                updated_at = CURRENT_TIMESTAMP(3)
+            WHERE id = ?
+            """;
+
+    private static final String DECREMENT_LIKE_COUNT_SQL = """
+            UPDATE videos
+            SET like_count = like_count - 1,
+                updated_at = CURRENT_TIMESTAMP(3)
+            WHERE id = ?
+              AND like_count > 0
+            """;
+
+    private static final String FIND_LIKE_COUNT_SQL = """
+            SELECT like_count
+            FROM videos
+            WHERE id = ?
+            """;
+
+    private static final String INSERT_VIEW_SQL = """
+            INSERT INTO video_views (user_id, video_id, source, watch_duration_ms, created_at, updated_at)
+            VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP(3), CURRENT_TIMESTAMP(3))
+            ON DUPLICATE KEY UPDATE
+                updated_at = CURRENT_TIMESTAMP(3),
+                watch_duration_ms = VALUES(watch_duration_ms)
+            """;
+
+    private static final String INCREMENT_VIEW_COUNT_SQL = """
+            UPDATE videos
+            SET view_count = view_count + 1,
+                updated_at = CURRENT_TIMESTAMP(3)
+            WHERE id = ?
+            """;
+
+    private static final String FIND_VIEW_COUNT_SQL = """
+            SELECT view_count
+            FROM videos
+            WHERE id = ?
+            """;
+
+    private static final String FIND_VIDEO_EXISTS_SQL = """
+            SELECT COUNT(1) > 0
+            FROM videos
+            WHERE id = ?
+              AND deleted_at IS NULL
+            """;
+
     private final JdbcTemplate jdbcTemplate;
 
     public VideoRepository(JdbcTemplate jdbcTemplate) {
@@ -229,6 +289,79 @@ public class VideoRepository {
 
     public void softDelete(long videoId) {
         jdbcTemplate.update(SOFT_DELETE_SQL, videoId);
+    }
+
+    /**
+     * 点赞视频，使用 INSERT IGNORE 保证幂等。
+     *
+     * @return true 表示本次确实新增了点赞关系（首次点赞），false 表示已存在（重复调用）
+     */
+    public boolean like(long userId, long videoId) {
+        int affectedRows = jdbcTemplate.update(INSERT_LIKE_SQL, userId, videoId);
+        if (affectedRows > 0) {
+            jdbcTemplate.update(INCREMENT_LIKE_COUNT_SQL, videoId);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 取消点赞，使用 DELETE 保证幂等。
+     *
+     * @return true 表示确实删除了点赞关系，false 表示本来就没有（重复调用）
+     */
+    public boolean unlike(long userId, long videoId) {
+        int affectedRows = jdbcTemplate.update(DELETE_LIKE_SQL, userId, videoId);
+        if (affectedRows > 0) {
+            jdbcTemplate.update(DECREMENT_LIKE_COUNT_SQL, videoId);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 获取视频当前的 like_count。
+     */
+    public long findLikeCount(long videoId) {
+        Long count = jdbcTemplate.queryForObject(FIND_LIKE_COUNT_SQL, Long.class, videoId);
+        return count != null ? count : 0L;
+    }
+
+    /**
+     * 记录视频访问，首次访问时 increment view_count，重复访问只更新时间。
+     *
+     * @return true 表示本次是首次访问，false 表示已存在访问记录（重复调用）
+     */
+    public boolean recordView(long userId, long videoId, String source, Integer watchDurationMs) {
+        int affectedRows = jdbcTemplate.update(
+                INSERT_VIEW_SQL,
+                userId,
+                videoId,
+                source != null && !source.isBlank() ? source.trim() : "recommended_feed",
+                watchDurationMs
+        );
+        // MySQL: INSERT ... ON DUPLICATE KEY UPDATE returns 1 for insert, 2 for update
+        if (affectedRows == 1) {
+            jdbcTemplate.update(INCREMENT_VIEW_COUNT_SQL, videoId);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 获取视频当前的 view_count。
+     */
+    public long findViewCount(long videoId) {
+        Long count = jdbcTemplate.queryForObject(FIND_VIEW_COUNT_SQL, Long.class, videoId);
+        return count != null ? count : 0L;
+    }
+
+    /**
+     * 检查视频是否存在（未软删除）。
+     */
+    public boolean videoExists(long videoId) {
+        Boolean exists = jdbcTemplate.queryForObject(FIND_VIDEO_EXISTS_SQL, Boolean.class, videoId);
+        return exists != null && exists;
     }
 
     private RowMapper<VideoPost> videoPostRowMapper() {

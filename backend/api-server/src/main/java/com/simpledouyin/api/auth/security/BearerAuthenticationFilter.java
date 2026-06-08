@@ -78,15 +78,27 @@ public class BearerAuthenticationFilter extends OncePerRequestFilter {
                 || ("GET".equalsIgnoreCase(method) && ME_PATH.equals(path))
                 || ("POST".equalsIgnoreCase(method) && VIDEOS_PATH.equals(path))
                 || ("GET".equalsIgnoreCase(method) && MY_VIDEOS_PATH.equals(path))
-                || ("DELETE".equalsIgnoreCase(method) && isVideoDeletePath(path));
+                || ("DELETE".equalsIgnoreCase(method) && isVideoActionPath(path, ""))
+                || ("PUT".equalsIgnoreCase(method) && isVideoActionPath(path, "/likes/me"))
+                || ("DELETE".equalsIgnoreCase(method) && isVideoActionPath(path, "/likes/me"))
+                || ("POST".equalsIgnoreCase(method) && isVideoActionPath(path, "/views/me"));
+    }
+
+    private boolean isVideoActionPath(String path, String suffix) {
+        String prefix = VIDEOS_PATH + "/";
+        if (!path.startsWith(prefix)) {
+            return false;
+        }
+        String remainder = path.substring(prefix.length());
+        if (!remainder.endsWith(suffix)) {
+            return false;
+        }
+        String videoIdPart = remainder.substring(0, remainder.length() - suffix.length());
+        return !videoIdPart.isBlank() && videoIdPart.indexOf('/') < 0;
     }
 
     private boolean isVideoDeletePath(String path) {
-        if (!path.startsWith(VIDEOS_PATH + "/")) {
-            return false;
-        }
-        String videoId = path.substring((VIDEOS_PATH + "/").length());
-        return !videoId.isBlank() && videoId.indexOf('/') < 0;
+        return isVideoActionPath(path, "");
     }
 
     private void writeUnauthorized(HttpServletRequest request, HttpServletResponse response) throws IOException {
