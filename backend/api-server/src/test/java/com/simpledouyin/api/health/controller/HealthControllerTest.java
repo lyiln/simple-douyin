@@ -82,7 +82,7 @@ class HealthControllerTest {
     }
 
     @Test
-    void returnsDownWhenMysqlUnavailable() throws Exception {
+    void returns503WhenMysqlUnavailable() throws Exception {
         Map<String, String> components = new LinkedHashMap<>();
         components.put("apiServer", "UP");
         components.put("mysql", "DOWN");
@@ -91,14 +91,15 @@ class HealthControllerTest {
 
         mockMvc.perform(get("/api/v1/health")
                         .header("X-Request-Id", REQUEST_ID))
-                .andExpect(status().isOk())
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.code").value(0))
                 .andExpect(jsonPath("$.data.status").value("DOWN"))
                 .andExpect(jsonPath("$.data.components.mysql").value("DOWN"))
                 .andExpect(jsonPath("$.data.components.apiServer").value("UP"));
     }
 
     @Test
-    void returnsDownWhenGrpcUnavailable() throws Exception {
+    void returns503WhenGrpcUnavailable() throws Exception {
         Map<String, String> components = new LinkedHashMap<>();
         components.put("apiServer", "UP");
         components.put("mysql", "UP");
@@ -107,7 +108,8 @@ class HealthControllerTest {
 
         mockMvc.perform(get("/api/v1/health")
                         .header("X-Request-Id", REQUEST_ID))
-                .andExpect(status().isOk())
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.code").value(0))
                 .andExpect(jsonPath("$.data.status").value("DOWN"))
                 .andExpect(jsonPath("$.data.components.recommendService").value("DOWN"));
     }

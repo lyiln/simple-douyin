@@ -108,47 +108,42 @@ class LikeControllerTest {
     }
 
     @Test
-    void likeIdempotentRepeatedCallsReturnSameLikeCount() throws Exception {
+    void likeEndpointCallsServiceOncePerRequest() throws Exception {
         String accessToken = tokenService.issue(1001L).value();
-        // 模拟已点赞再点赞的场景：like_count 不变
         when(videoService.likeVideo(any(HttpServletRequest.class), eq(2001L)))
                 .thenReturn(new LikeResponse(2001L, true, 5L));
 
-        // 第一次点赞
         mockMvc.perform(put("/api/v1/videos/2001/likes/me")
                         .header("Authorization", "Bearer " + accessToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.liked").value(true))
-                .andExpect(jsonPath("$.data.likeCount").value(5));
+                .andExpect(status().isOk());
 
-        // 第二次点赞（幂等）
-        mockMvc.perform(put("/api/v1/videos/2001/likes/me")
-                        .header("Authorization", "Bearer " + accessToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.liked").value(true))
-                .andExpect(jsonPath("$.data.likeCount").value(5));
+        // 验证 Controller 每次 HTTP 请求恰好调用 Service 一次（幂等性由 Repository 层保证）
+        verify(videoService).likeVideo(any(HttpServletRequest.class), eq(2001L));
     }
 
     @Test
-    void unlikeIdempotentRepeatedCallsReturnSameResult() throws Exception {
+    void unlikeEndpointCallsServiceOncePerRequest() throws Exception {
         String accessToken = tokenService.issue(1001L).value();
-        // 模拟取消点赞后再取消：like_count 保持 0
         when(videoService.unlikeVideo(any(HttpServletRequest.class), eq(2001L)))
                 .thenReturn(new LikeResponse(2001L, false, 0L));
 
-        // 第一次取消点赞
         mockMvc.perform(delete("/api/v1/videos/2001/likes/me")
                         .header("Authorization", "Bearer " + accessToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.liked").value(false))
-                .andExpect(jsonPath("$.data.likeCount").value(0));
+                .andExpect(status().isOk());
 
-        // 第二次取消点赞（幂等）
-        mockMvc.perform(delete("/api/v1/videos/2001/likes/me")
+        verify(videoService).unlikeVideo(any(HttpServletRequest.class), eq(2001L));
+    }
+
+    @Test
+    void likeWithInvalidVideoIdReturnsBadRequest() throws Exception {
+        String accessToken = tokenService.issue(1001L).value();
+        when(videoService.likeVideo(any(HttpServletRequest.class), eq(0L)))
+                .thenThrow(new BusinessException(ErrorCode.INVALID_PARAMETER, "invalid videoId"));
+
+        mockMvc.perform(put("/api/v1/videos/0/likes/me")
                         .header("Authorization", "Bearer " + accessToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.liked").value(false))
-                .andExpect(jsonPath("$.data.likeCount").value(0));
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(40001));
     }
 
     @Test

@@ -187,8 +187,13 @@ public class VideoService {
         if (!videoRepository.videoExists(videoId)) {
             throw new BusinessException(ErrorCode.VIDEO_NOT_FOUND);
         }
-        String source = body != null && body.source() != null ? body.source() : "recommended_feed";
+        // 规范化 source：trim + 默认值，Repository 层不再重复处理
+        String rawSource = body != null ? body.source() : null;
+        String source = (rawSource != null && !rawSource.isBlank()) ? rawSource.trim() : "recommended_feed";
         Integer watchDurationMs = body != null ? body.watchDurationMs() : null;
+        if (watchDurationMs != null && watchDurationMs < 0) {
+            throw new BusinessException(ErrorCode.INVALID_PARAMETER, "invalid watchDurationMs");
+        }
         // recordView 返回 true 表示首次访问，false 表示重复访问
         boolean created = videoRepository.recordView(currentUserId, videoId, source, watchDurationMs);
         long viewCount = videoRepository.findViewCount(videoId);

@@ -1,0 +1,4 @@
+# 测试环境配置 — 覆盖生产默认值（本机 MySQL 密码为 password）
+spring:
+  datasource:
+    password: password

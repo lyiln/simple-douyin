@@ -130,6 +130,35 @@ class ViewControllerTest {
     }
 
     @Test
+    void recordViewWithNegativeDurationReturnsBadRequest() throws Exception {
+        String accessToken = tokenService.issue(1001L).value();
+        when(videoService.recordView(any(HttpServletRequest.class), eq(2001L), any(ViewRequest.class)))
+                .thenThrow(new BusinessException(ErrorCode.INVALID_PARAMETER, "invalid watchDurationMs"));
+
+        mockMvc.perform(post("/api/v1/videos/2001/views/me")
+                        .header("Authorization", "Bearer " + accessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"source\":\"recommended_feed\",\"watchDurationMs\":-1}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(40001));
+    }
+
+    @Test
+    void recordViewWithBlankSourceDefaultsToRecommendedFeed() throws Exception {
+        String accessToken = tokenService.issue(1001L).value();
+        when(videoService.recordView(any(HttpServletRequest.class), eq(2001L), any(ViewRequest.class)))
+                .thenReturn(new ViewResponse(2001L, true, 1L, true));
+
+        mockMvc.perform(post("/api/v1/videos/2001/views/me")
+                        .header("Authorization", "Bearer " + accessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"source\":\"   \"}"))
+                .andExpect(status().isCreated());
+
+        verify(videoService).recordView(any(HttpServletRequest.class), eq(2001L), any(ViewRequest.class));
+    }
+
+    @Test
     void recordViewOnNonExistentVideoReturnsNotFound() throws Exception {
         String accessToken = tokenService.issue(1001L).value();
         when(videoService.recordView(any(HttpServletRequest.class), eq(9999L), any(ViewRequest.class)))

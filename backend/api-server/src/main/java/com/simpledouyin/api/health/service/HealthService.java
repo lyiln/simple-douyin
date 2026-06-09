@@ -3,16 +3,13 @@ package com.simpledouyin.api.health.service;
 import com.simpledouyin.api.health.dto.HealthResponse;
 import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class HealthService {
@@ -20,19 +17,15 @@ public class HealthService {
     private static final Logger log = LoggerFactory.getLogger(HealthService.class);
     private static final String UP = "UP";
     private static final String DOWN = "DOWN";
+    private static final long GRPC_TIMEOUT_NANOS = 2_000_000_000L; // 2 秒
+    private static final long GRPC_POLL_INTERVAL_MS = 100;
 
     private final JdbcTemplate jdbcTemplate;
-    private final String grpcHost;
-    private final int grpcPort;
+    private final ManagedChannel grpcChannel;
 
-    public HealthService(
-            JdbcTemplate jdbcTemplate,
-            @Value("${recommend.grpc.host:localhost}") String grpcHost,
-            @Value("${recommend.grpc.port:9090}") int grpcPort
-    ) {
+    public HealthService(JdbcTemplate jdbcTemplate, ManagedChannel grpcChannel) {
         this.jdbcTemplate = jdbcTemplate;
-        this.grpcHost = grpcHost;
-        this.grpcPort = grpcPort;
+        this.grpcChannel = grpcChannel;
     }
 
     public HealthResponse check() {
@@ -61,31 +54,34 @@ public class HealthService {
         }
     }
 
+    /**
+     * 通过 gRPC Channel 状态检测 recommendService 连通性。
+     * 使用轮询等待 READY 或 TRANSIENT_FAILURE，最长等待 2 秒。
+     */
     private String checkGrpc() {
-        ManagedChannel channel = null;
         try {
-            channel = ManagedChannelBuilder
-                    .forAddress(grpcHost, grpcPort)
-                    .usePlaintext()
-                    .build();
-            ConnectivityState state = channel.getState(true);
-            // 等待最多 2 秒让 channel 尝试连接
-            channel.notifyWhenStateChanged(state, () -> {});
-            channel.awaitTermination(2, TimeUnit.SECONDS);
-            // 忽略 awaitTermination 的返回值，直接检查最新状态
-            return channel.getState(false) != ConnectivityState.SHUTDOWN
-                    && channel.getState(false) != ConnectivityState.TRANSIENT_FAILURE
-                    ? UP : DOWN;
+            ConnectivityState state = grpcChannel.getState(true);
+            long deadline = System.nanoTime() + GRPC_TIMEOUT_NANOS;
+
+            while (state != ConnectivityState.READY
+                    && state != ConnectivityState.TRANSIENT_FAILURE
+                    && System.nanoTime() < deadline) {
+                Thread.sleep(GRPC_POLL_INTERVAL_MS);
+                state = grpcChannel.getState(false);
+            }
+
+            if (state == ConnectivityState.READY) {
+                return UP;
+            }
+            log.warn("gRPC health check failed: state={}", state);
+            return DOWN;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.warn("gRPC health check interrupted", e);
+            return DOWN;
         } catch (Exception e) {
             log.warn("gRPC health check failed", e);
             return DOWN;
-        } finally {
-            if (channel != null && !channel.isShutdown()) {
-                try {
-                    channel.shutdownNow();
-                } catch (Exception ignored) {
-                }
-            }
         }
     }
 }
