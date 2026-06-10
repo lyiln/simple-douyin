@@ -1,6 +1,6 @@
 # 开发进度记录
 
-日期：2026-06-08
+日期：2026-06-10
 
 ## 当前事实来源
 
@@ -34,17 +34,17 @@
 
 | 任务 | 状态 | 负责人 | 当前证据 |
 | --- | --- | --- | --- |
-| T15 gRPC 推荐契约 | ⬜ 未完成 | 成员 B | proto 文件和 gRPC 生成配置待实现。 |
-| T16 推荐规则 | ⬜ 未完成 | 成员 B | Recommend Service 推荐排序和过滤逻辑待实现。 |
-| T17 推荐流 REST | ⬜ 未完成 | 成员 B | `GET /api/v1/feeds/recommended/videos` 待实现，需通过 gRPC 调用。 |
+| T15 gRPC 推荐契约 | ✅ 已完成 | **成员 B** | `recommend.proto` 定义 `RecommendService.ListRecommendedVideos`，Maven protobuf 插件生成 Java stub。 |
+| T16 推荐规则 | ✅ 已完成 | **成员 B** | Recommend Service：gRPC Server + SQL（NOT EXISTS 排除已访问 + cursor 分页），`ORDER BY like_count DESC, created_at DESC, id DESC`。 |
+| T17 推荐流 REST | ✅ 已完成 | **成员 B** | `GET /api/v1/feeds/recommended/videos`，API Server 通过 gRPC 调用 Recommend Service，VideoPostAssembler 补全详情。 |
 | T18 健康检查 | ✅ 已完成 | **成员 A** | `GET /api/v1/health`，实际检查 API Server、MySQL 8、gRPC Recommend Service。 |
 
 ### 测试阶段
 
 | 任务 | 状态 | 负责人 | 当前证据 |
 | --- | --- | --- | --- |
-| T19 核心接口测试 | ✅ 已完成 | **成员 A** | LikeControllerTest (12)、ViewControllerTest (8)、HealthControllerTest (6)，覆盖正常/异常/幂等。 |
-| T20 推荐规则测试 | ⬜ 未完成 | 成员 B | 依赖 T15-T17 完成后编写。 |
+| T19 核心接口测试 | ✅ 已完成 | **成员 A** | LikeControllerTest (13)、ViewControllerTest (10)、HealthControllerTest (6)，覆盖正常/异常/幂等/日志/脱敏。 |
+| T20 推荐规则测试 | ✅ 已完成 | **成员 B** | RecommendRepositoryTest (7 用例，真实 MySQL) + FeedControllerTest (10 用例，MockMvc)，覆盖 R01-R08 和 E10。 |
 | T21 权限测试 | ✅ 已完成 | **成员 A** | 点赞/取消点赞/访问记录未登录 → 401，无效 token → 401。 |
 | T22 日志测试 | ✅ 已完成 | **成员 A** | requestId、userId、path、statusCode、businessCode、durationMs 记录验证通过。 |
 
@@ -82,7 +82,7 @@ git diff --check
 git diff --name-only -- frontend
 ```
 
-说明：recommend-service 当前只是模块骨架，尚未实现 gRPC proto 和推荐服务逻辑。
+说明：recommend-service 已实现完整的 gRPC proto、server 和推荐规则，启动后监听 gRPC 端口 9090。API Server 的 `GET /api/v1/feeds/recommended/videos` 通过 gRPC 调用 Recommend Service。
 
 ## 已实现接口
 
@@ -99,12 +99,12 @@ git diff --name-only -- frontend
 | `DELETE /api/v1/videos/{videoId}/likes/me` | 需要 Bearer Token | ✅ |
 | `POST /api/v1/videos/{videoId}/views/me` | 需要 Bearer Token | ✅ |
 | `GET /api/v1/health` | 不需要 | ✅ |
+| `GET /api/v1/feeds/recommended/videos` | 需要 Bearer Token | ✅ |
 
 ## 未实现接口
 
 | 方法和路径 | 负责人 | 状态 |
 | --- | --- | --- |
-| `GET /api/v1/feeds/recommended/videos` | 成员 B | ⬜ |
 | `GET /api/v1/videos/{videoId}/comments` | 成员 C | ⬜ |
 | `POST /api/v1/videos/{videoId}/comments` | 成员 C | ⬜ |
 
@@ -118,7 +118,7 @@ git diff --name-only -- frontend
 | --- | --- | --- |
 | M1 基础后端 | ✅ 完成 | 6/6 (T01-T08) |
 | M2 视频管理 | ✅ 完成 | 6/6 (T09-T14) |
-| M3 推荐闭环 | 🔄 进行中 | 1/4 (T18 ✅, T15-T17 待成员B) |
+| M3 推荐闭环 | ✅ 完成 | 4/4 (T15-T18) |
 | M4 评论闭环 | ⬜ 未开始 | 0/3 (T23-T25) |
 | M5 前端联调 | ⬜ 未开始 | 0/2 (T26-T27) |
 | M6 评分点验收 | ⬜ 未开始 | 0/1 (T28) |
@@ -126,8 +126,8 @@ git diff --name-only -- frontend
 
 ## 风险点
 
-- gRPC 推荐服务目前只有模块边界，尚未具备 RPC 契约和推荐结果输出能力。
-- 推荐链路依赖点赞（T13 ✅）、访问记录（T14 ✅）和 gRPC 推荐服务（T15-T17 ⬜）。
+- gRPC 推荐服务已完成开发（T15-T17 ✅），推荐排序使用实时 `(SELECT COUNT(*) FROM video_likes)` 子查询，与成员 A 点赞逻辑一致。
+- 推荐链路依赖点赞（T13 ✅）、访问记录（T14 ✅）和 gRPC 推荐服务（T15-T17 ✅）均已就绪。
 - 前端目前使用 MockRepository 本地假数据，T26-T27 联调工作由成员 C 负责。
 - 评论不是 Bonus，必须在最终前端联调和演示前完成（成员 C 负责）。
 - 请求日志已具备基础能力，后续新增接口需继续保证敏感字段脱敏和耗时记录。
@@ -135,9 +135,17 @@ git diff --name-only -- frontend
 
 ## 下一步建议
 
-1. **成员 B** 推进 T15 gRPC 契约 + T16 推荐规则 + T17 推荐流 REST（依赖 T13/T14 已就绪）。
-2. **成员 C** 并行推进 T23-T25 评论闭环（接口实现 + 测试）。
-3. 成员 B 补 T20 推荐规则测试后，成员 C 推进 T26-T27 前端真实 API 联调。
-4. 全部功能完成后，成员 C 牵头 T28-T31 验收和交付材料。
+1. **成员 C** 推进 T23-T25 评论闭环（接口实现 + 测试），依赖所有前端接口已就绪。
+2. **成员 C** 推进 T26-T27 前端真实 API 联调（推荐流、点赞、评论、视频管理）。
+3. 全部功能完成后，成员 C 牵头 T28-T31 验收和交付材料。
 
 后续团队分工详见 `docs/team-task-assignment.md`。
+
+## 基础设定变更记录
+
+| 日期 | 变更 | 说明 |
+|---|---|---|
+| 2026-06-09 | `videos.like_count` 列废弃 | T13（成员 A）改为实时 `SELECT COUNT(*) FROM video_likes` 计算点赞数，`videos.like_count` 列不再被 UPDATE，仅保留于 schema 兼容。T16 推荐排序同步使用子查询 `(SELECT COUNT(*) FROM video_likes WHERE video_id = v.id)` |
+| 2026-06-09 | `videos.view_count` 列废弃 | T14（成员 A）改为实时 `SELECT COUNT(*) FROM video_views` 计算浏览数，同上不再写入列值 |
+| 2026-06-10 | `.gitignore` 增加 `.env` 规则 | 本地 MySQL 密码文件（`.env`）被 git 忽略 |
+| 2026-06-10 | `application-test.yml` 密码占位符 | api-server 和 recommend-service 的测试配置均使用 `${MYSQL_PASSWORD:password}`，不再硬编码明文密码 |
