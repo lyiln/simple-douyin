@@ -1,4 +1,4 @@
-# 测试环境配置 — 覆盖生产默认值（本机 MySQL 密码为 password）
+# 测试环境配置 — 通过 MYSQL_PASSWORD 环境变量或 .env 文件配置实际密码
 spring:
   datasource:
-    password: password
+    password: ${MYSQL_PASSWORD:password}

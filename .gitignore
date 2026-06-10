@@ -8,6 +8,7 @@ captures/
 
 # Local machine configuration
 local.properties
+.env
 *.env
 *.env.*
 !.env.example
