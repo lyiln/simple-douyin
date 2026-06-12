@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package recommend;
+
+option java_multiple_files = true;
+option java_package = "com.simpledouyin.recommend.proto";
+option java_outer_classname = "RecommendProto";
+
+service RecommendService {
+    rpc ListRecommendedVideos (ListRecommendedVideosRequest) returns (ListRecommendedVideosResponse);
+}
+
+message ListRecommendedVideosRequest {
+    string request_id = 1;
+    int64 user_id = 2;
+    string cursor = 3;
+    int32 limit = 4;
+    bool exclude_viewed = 5;
+    string strategy = 6;
+}
+
+message ListRecommendedVideosResponse {
+    repeated int64 video_ids = 1;
+    string next_cursor = 2;
+    bool has_more = 3;
+    string strategy = 4;
+    string debug_message = 5;
+}

@@ -26,6 +26,7 @@ public class BearerAuthenticationFilter extends OncePerRequestFilter {
     private static final String ME_PATH = "/api/v1/me";
     private static final String VIDEOS_PATH = "/api/v1/videos";
     private static final String MY_VIDEOS_PATH = "/api/v1/me/videos";
+    private static final String FEED_PATH = "/api/v1/feeds/recommended/videos";
     private static final String BEARER_PREFIX = "Bearer ";
 
     private final HmacTokenService tokenService;
@@ -81,7 +82,8 @@ public class BearerAuthenticationFilter extends OncePerRequestFilter {
                 || ("DELETE".equalsIgnoreCase(method) && isVideoActionPath(path, ""))
                 || ("PUT".equalsIgnoreCase(method) && isVideoActionPath(path, "/likes/me"))
                 || ("DELETE".equalsIgnoreCase(method) && isVideoActionPath(path, "/likes/me"))
-                || ("POST".equalsIgnoreCase(method) && isVideoActionPath(path, "/views/me"));
+                || ("POST".equalsIgnoreCase(method) && isVideoActionPath(path, "/views/me"))
+                || ("GET".equalsIgnoreCase(method) && FEED_PATH.equals(path));
     }
 
     private boolean isVideoActionPath(String path, String suffix) {
