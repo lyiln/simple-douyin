@@ -220,3 +220,71 @@ RecommendRepositoryTest (7) → PASS (修复后)
 api-server tests (91)       → PASS (零回归)
 ```
 
+---
+
+## 审查问题修复 #2（PR #3 Review 发现）
+
+**日期：** 2026-06-10  
+**审查人：** 成员 A（PR Review）  
+**类型：** SQL 别名引用不完整（修复 #1 遗留）
+
+### 发现问题
+
+| # | 严重度 | 文件 | 问题 |
+|---|---|---|---|
+| 1 | 🔴 严重 | `RecommendRepository.java` | SELECT 已改为子查询 `AS like_count`，但 `ORDER BY v.like_count DESC` 和 `CURSOR_CLAUSE` 的 `v.like_count` 仍引用表列值（始终为 0），导致排序和分页失效 |
+
+**根因分析：** `v.like_count` 在 ORDER BY / WHERE 子句中指向 `videos.like_count` 表列，MySQL 不会自动解析为 SELECT 别名。第一次修复（审查修复 #1）仅改了 SELECT 子句，遗漏了同一 SQL 中其他引用该列的子句。
+
+**另外发现：** 修复 #1 的测试之所以通过，是因为 `insertLikes()` 写入的行数与 `insertVideo()` 的列值恰好相同，`COUNT(*)` = 列值，掩盖了引用错误。
+
+### 修复方案
+
+将 SQL 改为派生表结构，内层子查询负责计算 `like_count` 别名，外层 WHERE 和 ORDER BY 统一通过 `t.like_count` 引用：
+
+```sql
+-- 修复前（SELECT 用了别名，但 ORDER BY / WHERE 引用表列）
+SELECT v.id,
+       (SELECT COUNT(*) ...) AS like_count,
+       v.created_at
+FROM videos v
+WHERE ... AND v.like_count < ?        -- ❌ 表列
+ORDER BY v.like_count DESC            -- ❌ 表列
+
+-- 修复后（派生表统一引用）
+SELECT t.id, t.like_count, t.created_at
+FROM (
+    SELECT v.id,
+           (SELECT COUNT(*) ...) AS like_count,
+           v.created_at
+    FROM videos v
+    WHERE ...
+) t
+WHERE t.like_count < ?                -- ✅ 别名
+ORDER BY t.like_count DESC            -- ✅ 别名
+```
+
+同时将 Text Block SQL 改为字符串拼接，避免 Text Block 行尾空格导致的 SQL 语法问题。
+
+### 修复内容
+
+| 文件 | 改动 |
+|---|---|
+| `RecommendRepository.java` | 完整重写 SQL 结构：INNER_SQL（内层） + CURSOR_CLAUSE（`t.like_count`）+ ORDER_BY（`t.like_count`），Text Block → 字符串拼接 |
+
+### 修复后验证
+
+```
+mvn -q compile                                          → PASS
+RecommendRepositoryTest (7, 真实 MySQL)                  → PASS
+FeedControllerTest (10, MockMvc)                         → PASS
+api-server 已有测试 (81, MockMvc/Mock)                   → PASS
+Total: 98 tests, 0 failures, 0 errors
+```
+
+### 教训
+
+- 修改 SELECT 字段计算方式时，必须同步检查 ORDER BY、WHERE、GROUP BY、HAVING 中所有引用该字段的子句
+- 测试数据恰好巧合（COUNT 值 = 列值）会掩盖 SQL 引用错误
+- 跨模块变更（如 like_count 列废弃）应同步更新设计文档和任务文档中的 SQL 模板
+
