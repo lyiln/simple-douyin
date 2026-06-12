@@ -50,6 +50,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,14 +65,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.douyin.R
+import com.example.douyin.data.ApiRepository
 import com.example.douyin.data.MockRepository
 import com.example.douyin.model.AppScreen
 import com.example.douyin.model.Comment
 import com.example.douyin.model.VideoPost
+import com.example.douyin.network.ApiClient
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun DouyinApp() {
+    val scope = rememberCoroutineScope()
     val posts = remember { mutableStateListOf<VideoPost>().apply { addAll(MockRepository.initialPosts()) } }
     val liked = remember { mutableStateMapOf<String, Boolean>() }
     val collected = remember { mutableStateMapOf<String, Boolean>() }
@@ -81,6 +86,9 @@ fun DouyinApp() {
             posts.forEach { put(it.id, MockRepository.commentsFor(it.id).toMutableList()) }
         }
     }
+    // API 加载的真实评论（key = videoId 字符串）
+    val apiComments = remember { mutableStateMapOf<String, List<Comment>>() }
+    val apiCommentCounts = remember { mutableStateMapOf<String, Long>() }
     var screen by remember { mutableStateOf(AppScreen.Home) }
     var selectedPost by remember { mutableStateOf<VideoPost?>(null) }
     var sharePost by remember { mutableStateOf<VideoPost?>(null) }
@@ -93,7 +101,13 @@ fun DouyinApp() {
                 liked = liked,
                 collected = collected,
                 following = following,
-                commentCount = { post -> localComments[post.id]?.size ?: post.comments },
+                commentCount = { post ->
+                    // 优先 API 评论数，否则本地
+                    apiCommentCounts[post.id]?.toInt()
+                        ?: apiComments[post.id]?.size
+                        ?: localComments[post.id]?.size
+                        ?: post.comments
+                },
                 onOpenComments = { selectedPost = it },
                 onOpenShare = { sharePost = it },
                 onOpenSearch = { screen = AppScreen.Search },
@@ -147,18 +161,64 @@ fun DouyinApp() {
         }
 
         selectedPost?.let { post ->
+            // 优先使用 API 评论，否则用本地 mock
+            val comments = apiComments[post.id] ?: localComments[post.id].orEmpty()
             CommentSheet(
                 post = post,
-                comments = localComments[post.id].orEmpty(),
+                comments = comments,
                 onDismiss = { selectedPost = null },
                 onSend = { text ->
-                    localComments.getOrPut(post.id) { mutableListOf() }.add(
-                        0,
-                        Comment("我", text, "刚刚")
-                    )
-                    toast = "评论已添加"
+                    if (ApiClient.isLoggedIn()) {
+                        // 真实 API 发表评论
+                        scope.launch {
+                            val postIdNum = post.id.toLongOrNull()
+                            if (postIdNum != null) {
+                                val result = ApiRepository.postComment(postIdNum, text)
+                                if (result.isSuccess) {
+                                    val data = result.getOrNull()
+                                    // 重新加载评论列表
+                                    val commentsResult = ApiRepository.getComments(postIdNum)
+                                    if (commentsResult.isSuccess) {
+                                        val commentsData = commentsResult.getOrNull()
+                                        val mapped = commentsData?.items?.map { c ->
+                                            Comment(c.author.nickname, c.content, c.createdAt)
+                                        } ?: emptyList()
+                                        apiComments[post.id] = mapped
+                                        apiCommentCounts[post.id] = commentsData?.commentCount ?: 0
+                                    }
+                                    toast = "评论已发表"
+                                } else {
+                                    toast = "评论失败: ${result.exceptionOrNull()?.message}"
+                                }
+                            }
+                        }
+                    } else {
+                        // 本地 mock 评论
+                        localComments.getOrPut(post.id) { mutableListOf() }.add(
+                            0,
+                            Comment("我", text, "刚刚")
+                        )
+                        toast = "评论已添加（本地模式）"
+                    }
                 }
             )
+            // 打开评论时，加载 API 评论
+            LaunchedEffect(post.id) {
+                if (ApiClient.isLoggedIn()) {
+                    val postIdNum = post.id.toLongOrNull()
+                    if (postIdNum != null && !apiComments.containsKey(post.id)) {
+                        val result = ApiRepository.getComments(postIdNum)
+                        if (result.isSuccess) {
+                            val data = result.getOrNull()
+                            val mapped = data?.items?.map { c ->
+                                Comment(c.author.nickname, c.content, c.createdAt)
+                            } ?: emptyList()
+                            apiComments[post.id] = mapped
+                            apiCommentCounts[post.id] = data?.commentCount ?: 0
+                        }
+                    }
+                }
+            }
         }
 
         sharePost?.let { post ->

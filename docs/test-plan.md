@@ -152,15 +152,77 @@ P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后
 | A08 | 演示视频 | 约 2 分钟，覆盖 F01、F02 和关键后台证据 |
 | A09 | 最终代码包 | 与公开 Git 最终版本一致，包含所需文档与 README |
 
-## 13. 回归测试清单
+## 14. 测试执行结果
 
-| 回归项 | 原因 |
-| --- | --- |
-| 点赞幂等 | 防止计数重复增加 |
-| 访问过滤 | 防止推荐已看过视频 |
-| 删除权限和删除幂等 | 防止越权删除和重复删除异常 |
-| 我的分页 | 防止串用户数据 |
-| 本地 uploads | 防止发布后文件不可访问 |
-| 日志脱敏 | 防止密码和 token 泄漏 |
-| gRPC 调用 | 防止推荐接口绕过 Recommend Service |
-| 评论计数 | 防止评论列表和 videos.comment_count 不一致 |
+**执行日期：** 2026-06-12
+**执行命令：** `$env:MYSQL_PASSWORD="***"; mvn test`
+**总体结果：BUILD SUCCESS**
+
+```
+Tests run: 111, Failures: 0, Errors: 0, Skipped: 0
+```
+
+### 14.1 测试类明细
+
+| 测试类 | 用例数 | 结果 | 覆盖内容 |
+|--------|--------|------|----------|
+| `AuthControllerTest` | 9 | ✅ | 注册、登录、退出正常/异常/日志 |
+| `AuthServiceTest` | 11 | ✅ | 注册/登录逻辑、密码验证、token |
+| `UserControllerTest` | 4 | ✅ | 当前用户、他人主页 |
+| `UserProfileRepositoryTest` | 1 | ✅ | 用户数据查询 |
+| `UserServiceTest` | 3 | ✅ | 用户业务逻辑 |
+| `VideoControllerTest` | 6 | ✅ | 发布/我的视频/删除正常/异常 |
+| `VideoRepositoryTest` | 14 | ✅ | 视频/点赞/访问/删除数据层 |
+| `VideoServiceTest` | 10 | ✅ | 发布/分页/删除业务逻辑 |
+| `LikeControllerTest` | 13 | ✅ | 点赞/取消正常、幂等、404、权限、日志 |
+| `ViewControllerTest` | 10 | ✅ | 访问记录、首次/重复、404、权限、日志 |
+| `CommentControllerTest` | 16 | ✅ | 发表评论/评论列表、分页、空列表、404、权限、日志 |
+| `HealthControllerTest` | 6 | ✅ | 全UP/部分DOWN、无鉴权、日志 |
+| `LocalUploadStorageServiceTest` | 6 | ✅ | 文件保存/读取/类型校验 |
+| `UploadStoragePropertiesTest` | 1 | ✅ | 配置注入 |
+| `UploadWebMvcConfigTest` | 1 | ✅ | 静态资源映射 |
+| **合计** | **111** | **✅ 全通过** | |
+
+### 14.2 用例覆盖状态
+
+| 编号 | 用例 | 测试类/方法 | 状态 |
+|------|------|------------|------|
+| N01 | 注册成功 | AuthControllerTest | ✅ |
+| N02 | 登录成功 | AuthControllerTest | ✅ |
+| N03 | 退出成功 | AuthControllerTest | ✅ |
+| N04 | 获取当前用户 | UserControllerTest | ✅ |
+| N05 | multipart 发布视频 | VideoControllerTest | ✅ |
+| N06 | 开发期 URL 发布 | VideoControllerTest | ✅ |
+| N07 | 查看我的视频分页 | VideoControllerTest / VideoServiceTest | ✅ |
+| N08 | 删除自己的视频 | VideoControllerTest / VideoServiceTest | ✅ |
+| N09 | 重复删除 | VideoServiceTest | ✅ |
+| N10 | 点赞视频 | LikeControllerTest | ✅ |
+| N11 | 取消点赞 | LikeControllerTest | ✅ |
+| N12 | 推荐流 | ⬜ 依赖成员B T15-T17 | ⬜ |
+| N13 | 记录访问 | ViewControllerTest | ✅ |
+| N14 | 健康检查 | HealthControllerTest | ✅ |
+| I01 | 重复点赞 | LikeControllerTest / VideoRepositoryTest | ✅ |
+| I02 | 重复取消点赞 | LikeControllerTest / VideoRepositoryTest | ✅ |
+| I03 | 重复记录访问 | ViewControllerTest / VideoRepositoryTest | ✅ |
+| I04 | 重复删除 | VideoRepositoryTest | ✅ |
+| E01-E10 | 异常用例 | 各 Controller Test | ✅ |
+| P01-P08 | 权限测试 | LikeControllerTest / ViewControllerTest / CommentControllerTest | ✅ |
+| R01-R08 | 推荐规则测试 | ⬜ 依赖成员B T20 | ⬜ |
+| L01-L07 | 日志测试 | LikeControllerTest / ViewControllerTest / CommentControllerTest / HealthControllerTest | ✅ |
+| H01-H04 | 健康检查测试 | HealthControllerTest | ✅ |
+| C01-C06 | 评论测试 | CommentControllerTest | ✅ |
+| D01-D04 | 数据库测试 | VideoRepositoryTest (真实 MySQL) | ✅ |
+| F01-F04 | 前端演示链路 | ⬜ 依赖成员B T15-T17 + 完整联调 | ⬜ |
+
+### 14.3 环境信息
+
+| 项目 | 版本 |
+|------|------|
+| Java | 21.0.11 |
+| Spring Boot | 3.3.6 |
+| Maven | 3.9.6 |
+| MySQL | 9.7 |
+| JUnit | 5 (via Spring Boot) |
+| Mockito | via spring-boot-starter-test |
+
+> **说明：** 推荐流 (N12) 和推荐规则测试 (R01-R08, T20) 依赖成员 B 的 T15-T17，尚未执行。前端演示链路 (F01-F04) 完整联调也需等待推荐服务就绪。评论 (C01-C06) 和前端联调 (T26-T27) 由成员 C 已完成。

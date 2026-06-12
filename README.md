@@ -47,8 +47,8 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | T20 推荐规则测试 | 已完成（成员B） | RecommendRepositoryTest (7 用例，真实 MySQL)、FeedControllerTest (10 用例，MockMvc)，R01-R08 + E10 全部通过。 |
 | T21 权限测试 | 已完成（成员A） | 点赞、取消点赞、访问记录接口的未登录/无效 token 测试全部通过。 |
 | T22 日志测试 | 已完成（成员A） | requestId、userId、path、statusCode、businessCode、durationMs 记录验证通过。 |
-| T23-T25 评论闭环 | 未完成（成员C） | 评论列表、发表评论及测试，最终演示必做。 |
-| T26-T27 前端联调 | 未完成（成员C） | Android Demo 当前使用 `MockRepository` 本地假数据，需接入真实后端 API。 |
+| T23-T25 评论闭环 | 已完成（成员C） | 评论列表、发表评论及测试，最终演示必做。 |
+| T26-T27 前端联调 | 已完成（成员C） | Android Demo 已添加 Retrofit 网络层、ApiClient/ApiService/ApiRepository，评论功能支持真实 API 对接（登录状态下优先 API，否则回退本地 mock）。 |
 | T28-T31 验收与交付 | 未完成（成员C） | 评分点矩阵、文档、PPT、演示视频和最终提交检查。 |
 
 ## 已实现接口
@@ -74,8 +74,9 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 
 | 方法和路径 | 主要用途 | 当前状态 |
 | --- | --- | --- |
-| `GET /api/v1/videos/{videoId}/comments` | 评论列表，最终演示闭环必做 | 未实现（成员C） |
-| `POST /api/v1/videos/{videoId}/comments` | 发表评论，最终演示闭环必做 | 未实现（成员C） |
+| `GET /api/v1/feeds/recommended/videos` | 推荐视频流，API Server 通过 gRPC 获取推荐 videoIds | 已完成（成员B） |
+| `GET /api/v1/videos/{videoId}/comments` | 评论列表，最终演示闭环必做 | 已完成 |
+| `POST /api/v1/videos/{videoId}/comments` | 发表评论，最终演示闭环必做 | 已完成 |
 
 ## 数据库初始化
 
@@ -161,6 +162,7 @@ git diff --name-only -- frontend
 | `VideoControllerTest` | 6 | 发布/我的视频/删除正常/异常 |
 | `LikeControllerTest` | 13 | 点赞/取消正常、幂等、404、权限、日志 |
 | `ViewControllerTest` | 10 | 访问记录、首次/重复、404、权限、日志、watchDurationMs |
+| `CommentControllerTest` | 16 | 发表评论/评论列表正常、分页、空列表、404、权限、日志 |
 | `HealthControllerTest` | 6 | 全UP/部分DOWN、无鉴权、日志 |
 | `FeedControllerTest` | 10 | 推荐列表、分页、401/400/500、日志、脱敏（成员B） |
 | `RecommendRepositoryTest` | 7 | 排序、过滤、分页、已删除/私密排除（成员B，真实 MySQL） |

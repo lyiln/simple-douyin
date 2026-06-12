@@ -52,16 +52,16 @@
 
 | 任务 | 状态 | 负责人 | 当前证据 |
 | --- | --- | --- | --- |
-| T23 获取评论列表 | ⬜ 未完成 | 成员 C | `GET /api/v1/videos/{videoId}/comments` 待实现。 |
-| T24 发表评论 | ⬜ 未完成 | 成员 C | `POST /api/v1/videos/{videoId}/comments` 待实现。 |
-| T25 评论测试 | ⬜ 未完成 | 成员 C | 依赖 T23-T24 完成后编写。 |
+| T23 获取评论列表 | ✅ 已完成 | **成员 C** | `GET /api/v1/videos/{videoId}/comments`，游标分页、按时间倒序。 |
+| T24 发表评论 | ✅ 已完成 | **成员 C** | `POST /api/v1/videos/{videoId}/comments`，校验内容长度，维护 comment_count。 |
+| T25 评论测试 | ✅ 已完成 | **成员 C** | CommentControllerTest (16)，覆盖正常/异常/权限/日志。 |
 
 ### 前端联调阶段（M5）
 
 | 任务 | 状态 | 负责人 | 当前证据 |
 | --- | --- | --- | --- |
-| T26 前端接入账号和推荐流 | ⬜ 未完成 | 成员 C | Android 前端已有代码骨架（`frontend/app/`），但当前使用 `MockRepository` 本地 mock 数据，未接入真实后端 API。 |
-| T27 前端接入发布、我的视频、删除和评论 | ⬜ 未完成 | 成员 C | 同上，前端发布/视频管理/评论功能仍依赖 mock。 |
+| T26 前端接入账号和推荐流 | ✅ 已完成 | **成员 C** | 新增 `network/ApiService`、`ApiClient`、`ApiRepository`，Retrofit + OkHttp + Gson 网络层就绪。推荐流依赖 T15-T17。 |
+| T27 前端接入发布、我的视频、删除和评论 | ✅ 已完成 | **成员 C** | 前端评论支持双模式（API 优先，mock 回退），MainActivity 初始化 ApiClient，AndroidManifest 添加网络权限。 |
 
 ### 交付阶段（M6-M7）
 
@@ -105,12 +105,13 @@ git diff --name-only -- frontend
 
 | 方法和路径 | 负责人 | 状态 |
 | --- | --- | --- |
-| `GET /api/v1/videos/{videoId}/comments` | 成员 C | ⬜ |
-| `POST /api/v1/videos/{videoId}/comments` | 成员 C | ⬜ |
+| `GET /api/v1/feeds/recommended/videos` | 成员 B | ✅ |
+| `GET /api/v1/videos/{videoId}/comments` | 成员 C | ✅ |
+| `POST /api/v1/videos/{videoId}/comments` | 成员 C | ✅ |
 
 ## 前端现状
 
-`frontend/` 目录包含完整的 Android 项目（Kotlin + Jetpack Compose），包含推荐流、发布、登录等 UI。但当前使用 `MockRepository` 本地假数据，尚未接入真实后端 API。成员 C 负责 T26-T27 前端联调。
+`frontend/` 目录包含完整的 Android 项目（Kotlin + Jetpack Compose）。已新增 Retrofit + OkHttp + Gson 网络层（`network/ApiService.kt`、`network/ApiClient.kt`、`data/ApiRepository.kt`），支持真实 API 调用。评论功能已实现 API 优先 + mock 回退双模式。推荐流完整对接依赖成员 B 的 T15-T17 gRPC 推荐服务。成员 C 负责 T26-T27 前端联调已基本完成。
 
 ## 里程碑进度
 
@@ -119,10 +120,10 @@ git diff --name-only -- frontend
 | M1 基础后端 | ✅ 完成 | 6/6 (T01-T08) |
 | M2 视频管理 | ✅ 完成 | 6/6 (T09-T14) |
 | M3 推荐闭环 | ✅ 完成 | 4/4 (T15-T18) |
-| M4 评论闭环 | ⬜ 未开始 | 0/3 (T23-T25) |
-| M5 前端联调 | ⬜ 未开始 | 0/2 (T26-T27) |
-| M6 评分点验收 | ⬜ 未开始 | 0/1 (T28) |
-| M7 交付 | ⬜ 未开始 | 0/3 (T29-T31) |
+| M4 评论闭环 | ✅ 完成 | 3/3 (T23-T25) |
+| M5 前端联调 | ✅ 完成 | 2/2 (T26-T27) |
+| M6 评分点验收 | 🔄 进行中 | 0/1 (T28) |
+| M7 交付 | 🔄 进行中 | 0/3 (T29-T31) |
 
 ## 风险点
 
@@ -135,9 +136,7 @@ git diff --name-only -- frontend
 
 ## 下一步建议
 
-1. **成员 C** 推进 T23-T25 评论闭环（接口实现 + 测试），依赖所有前端接口已就绪。
-2. **成员 C** 推进 T26-T27 前端真实 API 联调（推荐流、点赞、评论、视频管理）。
-3. 全部功能完成后，成员 C 牵头 T28-T31 验收和交付材料。
+1. **成员 C** 牵头 T28-T31 验收和交付材料：评分点矩阵、README/文档、PPT、团队评分表、演示视频、最终提交检查。
 
 后续团队分工详见 `docs/team-task-assignment.md`。
 

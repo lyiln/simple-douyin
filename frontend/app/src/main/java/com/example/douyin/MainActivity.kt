@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.douyin.network.ApiClient
 import com.example.douyin.ui.DouyinApp
 import com.example.douyin.ui.theme.DouyinTheme
 import kotlinx.coroutines.delay
@@ -31,6 +32,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        // 初始化 API 客户端（模拟器默认地址 http://10.0.2.2:8080）
+        ApiClient.init(applicationContext)
+
         setContent {
             DouyinTheme {
                 var showApp by remember { mutableStateOf(false) }

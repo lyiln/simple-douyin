@@ -1,22 +1,24 @@
 package com.simpledouyin.api.auth.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.simpledouyin.api.auth.token.HmacTokenService;
-import com.simpledouyin.api.common.ApiResponse;
-import com.simpledouyin.api.common.ErrorCode;
-import com.simpledouyin.api.common.RequestContext;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.simpledouyin.api.auth.token.HmacTokenService;
+import com.simpledouyin.api.common.ApiResponse;
+import com.simpledouyin.api.common.ErrorCode;
+import com.simpledouyin.api.common.RequestContext;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 2)
@@ -83,7 +85,9 @@ public class BearerAuthenticationFilter extends OncePerRequestFilter {
                 || ("PUT".equalsIgnoreCase(method) && isVideoActionPath(path, "/likes/me"))
                 || ("DELETE".equalsIgnoreCase(method) && isVideoActionPath(path, "/likes/me"))
                 || ("POST".equalsIgnoreCase(method) && isVideoActionPath(path, "/views/me"))
-                || ("GET".equalsIgnoreCase(method) && FEED_PATH.equals(path));
+                || ("GET".equalsIgnoreCase(method) && FEED_PATH.equals(path))
+                || ("GET".equalsIgnoreCase(method) && isVideoActionPath(path, "/comments"))
+                || ("POST".equalsIgnoreCase(method) && isVideoActionPath(path, "/comments"));
     }
 
     private boolean isVideoActionPath(String path, String suffix) {
