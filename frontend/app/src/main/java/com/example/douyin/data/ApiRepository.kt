@@ -66,6 +66,16 @@ object ApiRepository {
         }
     }
 
+    // ======================== Feed ========================
+
+    suspend fun getRecommendedVideos(cursor: String? = null, limit: Int = 10): Result<RecommendedFeedData> {
+        return apiCall {
+            val response = ApiClient.apiService!!.getRecommendedVideos(cursor, limit)
+            requireSuccess(response)
+            response.body()!!.data!!
+        }
+    }
+
     // ======================== Publish ========================
 
     suspend fun publishVideo(

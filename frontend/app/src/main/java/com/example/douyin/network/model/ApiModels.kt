@@ -153,3 +153,11 @@ data class HealthData(
     val mysql: String,
     val grpcRecommendService: String
 )
+
+/** 推荐流响应 */
+data class RecommendedFeedData(
+    val items: List<VideoPostResponse>,
+    val nextCursor: String?,
+    val hasMore: Boolean,
+    val strategy: String?
+)

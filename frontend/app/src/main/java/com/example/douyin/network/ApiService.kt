@@ -69,6 +69,14 @@ interface ApiService {
         @Body request: PostCommentRequest
     ): Response<ApiResponseWrapper<PostCommentData>>
 
+    // ======================== Feed ========================
+
+    @GET("api/v1/feeds/recommended/videos")
+    suspend fun getRecommendedVideos(
+        @Query("cursor") cursor: String? = null,
+        @Query("limit") limit: Int? = null
+    ): Response<ApiResponseWrapper<RecommendedFeedData>>
+
     // ======================== Health ========================
 
     @GET("api/v1/health")
