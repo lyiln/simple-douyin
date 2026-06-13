@@ -54,40 +54,21 @@
 | 游标排序稳定 | ✅ | 三元组 `(like_count, created_at, id)` |
 | gRPC 错误处理 | ✅ | `StatusRuntimeException` → `onError`；其他 → `INTERNAL` + 日志 |
 
-### 🔴 严重：游标分页中的 `v.like_count` 使用表列而非实时计数值
+### ✅ 已修复：`v.like_count` → 派生表 `t.like_count`
 
-**文件:** `RecommendRepository.java` CURSOR_CLAUSE
+**修复提交:** `187bfe1` fix: RecommendRepository ORDER BY 和游标条件改为派生表别名引用
 
-```sql
--- SELECT 中的 like_count 是子查询（实时值）
-SELECT v.id,
-       (SELECT COUNT(*) FROM video_likes WHERE video_id = v.id) AS like_count,
-       v.created_at
-
--- 但 CURSOR_CLAUSE 用的是 v.like_count（表列，可能过期）
-AND (
-    v.like_count < ?          -- ← 这里的 v.like_count 是表列！
-    OR (v.like_count = ? ...
-)
-```
-
-**问题：** 根据 Review01 修复方案，`videos.like_count` 列不再由代码维护（改为实时 `SELECT COUNT(*)`），因此表列值可能为 0 或过期。游标分页使用 `v.like_count` 会导致排序和分页错误。
-
-**修复建议：** 将 CURSOR_CLAUSE 中的 `v.like_count` 替换为子查询，或用 HAVING 子句引用别名：
+修复方案：将原查询包装为派生表 `t`，ORDER BY 和 CURSOR_CLAUSE 改为引用 `t.like_count`（即实时 `SELECT COUNT(*)` 子查询结果）。
 
 ```sql
--- 方案：使用 HAVING 引用别名 like_count
--- 但这需要把 WHERE 条件移到 HAVING，性能会差
--- 更好的方案：把子查询结果作为派生表
-
--- 或者最简单的方案：直接在 WHERE 中重复子查询
-AND (
-    (SELECT COUNT(*) FROM video_likes WHERE video_id = v.id) < ?
-    OR ...
-)
-```
-
-**但注意：** 如果成员 A 的 Review01 修复尚未部署到 MySQL（即 `like_count` 列仍在维护中），那么当前代码可以正常工作。需要在合并前确认 `like_count` 列的维护状态。
+-- 修复后结构
+SELECT t.id, t.like_count, t.created_at
+FROM (
+    SELECT v.id, (SELECT COUNT(*) ...) AS like_count, v.created_at
+    FROM videos v WHERE ...
+) t
+WHERE 1=1
+ORDER BY t.like_count DESC   -- ✅ 派生表列，实时值
 
 ## 四、gRPC 实现审查
 
@@ -154,9 +135,9 @@ AND (
 | 代码质量 | ⭐⭐⭐⭐ 结构清晰、分层合理 |
 | 测试覆盖 | ⭐⭐⭐⭐⭐ 17 用例全覆盖 R01-R08/E04/E10/P01/L01-L04 |
 | 文档 | ⭐⭐⭐⭐⭐ 含 workRecord.md + workplan.md |
-| 主要风险 | 🔴 `v.like_count` 游标列问题 |
+| 主要风险 | ✅ 已修复（`187bfe1` 派生表方案） |
 
-- [ ] 需修复 `v.like_count` 游标问题后通过
+- [x] `v.like_count` 游标问题已修复
 - [ ] 成员 A 最终确认
 
 **审查人:** ________（成员 A）  
