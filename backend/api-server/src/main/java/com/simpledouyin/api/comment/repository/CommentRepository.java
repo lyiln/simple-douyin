@@ -20,18 +20,12 @@ import com.simpledouyin.api.comment.model.CommentPageCursor;
 @Repository
 public class CommentRepository {
 
-    /** 插入评论并同时递增 videos.comment_count */
+    /** 插入评论，通过子查询确保视频存在且未删除（避免 TOCTOU 竞态） */
     private static final String INSERT_COMMENT_SQL = """
             INSERT INTO comments (video_id, author_id, content, created_at)
-            VALUES (?, ?, ?, CURRENT_TIMESTAMP(3))
-            """;
-
-    /** 发表评论后递增 comment_count */
-    private static final String INCREMENT_COMMENT_COUNT_SQL = """
-            UPDATE videos
-            SET comment_count = comment_count + 1
-            WHERE id = ?
-              AND deleted_at IS NULL
+            SELECT ?, ?, ?, CURRENT_TIMESTAMP(3)
+            FROM videos
+            WHERE id = ? AND deleted_at IS NULL
             """;
 
     /** 查询单条评论（含作者信息） */
@@ -91,11 +85,13 @@ public class CommentRepository {
     }
 
     /**
-     * 发表评论，返回创建的评论（含完整作者信息）。
+     * 发表评论。INSERT 通过子查询验证视频存在且未删除，避免 TOCTOU 竞态。
+     * 如果 affectedRows=0 说明视频不存在/已删除。
+     * comment_count 改为实时 SELECT COUNT(*)，不再维护反规范化列。
      */
     public Comment create(long videoId, long authorId, String content) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(connection -> {
+        int affectedRows = jdbcTemplate.update(connection -> {
             PreparedStatement statement = connection.prepareStatement(
                     INSERT_COMMENT_SQL,
                     Statement.RETURN_GENERATED_KEYS
@@ -103,11 +99,14 @@ public class CommentRepository {
             statement.setLong(1, videoId);
             statement.setLong(2, authorId);
             statement.setString(3, content);
+            statement.setLong(4, videoId);
             return statement;
         }, keyHolder);
 
+        if (affectedRows == 0) {
+            throw new IllegalStateException("video not found or deleted: " + videoId);
+        }
         long commentId = generatedId(keyHolder);
-        jdbcTemplate.update(INCREMENT_COMMENT_COUNT_SQL, videoId);
         return findById(commentId)
                 .orElseThrow(() -> new IllegalStateException("Created comment was not found"));
     }

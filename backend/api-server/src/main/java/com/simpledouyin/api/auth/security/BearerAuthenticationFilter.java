@@ -103,10 +103,6 @@ public class BearerAuthenticationFilter extends OncePerRequestFilter {
         return !videoIdPart.isBlank() && videoIdPart.indexOf('/') < 0;
     }
 
-    private boolean isVideoDeletePath(String path) {
-        return isVideoActionPath(path, "");
-    }
-
     private void writeUnauthorized(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
         request.setAttribute(RequestContext.ERROR_MESSAGE_ATTRIBUTE, errorCode.message());

@@ -108,7 +108,7 @@ data class ViewRequest(
 /** 访问记录响应 */
 data class ViewData(
     val videoId: Long,
-    val success: Boolean,
+    val viewed: Boolean,
     val viewCount: Long,
     val created: Boolean
 )
@@ -149,9 +149,8 @@ data class GetCommentsData(
 
 /** 健康检查响应 */
 data class HealthData(
-    val apiServer: String,
-    val mysql: String,
-    val grpcRecommendService: String
+    val status: String,
+    val components: Map<String, String>
 )
 
 /** 推荐流响应 */
