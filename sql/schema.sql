@@ -34,6 +34,9 @@ CREATE TABLE IF NOT EXISTS videos (
     deleted_at DATETIME(3) NULL,
     PRIMARY KEY (id),
     KEY idx_videos_author_created (author_id, created_at DESC, id DESC),
+    -- 注意：like_count 列为数据库默认值 0（推荐系统改为实时 COUNT 查询），
+    -- 因此 idx_videos_recommend 中 like_count DESC 排序部分实际无效，
+    -- 优化器会全表扫描。课程演示数据量小可接受；生产环境应维护反规范化计数器。
     KEY idx_videos_recommend (status, visibility, deleted_at, like_count DESC, created_at DESC, id DESC),
     KEY idx_videos_deleted (deleted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

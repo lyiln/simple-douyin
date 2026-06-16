@@ -70,14 +70,6 @@ public class CommentRepository {
               AND deleted_at IS NULL
             """;
 
-    /** 检查视频是否存在且未删除 */
-    private static final String FIND_VIDEO_EXISTS_SQL = """
-            SELECT COUNT(1) > 0
-            FROM videos
-            WHERE id = ?
-              AND deleted_at IS NULL
-            """;
-
     private final JdbcTemplate jdbcTemplate;
 
     public CommentRepository(JdbcTemplate jdbcTemplate) {
@@ -157,14 +149,6 @@ public class CommentRepository {
     public long countByVideoId(long videoId) {
         Long count = jdbcTemplate.queryForObject(COUNT_COMMENTS_SQL, Long.class, videoId);
         return count != null ? count : 0L;
-    }
-
-    /**
-     * 检查视频是否存在（未软删除）。
-     */
-    public boolean videoExists(long videoId) {
-        Boolean exists = jdbcTemplate.queryForObject(FIND_VIDEO_EXISTS_SQL, Boolean.class, videoId);
-        return exists != null && exists;
     }
 
     private RowMapper<Comment> commentRowMapper() {

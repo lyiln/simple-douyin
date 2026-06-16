@@ -1,15 +1,26 @@
 package com.simpledouyin.recommend;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
 @Repository
 public class RecommendRepository {
 
+    /**
+     * 推荐查询：实时 COUNT 子查询获取 like_count，按 like_count DESC, created_at DESC, id DESC 排序。
+     *
+     * 设计取舍说明：
+     * - 当前实现牺牲索引效率换取强一致性（like_count 实时计算，无漂移风险）。
+     * - idx_videos_recommend(status, visibility, deleted_at, like_count DESC, ...) 中
+     *   like_count 列始终为 0（未维护反规范化计数器），因此该索引对排序完全失效，
+     *   优化器会全表扫描 videos 并对每行执行关联子查询。
+     * - 课程演示数据量小，此性能退化不可感知。生产环境应恢复反规范化计数器
+     *   （like/unlike 时在事务内同步 UPDATE videos SET like_count = like_count ± 1）。
+     */
     private static final String INNER_SQL =
             "SELECT v.id, "
                     + "(SELECT COUNT(*) FROM video_likes WHERE video_id = v.id) AS like_count, "
@@ -19,6 +30,9 @@ public class RecommendRepository {
                     + "AND v.visibility = 'public' "
                     + "AND v.deleted_at IS NULL "
                     + "AND NOT EXISTS ("
+                    // video_views 一行 = 用户已刷到过该视频，推荐去重依赖此语义。
+                    // 禁止在非视频流访问场景（如点击评论、点赞等）写入 video_views，
+                    // 否则会导致用户仅浏览评论的视频从推荐流中消失。
                     + "SELECT 1 FROM video_views vv "
                     + "WHERE vv.user_id = ? AND vv.video_id = v.id)";
 
