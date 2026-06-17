@@ -1,6 +1,10 @@
 spring:
   application:
     name: simple-douyin-api-server
+  servlet:
+    multipart:
+      max-file-size: ${SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE:100MB}
+      max-request-size: ${SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE:120MB}
   datasource:
     url: ${MYSQL_URL:jdbc:mysql://localhost:3306/simple_douyin?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
     username: ${MYSQL_USERNAME:root}

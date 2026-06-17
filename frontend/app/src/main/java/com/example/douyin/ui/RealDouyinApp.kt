@@ -1,6 +1,8 @@
 package com.example.douyin.ui
 
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -10,10 +12,13 @@ import androidx.annotation.RawRes
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +45,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -64,9 +70,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -235,6 +244,7 @@ private fun AuthScreen(
 
 @Composable
 private fun RealMainScreen(onLoggedOut: () -> Unit) {
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val posts = remember { mutableStateListOf<VideoPost>() }
     val myVideos = remember { mutableStateListOf<VideoPost>() }
@@ -252,6 +262,15 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
     var loadingFeed by remember { mutableStateOf(false) }
     var loadingMine by remember { mutableStateOf(false) }
     var toast by remember { mutableStateOf<String?>(null) }
+    var showExitConfirm by remember { mutableStateOf(false) }
+
+    BackHandler(enabled = selectedPost == null) {
+        if (screen == RealScreen.Home) {
+            showExitConfirm = true
+        } else {
+            screen = RealScreen.Home
+        }
+    }
 
     fun showError(prefix: String, error: Throwable?) {
         toast = "$prefix：${localizedErrorMessage(error)}"
@@ -432,6 +451,32 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
                 }
             )
         }
+
+        if (showExitConfirm) {
+            AlertDialog(
+                onDismissRequest = { showExitConfirm = false },
+                title = { Text("退出应用") },
+                text = { Text("确定要退出简版抖音吗？") },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            showExitConfirm = false
+                            context.findActivity()?.finish()
+                        }
+                    ) {
+                        Text("退出")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showExitConfirm = false }) {
+                        Text("取消")
+                    }
+                },
+                containerColor = Color(0xFF1F1F1F),
+                titleContentColor = Color.White,
+                textContentColor = Color.White.copy(alpha = 0.78f)
+            )
+        }
     }
 }
 
@@ -496,13 +541,20 @@ private fun VideoApiPage(
     onComment: () -> Unit
 ) {
     var showPlayer by remember(post.id) { mutableStateOf(false) }
+    var userPaused by remember(post.id) { mutableStateOf(false) }
+    var playbackProgress by remember(post.id) { mutableStateOf(VideoProgressState()) }
+    var seekRequest by remember(post.id) { mutableStateOf<VideoSeekRequest?>(null) }
 
-    LaunchedEffect(active) {
+    LaunchedEffect(active, post.id) {
         if (active) {
+            userPaused = false
             delay(250)
             showPlayer = true
         } else {
+            userPaused = false
             showPlayer = false
+            playbackProgress = VideoProgressState()
+            seekRequest = null
         }
     }
 
@@ -519,6 +571,9 @@ private fun VideoApiPage(
                 videoRes = post.videoRes,
                 videoUrl = post.videoUrl,
                 isActive = active,
+                isPaused = userPaused,
+                seekRequest = seekRequest,
+                onProgress = { playbackProgress = it },
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -533,6 +588,37 @@ private fun VideoApiPage(
                     )
                 )
         )
+        Box(
+            Modifier
+                .fillMaxSize()
+                .padding(end = 88.dp, bottom = 96.dp)
+                .pointerInput(active, post.isLiked) {
+                    detectTapGestures(
+                        onTap = {
+                            if (active && showPlayer) {
+                                userPaused = !userPaused
+                            }
+                        },
+                        onDoubleTap = {
+                            if (active && !post.isLiked) {
+                                onLike()
+                            }
+                        }
+                    )
+                }
+        )
+        if (showPlayer && userPaused) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .size(96.dp)
+                    .clip(CircleShape)
+                    .background(Color.Black.copy(alpha = 0.22f)),
+                contentAlignment = Alignment.Center
+            ) {
+                AssetIcon(R.drawable.ic_app_play_center, null, Modifier.size(74.dp))
+            }
+        }
         PostInfo(post, Modifier.align(Alignment.BottomStart).padding(start = 16.dp, end = 96.dp, bottom = 96.dp))
         ApiActionRail(
             post = post,
@@ -541,6 +627,101 @@ private fun VideoApiPage(
             onComment = onComment,
             modifier = Modifier.align(Alignment.BottomEnd).padding(end = 12.dp, bottom = 96.dp)
         )
+        VideoProgressBar(
+            progress = playbackProgress,
+            onSeek = { positionMs ->
+                seekRequest = VideoSeekRequest(System.nanoTime(), positionMs)
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(horizontal = 12.dp)
+                .padding(bottom = 68.dp)
+                .fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+private fun VideoProgressBar(
+    progress: VideoProgressState,
+    onSeek: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val isSeekable = progress.isSeekable
+    val durationMs = progress.durationMs
+    var dragging by remember { mutableStateOf(false) }
+    var dragFraction by remember { mutableStateOf(0f) }
+    val displayedFraction = if (dragging) dragFraction else progress.progressFraction
+
+    Box(
+        modifier = modifier
+            .height(28.dp)
+            .pointerInput(isSeekable, durationMs) {
+                if (!isSeekable) return@pointerInput
+                detectDragGestures(
+                    onDragStart = { offset ->
+                        val width = size.width.toFloat().coerceAtLeast(1f)
+                        dragging = true
+                        dragFraction = (offset.x / width).coerceIn(0f, 1f)
+                    },
+                    onDrag = { change, _ ->
+                        change.consume()
+                        val width = size.width.toFloat().coerceAtLeast(1f)
+                        dragFraction = (change.position.x / width).coerceIn(0f, 1f)
+                    },
+                    onDragEnd = {
+                        if (durationMs > 0L) {
+                            onSeek((dragFraction * durationMs).toLong().coerceIn(0L, durationMs))
+                        }
+                        dragging = false
+                    },
+                    onDragCancel = {
+                        dragging = false
+                    }
+                )
+            }
+    ) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            val centerY = size.height / 2f
+            val trackWidth = size.width
+            val strokeWidth = if (dragging) 4.dp.toPx() else 2.dp.toPx()
+            val progressX = (trackWidth * displayedFraction).coerceIn(0f, trackWidth)
+            val bufferedX = (trackWidth * progress.bufferedFraction).coerceIn(0f, trackWidth)
+
+            drawLine(
+                color = Color.White.copy(alpha = 0.26f),
+                start = Offset(0f, centerY),
+                end = Offset(trackWidth, centerY),
+                strokeWidth = strokeWidth,
+                cap = StrokeCap.Round
+            )
+            if (bufferedX > 0f) {
+                drawLine(
+                    color = Color.White.copy(alpha = 0.42f),
+                    start = Offset(0f, centerY),
+                    end = Offset(bufferedX, centerY),
+                    strokeWidth = strokeWidth,
+                    cap = StrokeCap.Round
+                )
+            }
+            if (progressX > 0f) {
+                drawLine(
+                    color = Color.White,
+                    start = Offset(0f, centerY),
+                    end = Offset(progressX, centerY),
+                    strokeWidth = strokeWidth,
+                    cap = StrokeCap.Round
+                )
+            }
+            if (isSeekable || dragging) {
+                drawCircle(
+                    color = Color.White,
+                    radius = if (dragging) 6.dp.toPx() else 3.dp.toPx(),
+                    center = Offset(progressX, centerY)
+                )
+            }
+        }
     }
 }
 
@@ -1070,6 +1251,14 @@ private fun String.safeUploadFileName(): String {
 }
 
 private fun Long.toSafeInt(): Int = coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
+
+private tailrec fun Context.findActivity(): Activity? {
+    return when (this) {
+        is Activity -> this
+        is ContextWrapper -> baseContext.findActivity()
+        else -> null
+    }
+}
 
 private fun formatCount(value: Int): String {
     return if (value >= 10000) {
