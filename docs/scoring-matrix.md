@@ -9,6 +9,7 @@
 | # | 课程评分点 | 实现位置 | 接口 | 数据库表 | 测试 | 演示 | 状态 |
 |---|-----------|---------|------|---------|------|------|------|
 | 1 | 按点赞数最高推荐 | gRPC Recommend Service | `GET /feeds/recommended/videos` | `videos` (idx_videos_recommend) | T20 R01/R02/R05 | 推荐列表排序 | ✅ |
+|   | *设计取舍：like_count 为实时 COUNT 子查询，idx_videos_recommend 中 like_count 列始终为 0 导致索引排序失效，全表扫描。课程数据量小可接受，生产环境应恢复反规范化计数器。* | | | | | | |
 | 2 | 访问过不再推荐 | `video_views` 排除逻辑 | `POST /videos/{id}/views/me` | `video_views` (uk_user_video) | T14 R03/R04 | 已看视频消失 | ✅ |
 | 3 | 视频上下滑动 | Android `VerticalPager` | 消费推荐流 API | — | F01 | 上下滑动播放 | ✅ |
 | 4 | 视频点赞 | `LikeController` + `VideoService` | `PUT/DELETE /videos/{id}/likes/me` | `video_likes` (uk_user_video) | T13 I01/I02 | 点赞状态更新 | ✅ |

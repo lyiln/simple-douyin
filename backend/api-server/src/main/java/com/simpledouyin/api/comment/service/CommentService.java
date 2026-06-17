@@ -1,5 +1,16 @@
 package com.simpledouyin.api.comment.service;
 
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.simpledouyin.api.comment.dto.CommentResponse;
 import com.simpledouyin.api.comment.dto.GetCommentsResponse;
 import com.simpledouyin.api.comment.dto.PostCommentRequest;
@@ -12,17 +23,8 @@ import com.simpledouyin.api.common.ErrorCode;
 import com.simpledouyin.api.common.RequestContext;
 import com.simpledouyin.api.video.dto.AuthorSummary;
 import com.simpledouyin.api.video.repository.VideoRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class CommentService {
@@ -143,7 +145,7 @@ public class CommentService {
         }
         if (limit < 1 || limit > MAX_LIMIT) {
             throw new BusinessException(ErrorCode.INVALID_PARAMETER,
-                    "limit must be between 1 and " + MAX_LIMIT);
+                    "limit must be between 1 and " + MAX_LIMIT + ", but was " + limit);
         }
         return limit;
     }

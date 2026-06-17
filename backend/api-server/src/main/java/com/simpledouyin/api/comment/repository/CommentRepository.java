@@ -45,7 +45,7 @@ public class CommentRepository {
               AND c.deleted_at IS NULL
             """;
 
-    /** 分页查询视频评论列表，按时间倒序 */
+    /** 分页查询视频评论列表，按时间倒序。JOIN videos 确保视频未删除时才能查到评论。 */
     private static final String FIND_COMMENTS_BASE_SQL = """
             SELECT
                 c.id,
@@ -58,16 +58,18 @@ public class CommentRepository {
                 c.created_at
             FROM comments c
             JOIN users u ON u.id = c.author_id
+            JOIN videos v ON v.id = c.video_id AND v.deleted_at IS NULL
             WHERE c.video_id = ?
               AND c.deleted_at IS NULL
             """;
 
-    /** 统计视频评论数 */
+    /** 统计视频评论数。JOIN videos 确保仅统计未删除视频的评论。 */
     private static final String COUNT_COMMENTS_SQL = """
             SELECT COUNT(*)
-            FROM comments
-            WHERE video_id = ?
-              AND deleted_at IS NULL
+            FROM comments c
+            JOIN videos v ON v.id = c.video_id AND v.deleted_at IS NULL
+            WHERE c.video_id = ?
+              AND c.deleted_at IS NULL
             """;
 
     private final JdbcTemplate jdbcTemplate;
