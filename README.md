@@ -48,7 +48,7 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | T21 权限测试 | 已完成（成员A） | 点赞、取消点赞、访问记录接口的未登录/无效 token 测试全部通过。 |
 | T22 日志测试 | 已完成（成员A） | requestId、userId、path、statusCode、businessCode、durationMs 记录验证通过。 |
 | T23-T25 评论闭环 | 已完成（成员C） | 评论列表、发表评论及测试，最终演示必做。 |
-| T26-T27 前端联调 | 已完成（成员C） | Android Demo 已添加 Retrofit 网络层、ApiClient/ApiService/ApiRepository，评论功能支持真实 API 对接（登录状态下优先 API，否则回退本地 mock）。 |
+| T26-T27 前端联调 | 已完成（成员C） | Android 前端已添加 Retrofit 网络层、ApiClient/ApiService/ApiRepository，主线账号、推荐、点赞、评论、发布、我的作品和删除流程接入真实 API。 |
 | T28-T31 验收与交付 | 未完成（成员C） | 评分点矩阵、文档、PPT、演示视频和最终提交检查。 |
 
 ## 已实现接口
@@ -176,15 +176,15 @@ git diff --name-only -- frontend
 
 ## 前端说明
 
-`frontend/` 当前是 Android 前端 Demo，已接入真实后端 API，登录页仍支持手动修改 API Base URL。
+`frontend/` 当前是 Android 前端，已接入真实后端 API，登录页默认连接已部署后端，不再暴露 API Base URL 输入项。
 
-当前已部署后端联调时，API Base URL 默认为：
+当前已部署后端联调时，API Base URL 固定默认为：
 
 ```text
 http://47.95.238.140:18090
 ```
 
-如果需要改回本机后端调试，可在登录页改为模拟器宿主机地址，例如 `http://10.0.2.2:8080`。
+如果需要改回本机后端调试，可调整 `ApiClient.DEFAULT_BASE_URL` 或在 `ApiClient.init` 中传入自定义地址，例如 `http://10.0.2.2:8080`。
 
 ## 非 P0 / 暂不实现
 

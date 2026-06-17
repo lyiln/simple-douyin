@@ -1,10 +1,15 @@
 package com.example.douyin.ui
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
+import android.provider.OpenableColumns
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,7 +40,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -74,7 +78,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.douyin.R
 import com.example.douyin.data.ApiRepository
-import com.example.douyin.data.MockRepository
+import com.example.douyin.data.PublishAssetRepository
 import com.example.douyin.data.toUiComment
 import com.example.douyin.data.toUiPost
 import com.example.douyin.model.Comment
@@ -92,22 +96,40 @@ import java.net.URL
 @Composable
 fun RealDouyinApp() {
     var isLoggedIn by remember { mutableStateOf(ApiClient.isLoggedIn()) }
+    val defaultUsername = remember { "user_${System.currentTimeMillis().toString().takeLast(6)}" }
+    var authUsername by remember { mutableStateOf(defaultUsername) }
+    var authPassword by remember { mutableStateOf("Passw0rd!") }
+    var authNickname by remember { mutableStateOf("新用户") }
 
     if (isLoggedIn) {
         RealMainScreen(onLoggedOut = { isLoggedIn = false })
     } else {
-        AuthScreen(onAuthenticated = { isLoggedIn = true })
+        AuthScreen(
+            initialUsername = authUsername,
+            initialPassword = authPassword,
+            initialNickname = authNickname,
+            onAuthenticated = { username, password, nickname ->
+                authUsername = username
+                authPassword = password
+                authNickname = nickname
+                isLoggedIn = true
+            }
+        )
     }
 }
 
 @Composable
-private fun AuthScreen(onAuthenticated: () -> Unit) {
+private fun AuthScreen(
+    initialUsername: String,
+    initialPassword: String,
+    initialNickname: String,
+    onAuthenticated: (String, String, String) -> Unit
+) {
     val scope = rememberCoroutineScope()
-    var username by remember { mutableStateOf("demo") }
-    var password by remember { mutableStateOf("Passw0rd!") }
-    var nickname by remember { mutableStateOf("Demo User") }
-    var baseUrl by remember { mutableStateOf(ApiClient.getBaseUrl()) }
-    var registerMode by remember { mutableStateOf(false) }
+    var username by remember { mutableStateOf(initialUsername) }
+    var password by remember { mutableStateOf(initialPassword) }
+    var nickname by remember { mutableStateOf(initialNickname) }
+    var registerMode by remember { mutableStateOf(true) }
     var loading by remember { mutableStateOf(false) }
     var message by remember { mutableStateOf<String?>(null) }
 
@@ -119,24 +141,16 @@ private fun AuthScreen(onAuthenticated: () -> Unit) {
                 .padding(horizontal = 24.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            Text("Simple Douyin", color = Color.White, fontSize = 32.sp, fontWeight = FontWeight.Black)
+            Text("简版抖音", color = Color.White, fontSize = 32.sp, fontWeight = FontWeight.Black)
             Text(
-                "Connect to the Spring Boot API server",
+                "登录后进入推荐视频流",
                 color = Color.White.copy(alpha = 0.62f),
                 fontSize = 14.sp
             )
             OutlinedTextField(
-                value = baseUrl,
-                onValueChange = { baseUrl = it },
-                label = { Text("API Base URL") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White)
-            )
-            OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Username") },
+                label = { Text("用户名") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White)
@@ -144,7 +158,7 @@ private fun AuthScreen(onAuthenticated: () -> Unit) {
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text("密码") },
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
@@ -154,7 +168,7 @@ private fun AuthScreen(onAuthenticated: () -> Unit) {
                 OutlinedTextField(
                     value = nickname,
                     onValueChange = { nickname = it },
-                    label = { Text("Nickname") },
+                    label = { Text("昵称") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White)
@@ -163,24 +177,33 @@ private fun AuthScreen(onAuthenticated: () -> Unit) {
             Button(
                 enabled = !loading,
                 onClick = {
-                    loading = true
-                    message = null
-                    ApiClient.updateBaseUrl(baseUrl)
-                    scope.launch {
-                        val result = if (registerMode) {
-                            ApiRepository.register(
-                                username.trim(),
-                                password,
-                                nickname.ifBlank { username.trim() }
-                            )
-                        } else {
-                            ApiRepository.login(username.trim(), password)
-                        }
-                        loading = false
-                        if (result.isSuccess) {
-                            onAuthenticated()
-                        } else {
-                            message = result.exceptionOrNull()?.message ?: "Authentication failed"
+                    val normalizedUsername = username.trim()
+                    val normalizedNickname = nickname.trim()
+                    when {
+                        normalizedUsername.isBlank() -> message = "请输入用户名"
+                        password.isBlank() -> message = "请输入密码"
+                        registerMode && normalizedNickname.isBlank() -> message = "请输入昵称"
+                        else -> {
+                            loading = true
+                            message = null
+                            scope.launch {
+                                val effectiveNickname = normalizedNickname.ifBlank { normalizedUsername }
+                                val result = if (registerMode) {
+                                    ApiRepository.register(
+                                        normalizedUsername,
+                                        password,
+                                        effectiveNickname
+                                    )
+                                } else {
+                                    ApiRepository.login(normalizedUsername, password)
+                                }
+                                loading = false
+                                if (result.isSuccess) {
+                                    onAuthenticated(normalizedUsername, password, effectiveNickname)
+                                } else {
+                                    message = localizedErrorMessage(result.exceptionOrNull())
+                                }
+                            }
                         }
                     }
                 },
@@ -190,17 +213,17 @@ private fun AuthScreen(onAuthenticated: () -> Unit) {
                 if (loading) {
                     CircularProgressIndicator(color = Color.White, strokeWidth = 2.dp, modifier = Modifier.size(20.dp))
                 } else {
-                    Text(if (registerMode) "Register and enter" else "Login", fontWeight = FontWeight.Bold)
+                    Text(if (registerMode) "注册并进入" else "登录", fontWeight = FontWeight.Bold)
                 }
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    if (registerMode) "Already have an account?" else "Need a demo account?",
+                    if (registerMode) "已有账号？" else "还没有账号？",
                     color = Color.White.copy(alpha = 0.6f),
                     modifier = Modifier.weight(1f)
                 )
                 TextButton(onClick = { registerMode = !registerMode }) {
-                    Text(if (registerMode) "Login" else "Register")
+                    Text(if (registerMode) "去登录" else "去注册")
                 }
             }
             message?.let {
@@ -215,6 +238,7 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
     val scope = rememberCoroutineScope()
     val posts = remember { mutableStateListOf<VideoPost>() }
     val myVideos = remember { mutableStateListOf<VideoPost>() }
+    val publishSources = remember { PublishAssetRepository.assets() }
     val commentsByPost = remember { mutableStateMapOf<String, List<Comment>>() }
     val commentCounts = remember { mutableStateMapOf<String, Int>() }
     val recordedViews = remember { mutableStateMapOf<String, Boolean>() }
@@ -230,14 +254,14 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
     var toast by remember { mutableStateOf<String?>(null) }
 
     fun showError(prefix: String, error: Throwable?) {
-        toast = "$prefix: ${error?.message ?: "unknown error"}"
+        toast = "$prefix：${localizedErrorMessage(error)}"
     }
 
     fun refreshMe() {
         scope.launch {
             val result = ApiRepository.getMe()
             result.onSuccess { me = it.profile }
-                .onFailure { showError("Load profile failed", it) }
+                .onFailure { showError("加载个人信息失败", it) }
         }
     }
 
@@ -254,13 +278,8 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
                 mapped.forEach { post -> commentCounts[post.id] = post.comments }
                 feedCursor = data.nextCursor
                 feedHasMore = data.hasMore
-                if (posts.isEmpty()) {
-                    posts.addAll(MockRepository.initialPosts())
-                    toast = "No recommended videos yet. Showing local demo content."
-                }
             }.onFailure {
-                if (posts.isEmpty()) posts.addAll(MockRepository.initialPosts())
-                showError("Load feed failed", it)
+                showError("加载推荐失败", it)
             }
         }
     }
@@ -276,7 +295,7 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
                 myVideos.addAll(data.items.map { it.toUiPost() })
                 myCursor = data.nextCursor
                 myHasMore = data.hasMore
-            }.onFailure { showError("Load my videos failed", it) }
+            }.onFailure { showError("加载我的作品失败", it) }
         }
     }
 
@@ -317,22 +336,22 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
                             replacePost(posts, post.id) {
                                 it.copy(likes = data.likeCount.toSafeInt(), isLiked = data.liked)
                             }
-                        }.onFailure { showError("Like failed", it) }
+                        }.onFailure { showError("点赞失败", it) }
                     }
                 },
                 onComment = { selectedPost = it }
             )
             RealScreen.Publish -> PublishApiScreen(
-                posts = posts.ifEmpty { MockRepository.initialPosts() },
+                posts = publishSources,
                 onCancel = { screen = RealScreen.Home },
                 onPublished = { post ->
                     posts.add(0, post)
                     myVideos.add(0, post.copy(isOwner = true))
                     refreshMe()
                     screen = RealScreen.Home
-                    toast = "Video published"
+                    toast = "发布成功"
                 },
-                onError = { showError("Publish failed", it) }
+                onError = { showError("发布失败", it) }
             )
             RealScreen.Profile -> ProfileApiScreen(
                 me = me,
@@ -352,8 +371,8 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
                             myVideos.removeAll { it.id == post.id }
                             posts.removeAll { it.id == post.id }
                             refreshMe()
-                            toast = "Video deleted"
-                        }.onFailure { showError("Delete failed", it) }
+                            toast = "已删除作品"
+                        }.onFailure { showError("删除失败", it) }
                     }
                 },
                 onLogout = {
@@ -363,14 +382,15 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
                     }
                 }
             )
-            RealScreen.Health -> HealthApiScreen()
         }
 
-        BottomApiNav(
-            current = screen,
-            onChange = { screen = it },
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
+        if (screen != RealScreen.Publish) {
+            BottomApiNav(
+                current = screen,
+                onChange = { screen = it },
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
+        }
 
         toast?.let { text ->
             ToastPill(text, Modifier.align(Alignment.TopCenter).statusBarsPadding().padding(top = 12.dp))
@@ -394,7 +414,7 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
                             commentsByPost[post.id] = data.items.map { it.toUiComment() }
                             commentCounts[post.id] = data.commentCount.toSafeInt()
                             replacePost(posts, post.id) { it.copy(comments = data.commentCount.toSafeInt()) }
-                        }.onFailure { showError("Load comments failed", it) }
+                        }.onFailure { showError("加载评论失败", it) }
                     }
                 },
                 onSend = { text ->
@@ -406,8 +426,8 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
                             commentsByPost[post.id] = listOf(data.comment.toUiComment()) + current
                             commentCounts[post.id] = data.commentCount.toSafeInt()
                             replacePost(posts, post.id) { it.copy(comments = data.commentCount.toSafeInt()) }
-                            toast = "Comment sent"
-                        }.onFailure { showError("Comment failed", it) }
+                            toast = "评论已发送"
+                        }.onFailure { showError("评论失败", it) }
                     }
                 }
             )
@@ -432,8 +452,8 @@ private fun HomeApiFeed(
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 if (loading) CircularProgressIndicator(color = Color.White)
-                Text("No videos", color = Color.White)
-                Button(onClick = onRefresh) { Text("Refresh") }
+                Text("暂无推荐视频", color = Color.White)
+                Button(onClick = onRefresh) { Text("刷新") }
             }
         }
         return
@@ -530,8 +550,8 @@ private fun FeedHeader(onRefresh: () -> Unit, loading: Boolean, modifier: Modifi
         modifier = modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text("Recommended", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-        TextButton(onClick = onRefresh, enabled = !loading) { Text(if (loading) "Loading" else "Refresh") }
+        Text("推荐", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+        TextButton(onClick = onRefresh, enabled = !loading) { Text(if (loading) "加载中" else "刷新") }
     }
 }
 
@@ -574,7 +594,7 @@ private fun ApiActionRail(
                     .background(if (post.isOwner) Color.White else Color(0xFFFE2C55)),
                 contentAlignment = Alignment.Center
             ) {
-                Text(if (post.isOwner) "me" else "+", color = if (post.isOwner) Color.Black else Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(if (post.isOwner) "我" else "+", color = if (post.isOwner) Color.Black else Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
             }
         }
         ActionButton(
@@ -584,7 +604,6 @@ private fun ApiActionRail(
             iconSize = 48
         )
         ActionButton(R.drawable.ic_feed_comment, formatCount(commentCount), onComment, 42)
-        ActionButton(R.drawable.ic_feed_share, "Share", {}, 46)
     }
 }
 
@@ -598,17 +617,58 @@ private fun PublishApiScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var selectedIndex by remember { mutableIntStateOf(0) }
-    var caption by remember { mutableStateOf("A short video from Android") }
+    var pickedVideo by remember { mutableStateOf<PickedVideo?>(null) }
+    var caption by remember { mutableStateOf("来自安卓客户端的视频") }
     var loading by remember { mutableStateOf(false) }
-    val selected = posts.getOrElse(selectedIndex) { MockRepository.initialPosts().first() }
+    val selected = posts.getOrElse(selectedIndex) { PublishAssetRepository.assets().first() }
+    val videoPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        uri ?: return@rememberLauncherForActivityResult
+        try {
+            context.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        } catch (_: SecurityException) {
+            // 部分系统文件提供方只授予临时读取权限，当前会话内仍可复制上传。
+        }
+        pickedVideo = PickedVideo(
+            uri = uri,
+            name = resolveVideoDisplayName(context, uri),
+            mimeType = context.contentResolver.getType(uri) ?: "video/mp4"
+        )
+    }
+    fun publish() {
+        if (loading || caption.isBlank()) return
+        loading = true
+        scope.launch {
+            val trimmedCaption = caption.trim()
+            val customVideo = pickedVideo
+            val file = if (customVideo != null) {
+                copyPickedVideoToCache(context, customVideo)
+            } else {
+                val localVideoRes = selected.videoRes ?: R.raw.publish_video_placeholder
+                copyRawVideoToCache(
+                    context = context,
+                    rawRes = localVideoRes
+                )
+            }
+            val result = ApiRepository.publishVideoFile(
+                caption = trimmedCaption,
+                videoFile = file,
+                durationMs = if (customVideo == null) 7000 else null,
+                visibility = "public",
+                videoMimeType = customVideo?.mimeType ?: "video/mp4"
+            )
+            loading = false
+            result.onSuccess { onPublished(it.video.toUiPost()) }
+                .onFailure { onError(it) }
+        }
+    }
 
     Scaffold(
         containerColor = Color.Black,
         topBar = {
             Row(Modifier.fillMaxWidth().statusBarsPadding().height(56.dp).padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                TextButton(onClick = onCancel) { Text("Cancel") }
-                Text("Publish", color = Color.White, fontSize = 19.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-                Spacer(Modifier.width(70.dp))
+                TextButton(onClick = ::publish, enabled = !loading && caption.isNotBlank()) { Text("发布") }
+                Text("发布作品", color = Color.White, fontSize = 19.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                TextButton(onClick = onCancel, modifier = Modifier.width(92.dp)) { Text("取消") }
             }
         }
     ) { padding ->
@@ -616,17 +676,46 @@ private fun PublishApiScreen(
             modifier = Modifier.fillMaxSize().padding(padding).padding(bottom = 78.dp).verticalScroll(rememberScrollState()).padding(18.dp),
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
-            Text("Select a bundled video", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text("选择视频", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            FilledTonalButton(
+                onClick = { videoPicker.launch(arrayOf("video/*")) },
+                enabled = !loading,
+                modifier = Modifier.fillMaxWidth().height(48.dp)
+            ) {
+                AssetIcon(R.drawable.ic_app_publish, null, Modifier.size(20.dp))
+                Spacer(Modifier.width(8.dp))
+                Text("从本机选择视频", fontWeight = FontWeight.Bold)
+            }
+            pickedVideo?.let { video ->
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "已选择：${video.name}",
+                        color = Color.White.copy(alpha = 0.78f),
+                        fontSize = 13.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
+                    )
+                    TextButton(onClick = { pickedVideo = null }, enabled = !loading) {
+                        Text("改用内置素材")
+                    }
+                }
+            }
+            Text("内置素材", color = Color.White.copy(alpha = 0.70f), fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
             LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 items(posts.size) { index ->
                     val post = posts[index]
                     Box(
-                        modifier = Modifier.width(112.dp).aspectRatio(9f / 16f).clip(RoundedCornerShape(8.dp)).clickable { selectedIndex = index }
+                        modifier = Modifier.width(112.dp).aspectRatio(9f / 16f).clip(RoundedCornerShape(8.dp)).clickable {
+                            selectedIndex = index
+                            pickedVideo = null
+                        }
                     ) {
                         NetworkBackedImage(post.coverUrl, post.coverRes, null, Modifier.fillMaxSize(), ContentScale.Crop)
-                        Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = if (index == selectedIndex) 0.10f else 0.42f)))
-                        if (index == selectedIndex) {
-                            AssetIcon(R.drawable.ic_app_check, "Selected", Modifier.align(Alignment.TopEnd).padding(8.dp).size(28.dp))
+                        val assetSelected = pickedVideo == null && index == selectedIndex
+                        Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = if (assetSelected) 0.10f else 0.42f)))
+                        if (assetSelected) {
+                            AssetIcon(R.drawable.ic_app_check, "已选中", Modifier.align(Alignment.TopEnd).padding(8.dp).size(28.dp))
                         }
                     }
                 }
@@ -634,35 +723,14 @@ private fun PublishApiScreen(
             OutlinedTextField(
                 value = caption,
                 onValueChange = { caption = it },
-                label = { Text("Caption") },
+                label = { Text("标题") },
                 minLines = 2,
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.White)
             )
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                AssistChip(onClick = {}, label = { Text("Multipart") })
-                AssistChip(onClick = {}, label = { Text("uploads/") })
-            }
             Button(
                 enabled = !loading && caption.isNotBlank(),
-                onClick = {
-                    loading = true
-                    scope.launch {
-                        val file = copyRawVideoToCache(
-                            context = context,
-                            rawRes = selected.videoRes ?: R.raw.publish_video_placeholder
-                        )
-                        val result = ApiRepository.publishVideoFile(
-                            caption = caption.trim(),
-                            videoFile = file,
-                            durationMs = 7000,
-                            visibility = "public"
-                        )
-                        loading = false
-                        result.onSuccess { onPublished(it.video.toUiPost()) }
-                            .onFailure { onError(it) }
-                    }
-                },
+                onClick = ::publish,
                 modifier = Modifier.fillMaxWidth().height(52.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFE2C55))
             ) {
@@ -671,7 +739,7 @@ private fun PublishApiScreen(
                 } else {
                     AssetIcon(R.drawable.ic_app_publish, null, Modifier.size(22.dp))
                     Spacer(Modifier.width(8.dp))
-                    Text("Publish to backend", fontWeight = FontWeight.Bold)
+                    Text("发布", fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -706,23 +774,33 @@ private fun ProfileApiScreen(
                     )
                     Spacer(Modifier.width(14.dp))
                     Column(Modifier.weight(1f)) {
-                        Text(me?.nickname ?: "Loading profile", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                        Text(me?.nickname ?: "加载中", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                         Text("@${me?.username ?: "..."}", color = Color.White.copy(alpha = 0.58f), fontSize = 13.sp)
                     }
-                    TextButton(onClick = onLogout) { Text("Logout") }
+                    TextButton(onClick = onLogout) { Text("退出") }
                 }
             }
             item {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-                    StatBlock((me?.likedCount ?: 0).toString(), "Likes")
-                    StatBlock((me?.videoCount ?: videos.size).toString(), "Videos")
-                    StatBlock(videos.size.toString(), "Loaded")
+                    StatBlock((me?.likedCount ?: 0).toString(), "获赞")
+                    StatBlock((me?.videoCount ?: videos.size).toString(), "作品")
+                    StatBlock(videos.size.toString(), "已加载")
                 }
             }
             item {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("My videos", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                    TextButton(onClick = onRefresh, enabled = !loading) { Text(if (loading) "Loading" else "Refresh") }
+                    Text("我的作品", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                    TextButton(onClick = onRefresh, enabled = !loading) { Text(if (loading) "加载中" else "刷新") }
+                }
+            }
+            if (videos.isEmpty() && !loading) {
+                item {
+                    Text(
+                        "暂无作品",
+                        color = Color.White.copy(alpha = 0.58f),
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
             items(videos) { post ->
@@ -731,7 +809,7 @@ private fun ProfileApiScreen(
             if (hasMore) {
                 item {
                     FilledTonalButton(onClick = onLoadMore, enabled = !loading, modifier = Modifier.fillMaxWidth()) {
-                        Text(if (loading) "Loading" else "Load more")
+                        Text(if (loading) "加载中" else "加载更多")
                     }
                 }
             }
@@ -753,51 +831,9 @@ private fun MyVideoRow(post: VideoPost, onDelete: () -> Unit) {
         Column(Modifier.weight(1f)) {
             Text(post.caption, color = Color.White, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
             Spacer(Modifier.height(6.dp))
-            Text("${formatCount(post.likes)} likes · ${formatCount(post.comments)} comments", color = Color.White.copy(alpha = 0.52f), fontSize = 12.sp)
+            Text("${formatCount(post.likes)} 赞 · ${formatCount(post.comments)} 评论", color = Color.White.copy(alpha = 0.52f), fontSize = 12.sp)
         }
-        TextButton(onClick = onDelete) { Text("Delete") }
-    }
-}
-
-@Composable
-private fun HealthApiScreen() {
-    val scope = rememberCoroutineScope()
-    var loading by remember { mutableStateOf(false) }
-    var status by remember { mutableStateOf("Not checked") }
-    var components by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
-
-    fun check() {
-        loading = true
-        scope.launch {
-            val result = ApiRepository.healthCheck()
-            loading = false
-            result.onSuccess {
-                status = it.status
-                components = it.components
-            }.onFailure {
-                status = it.message ?: "Health check failed"
-                components = emptyMap()
-            }
-        }
-    }
-
-    LaunchedEffect(Unit) { check() }
-
-    Column(
-        Modifier.fillMaxSize().background(Color.Black).statusBarsPadding().navigationBarsPadding().padding(horizontal = 18.dp).padding(bottom = 82.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Text("Health", color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold)
-        Text(status, color = if (status == "UP") Color(0xFF30D158) else Color.White.copy(alpha = 0.72f), fontSize = 18.sp)
-        components.forEach { (key, value) ->
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text(key, color = Color.White, modifier = Modifier.weight(1f))
-                Text(value, color = if (value == "UP") Color(0xFF30D158) else Color(0xFFFF7A8A), fontWeight = FontWeight.Bold)
-            }
-        }
-        Button(onClick = ::check, enabled = !loading, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFE2C55))) {
-            Text(if (loading) "Checking" else "Check again")
-        }
+        TextButton(onClick = onDelete) { Text("删除") }
     }
 }
 
@@ -823,10 +859,20 @@ private fun CommentApiSheet(
             Column(Modifier.fillMaxSize().padding(horizontal = 18.dp)) {
                 Row(Modifier.fillMaxWidth().padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                     Spacer(Modifier.width(64.dp))
-                    Text("$count comments", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-                    TextButton(onClick = onDismiss, modifier = Modifier.width(64.dp)) { Text("Close") }
+                    Text("${count} 条评论", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                    TextButton(onClick = onDismiss, modifier = Modifier.width(64.dp)) { Text("关闭") }
                 }
                 LazyColumn(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                    if (comments.isEmpty()) {
+                        item {
+                            Text(
+                                "暂无评论",
+                                color = Color.White.copy(alpha = 0.58f),
+                                modifier = Modifier.fillMaxWidth().padding(top = 24.dp),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
                     items(comments) { comment ->
                         Row {
                             Box(Modifier.size(38.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.12f)), contentAlignment = Alignment.Center) {
@@ -845,7 +891,7 @@ private fun CommentApiSheet(
                     OutlinedTextField(
                         value = text,
                         onValueChange = { text = it },
-                        placeholder = { Text("Comment on ${post.author}") },
+                        placeholder = { Text("说点什么...") },
                         modifier = Modifier.weight(1f),
                         singleLine = true,
                         textStyle = MaterialTheme.typography.bodyMedium.copy(color = Color.White)
@@ -857,7 +903,7 @@ private fun CommentApiSheet(
                             onSend(content)
                         }
                     }) {
-                        AssetIcon(R.drawable.ic_app_send, "Send comment", Modifier.size(28.dp))
+                        AssetIcon(R.drawable.ic_app_send, "发送评论", Modifier.size(28.dp))
                     }
                 }
             }
@@ -868,15 +914,14 @@ private fun CommentApiSheet(
 @Composable
 private fun BottomApiNav(current: RealScreen, onChange: (RealScreen) -> Unit, modifier: Modifier = Modifier) {
     val items = listOf(
-        RealScreen.Home to "Home",
-        RealScreen.Publish to "Publish",
-        RealScreen.Profile to "Mine",
-        RealScreen.Health to "Health"
+        RealScreen.Home to "首页",
+        RealScreen.Publish to "发布",
+        RealScreen.Profile to "我的"
     )
     Surface(modifier = modifier.fillMaxWidth(), color = Color.Black.copy(alpha = 0.76f)) {
         Row(
             modifier = Modifier.navigationBarsPadding().height(64.dp).padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
             items.forEach { (screen, label) ->
@@ -958,8 +1003,26 @@ private fun ToastPill(text: String, modifier: Modifier = Modifier) {
 private enum class RealScreen {
     Home,
     Publish,
-    Profile,
-    Health
+    Profile
+}
+
+private data class PickedVideo(
+    val uri: Uri,
+    val name: String,
+    val mimeType: String
+)
+
+private fun localizedErrorMessage(error: Throwable?): String {
+    val raw = error?.message?.trim().orEmpty()
+    if (raw.isBlank()) return "未知错误"
+    return when (raw.lowercase()) {
+        "internal server error" -> "服务器内部错误"
+        "invalid parameter" -> "参数不正确"
+        "unauthorized" -> "请重新登录"
+        "username already exists" -> "用户名已存在"
+        "network request failed" -> "网络请求失败"
+        else -> raw
+    }
 }
 
 private fun replacePost(posts: MutableList<VideoPost>, id: String, update: (VideoPost) -> VideoPost) {
@@ -976,6 +1039,34 @@ private suspend fun copyRawVideoToCache(
         file.outputStream().use { output -> input.copyTo(output) }
     }
     file
+}
+
+private suspend fun copyPickedVideoToCache(
+    context: Context,
+    video: PickedVideo
+): File = withContext(Dispatchers.IO) {
+    val file = File(context.cacheDir, video.name.safeUploadFileName())
+    context.contentResolver.openInputStream(video.uri).use { input ->
+        requireNotNull(input) { "无法读取所选视频" }
+        file.outputStream().use { output -> input.copyTo(output) }
+    }
+    file
+}
+
+private fun resolveVideoDisplayName(context: Context, uri: Uri): String {
+    context.contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
+        val index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+        if (index >= 0 && cursor.moveToFirst()) {
+            val name = cursor.getString(index)
+            if (!name.isNullOrBlank()) return name
+        }
+    }
+    return "本机视频-${System.currentTimeMillis()}.mp4"
+}
+
+private fun String.safeUploadFileName(): String {
+    val sanitized = trim().replace(Regex("[^A-Za-z0-9._-]"), "_").ifBlank { "picked-video.mp4" }
+    return if (sanitized.contains(".")) sanitized else "$sanitized.mp4"
 }
 
 private fun Long.toSafeInt(): Int = coerceAtMost(Int.MAX_VALUE.toLong()).toInt()

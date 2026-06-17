@@ -9,10 +9,11 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import java.io.File
 
 /**
- * 真实 API 数据仓库，替换 MockRepository。
+ * 面向真实后端的 API 数据仓库。
  * 所有网络请求在 IO 线程执行，通过回调返回结果。
  */
 object ApiRepository {
@@ -82,31 +83,16 @@ object ApiRepository {
 
     // ======================== Publish ========================
 
-    suspend fun publishVideo(
-        caption: String,
-        videoUrl: String,
-        coverUrl: String? = null,
-        durationMs: Int? = null,
-        visibility: String = "public"
-    ): Result<CreateVideoData> {
-        return apiCall {
-            val response = ApiClient.apiService!!.publishVideo(
-                PublishVideoRequest(caption, videoUrl, coverUrl, durationMs, visibility)
-            )
-            requireSuccess(response)
-            response.body()!!.data!!
-        }
-    }
-
     suspend fun publishVideoFile(
         caption: String,
         videoFile: File,
         coverFile: File? = null,
         durationMs: Int? = null,
-        visibility: String = "public"
+        visibility: String = "public",
+        videoMimeType: String = "video/mp4"
     ): Result<CreateVideoData> {
         return apiCall {
-            val videoBody = videoFile.asRequestBody("video/mp4".toMediaType())
+            val videoBody = videoFile.asRequestBody(videoMimeType.toMediaType())
             val videoPart = MultipartBody.Part.createFormData("videoFile", videoFile.name, videoBody)
             val coverPart = coverFile?.let {
                 MultipartBody.Part.createFormData(
@@ -207,9 +193,18 @@ object ApiRepository {
 
     private fun <T> requireSuccess(response: retrofit2.Response<ApiResponseWrapper<T>>) {
         if (!response.isSuccessful || response.body() == null) {
+            val errorBody = response.errorBody()?.string()
+            val parsedError = errorBody?.let {
+                runCatching { JSONObject(it) }.getOrNull()
+            }
+            val apiCode = parsedError?.optInt("code", response.code()) ?: response.code()
+            val apiMessage = parsedError
+                ?.optString("message")
+                ?.takeIf { it.isNotBlank() }
+                ?: "HTTP ${response.code()}: ${response.message()}"
             throw ApiException(
-                code = response.code(),
-                message = "HTTP ${response.code()}: ${response.message()}"
+                code = apiCode,
+                message = apiMessage
             )
         }
         val body = response.body()!!

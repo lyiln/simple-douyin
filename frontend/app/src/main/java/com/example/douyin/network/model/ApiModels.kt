@@ -88,15 +88,6 @@ data class MyVideosData(
     val hasMore: Boolean
 )
 
-/** 发布视频请求（JSON 方式） */
-data class PublishVideoRequest(
-    val caption: String,
-    val videoUrl: String,
-    val coverUrl: String?,
-    val durationMs: Int?,
-    val visibility: String
-)
-
 /** 发布视频响应 */
 data class CreateVideoData(
     val video: VideoPostResponse

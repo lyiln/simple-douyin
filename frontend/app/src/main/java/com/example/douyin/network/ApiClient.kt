@@ -53,7 +53,12 @@ object ApiClient {
     fun resolveUrl(value: String?): String? {
         if (value.isNullOrBlank()) return null
         val trimmed = value.trim()
-        if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+        if (trimmed.startsWith("http://")
+            || trimmed.startsWith("https://")
+            || trimmed.startsWith("android.resource://")
+            || trimmed.startsWith("content://")
+            || trimmed.startsWith("file://")
+        ) {
             return trimmed
         }
         val path = trimmed.removePrefix("/")

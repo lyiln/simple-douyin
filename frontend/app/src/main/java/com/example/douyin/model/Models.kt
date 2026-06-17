@@ -30,20 +30,3 @@ data class Comment(
     val content: String,
     val time: String
 )
-
-data class ChatPreview(
-    val title: String,
-    val message: String,
-    val time: String,
-    @DrawableRes val avatarRes: Int,
-    val unread: Int = 0
-)
-
-enum class AppScreen {
-    Home,
-    Friends,
-    Publish,
-    Messages,
-    Profile,
-    Search
-}

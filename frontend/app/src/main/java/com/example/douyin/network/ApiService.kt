@@ -32,10 +32,6 @@ interface ApiService {
         @Query("limit") limit: Int? = null
     ): Response<ApiResponseWrapper<MyVideosData>>
 
-    @POST("api/v1/videos")
-    @Headers("Content-Type: application/json")
-    suspend fun publishVideo(@Body request: PublishVideoRequest): Response<ApiResponseWrapper<CreateVideoData>>
-
     @Multipart
     @POST("api/v1/videos")
     suspend fun publishVideoMultipart(

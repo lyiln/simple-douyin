@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        // Initialize API client. The default base URL points to the deployed backend.
+        // 初始化真实后端 API 客户端，默认连接已部署服务。
         ApiClient.init(applicationContext)
 
         setContent {
