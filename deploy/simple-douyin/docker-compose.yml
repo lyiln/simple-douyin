@@ -1,0 +1,62 @@
+services:
+  simple-douyin-mysql:
+    image: mysql:8.0
+    container_name: simple-douyin-mysql
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - simple-douyin-mysql-data:/var/lib/mysql
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    networks:
+      - simple-douyin-net
+    expose:
+      - "3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  simple-douyin-recommend-service:
+    image: simple-douyin-recommend-service:prod
+    container_name: simple-douyin-recommend-service
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      simple-douyin-mysql:
+        condition: service_healthy
+    networks:
+      - simple-douyin-net
+    expose:
+      - "8081"
+      - "9090"
+
+  simple-douyin-api-server:
+    image: simple-douyin-api-server:prod
+    container_name: simple-douyin-api-server
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      simple-douyin-mysql:
+        condition: service_healthy
+      simple-douyin-recommend-service:
+        condition: service_started
+    ports:
+      - "18090:8080"
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - simple-douyin-net
+
+networks:
+  simple-douyin-net:
+    name: simple-douyin-net
+    driver: bridge
+
+volumes:
+  simple-douyin-mysql-data:
+    name: simple-douyin-mysql-data

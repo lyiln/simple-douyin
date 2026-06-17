@@ -1,0 +1,9 @@
+FROM eclipse-temurin:17-jre
+
+WORKDIR /app
+
+COPY backend/recommend-service/target/recommend-service-0.1.0-SNAPSHOT-exec.jar /app/recommend-service.jar
+
+EXPOSE 8081 9090
+
+CMD ["java", "-jar", "/app/recommend-service.jar"]
