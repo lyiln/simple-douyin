@@ -58,3 +58,8 @@ desktop.ini
 # Local uploaded media
 uploads/*
 !uploads/.gitkeep
+
+# simple-douyin deployment generated files
+deploy/simple-douyin/images/
+deploy/simple-douyin/.env
+*.tar

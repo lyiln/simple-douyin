@@ -49,7 +49,14 @@ public class RecommendServiceApplication implements ApplicationRunner {
                 server.awaitTermination(3, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                log.warn("Interrupted while waiting for gRPC server shutdown", e);
             }
         }));
+        try {
+            server.awaitTermination();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.warn("Interrupted while waiting for gRPC server termination", e);
+        }
     }
 }

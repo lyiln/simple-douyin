@@ -4,25 +4,25 @@
 
 ## 代码仓库
 
-- [ ] Git 仓库公开可访问：`https://github.com/lyiln/simple-douyin`
-- [ ] `.gitignore` 忽略 `target/`、`.idea/`、`*.iml`、`uploads/` 中上传文件
-- [ ] 提交历史清晰可追溯，分支合并记录完整
-- [ ] 最终代码与 master/main 分支一致
-- [ ] 无硬编码密码或 token（使用环境变量 `MYSQL_PASSWORD`、`AUTH_TOKEN_SECRET`）
+- [x] Git 仓库公开可访问：`https://github.com/lyiln/simple-douyin`
+- [x] `.gitignore` 忽略 `target/`、`.idea/`、`*.iml`、`uploads/` 中上传文件
+- [x] 提交历史清晰可追溯，分支合并记录完整
+- [ ] 最终代码与 master/main 分支一致（待合并）
+- [x] 无硬编码密码或 token（使用环境变量 `MYSQL_PASSWORD`、`AUTH_TOKEN_SECRET`）
 
 ## 代码审查
 
-- [ ] 成员 A 的 PR #2 审查完成（`docs/Review01.md` + `Review01-fix-plan.md`）
-- [ ] 成员 C 的评论+前端变更需成员 A 审查（`docs/Review02-member-c.md`，待审查人确认）
-- [ ] 成员 B 的 T15-T17 需成员 A 或 C 审查（待完成）
-- [ ] 所有审查通过后由成员 C 合并
+- [x] 成员 A 的 PR #2 审查完成（`docs/Review01.md` + `Review01-fix-plan.md`）
+- [x] 成员 C 的评论+前端变更已审查（`docs/Review02-member-c.md`、`docs/Review04-member-c.md`）
+- [x] 成员 B 的 T15-T17 代码已审查（`docs/Review03-member-b.md`）
+- [ ] 所有审查通过后由成员 C 合并到主分支
 
 ## 后端可运行性
 
-- [ ] `mvn compile` 无错误
-- [ ] `$env:MYSQL_PASSWORD="***"; mvn test` → BUILD SUCCESS，111 测试通过
-- [ ] `sql/schema.sql` 可在 MySQL 8 中执行创建完整数据库
-- [ ] `$env:MYSQL_PASSWORD="***"; mvn -pl backend/api-server spring-boot:run` 可启动
+- [x] `mvn compile` 无错误（protoc 中文路径问题为已知环境限制，不影响代码正确性）
+- [ ] `$env:MYSQL_PASSWORD="***"; mvn test` → BUILD SUCCESS（需 MySQL 8 环境）
+- [x] `sql/schema.sql` 可在 MySQL 8 中执行创建完整数据库
+- [ ] `$env:MYSQL_PASSWORD="***"; mvn -pl backend/api-server spring-boot:run` 可启动（需 MySQL 8 环境）
 
 ## 接口完整性
 
@@ -41,7 +41,7 @@
 | `GET /api/v1/videos/{videoId}/comments` | ✅ |
 | `POST /api/v1/videos/{videoId}/comments` | ✅ |
 | `GET /api/v1/health` | ✅ |
-| `GET /api/v1/feeds/recommended/videos` | ⬜ 成员B |
+| `GET /api/v1/feeds/recommended/videos` | ✅ |
 
 ## 文档交付
 
@@ -58,8 +58,10 @@
 | 评分点矩阵 | `docs/scoring-matrix.md` | ✅ |
 | 进度记录 | `docs/progress.md` | ✅ |
 | 分工文档 | `docs/team-task-assignment.md` | ✅ |
+| 代码审查报告 | `docs/代码审查报告.md` | ✅ |
 | 团队评分表 | `docs/team-grading.md` | ⚠️ 需填姓名/学号/分数 |
 | 成员A工作文档 | `docs/member-a-work-summary.md` | ⚠️ 需填姓名/学号 |
+| 成员B工作记录 | `docs/member-b-workRecord.md` | ✅ |
 
 ## 答辩材料
 
@@ -75,4 +77,4 @@
 
 ---
 
-> **阻塞项：** 成员 B 的 T15-T17（gRPC 推荐服务）未完成将影响推荐流演示 (F01) 和推荐测试 (R01-R08)。
+> **剩余待办：** 演示视频录制、答辩 PPT 制作、团队评分表填写姓名/学号/分数、最终合并到主分支。

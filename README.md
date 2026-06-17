@@ -49,7 +49,10 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | T22 日志测试 | 已完成（成员A） | requestId、userId、path、statusCode、businessCode、durationMs 记录验证通过。 |
 | T23-T25 评论闭环 | 已完成（成员C） | 评论列表、发表评论及测试，最终演示必做。 |
 | T26-T27 前端联调 | 已完成（成员C） | Android Demo 已添加 Retrofit 网络层、ApiClient/ApiService/ApiRepository，评论功能支持真实 API 对接（登录状态下优先 API，否则回退本地 mock）。 |
-| T28-T31 验收与交付 | 未完成（成员C） | 评分点矩阵、文档、PPT、演示视频和最终提交检查。 |
+| T28 评分点验收 | 已完成（成员C） | `scoring-matrix.md` 17/17 评分点全部验收通过。 |
+| T29 文档完善 | 已完成（成员C） | README、final-checklist.md、代码审查报告已更新。 |
+| T30 答辩材料 | 部分完成（成员C） | 团队分工/评分表结构已完成，PPT/演示视频待制作。 |
+| T31 最终检查 | 部分完成（成员C） | 检查清单已创建，待最终合并。 |
 
 ## 已实现接口
 
