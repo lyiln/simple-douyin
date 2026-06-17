@@ -12,6 +12,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
@@ -352,7 +354,7 @@ public class VideoRepository {
                 resultSet.getString("caption"),
                 resultSet.getString("video_url"),
                 resultSet.getString("cover_url"),
-                (Integer) resultSet.getObject("duration_ms"),
+                nullableInteger(resultSet, "duration_ms"),
                 resultSet.getLong("like_count"),
                 resultSet.getLong("view_count"),
                 resultSet.getLong("comment_count"),
@@ -377,6 +379,17 @@ public class VideoRepository {
             }
         }
         throw new IllegalStateException("Video ID was not generated");
+    }
+
+    private static Integer nullableInteger(ResultSet resultSet, String columnName) throws SQLException {
+        Object value = resultSet.getObject(columnName);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof Number number) {
+            return number.intValue();
+        }
+        return Integer.valueOf(value.toString());
     }
 
     private LocalDateTime toLocalDateTime(Timestamp timestamp) {
