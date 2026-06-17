@@ -63,7 +63,10 @@ public class CommentService {
         try {
             comment = commentRepository.create(videoId, currentUserId, content);
         } catch (IllegalStateException e) {
-            throw new BusinessException(ErrorCode.VIDEO_NOT_FOUND);
+            if (e.getMessage() != null && e.getMessage().startsWith("video not found or deleted")) {
+                throw new BusinessException(ErrorCode.VIDEO_NOT_FOUND);
+            }
+            throw e;
         }
 
         // 获取最新评论数

@@ -1,6 +1,8 @@
 package com.simpledouyin.api.comment.service;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,6 +20,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import com.simpledouyin.api.comment.dto.GetCommentsResponse;
 import com.simpledouyin.api.comment.dto.PostCommentRequest;
 import com.simpledouyin.api.comment.dto.PostCommentResponse;
@@ -29,14 +33,12 @@ import com.simpledouyin.api.common.ErrorCode;
 import com.simpledouyin.api.common.RequestContext;
 import com.simpledouyin.api.video.repository.VideoRepository;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 class CommentServiceTest {
 
     private CommentRepository commentRepository;
     private VideoRepository videoRepository;
     private CommentService commentService;
-    private HttpServletRequest request;
+    private MockHttpServletRequest request;
 
     private static final long USER_ID = 1001L;
     private static final long VIDEO_ID = 2001L;
@@ -47,7 +49,7 @@ class CommentServiceTest {
         videoRepository = mock(VideoRepository.class);
         commentService = new CommentService(commentRepository, videoRepository);
 
-        request = mock(HttpServletRequest.class);
+        request = new MockHttpServletRequest();
         RequestContext.setCurrentUserId(request, USER_ID);
     }
 
@@ -64,6 +66,18 @@ class CommentServiceTest {
                 .isInstanceOfSatisfying(BusinessException.class, ex ->
                         assertThat(ex.errorCode()).isEqualTo(ErrorCode.VIDEO_NOT_FOUND)
                 );
+    }
+
+    @Test
+    void postCommentUnexpectedIllegalStateExceptionIsNotSwallowed() {
+        when(commentRepository.create(eq(VIDEO_ID), eq(USER_ID), anyString()))
+                .thenThrow(new IllegalStateException("Comment ID was not generated"));
+
+        assertThatThrownBy(() ->
+                commentService.postComment(request, VIDEO_ID, new PostCommentRequest("好视频！"))
+        )
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Comment ID was not generated");
     }
 
     @Test
@@ -120,12 +134,14 @@ class CommentServiceTest {
     @Test
     void getCommentsEmptyListWithCursorDoesNotCallVideoExists() {
         // 非首页（有游标）即使返回空也不应校验视频存在
-        CommentPageCursor cursor = new CommentPageCursor(LocalDateTime.now(), 3000L);
+        LocalDateTime cursorTime = LocalDateTime.of(2026, 6, 15, 10, 0, 0);
+        String encodedCursor = Base64.getUrlEncoder().withoutPadding()
+                .encodeToString(("2026-06-15T10:00:00|3000").getBytes(StandardCharsets.UTF_8));
         when(commentRepository.findByVideoId(eq(VIDEO_ID), any(CommentPageCursor.class), anyInt()))
                 .thenReturn(Collections.emptyList());
         when(commentRepository.countByVideoId(VIDEO_ID)).thenReturn(0L);
 
-        GetCommentsResponse response = commentService.getComments(request, VIDEO_ID, "dummy-cursor", null);
+        GetCommentsResponse response = commentService.getComments(request, VIDEO_ID, encodedCursor, null);
 
         assertThat(response.items()).isEmpty();
         // 非首页不调用 videoExists
