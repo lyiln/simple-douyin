@@ -1,11 +1,15 @@
 package com.example.douyin.data
 
 import android.util.Log
-import com.example.douyin.model.VideoPost
 import com.example.douyin.network.ApiClient
 import com.example.douyin.network.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 /**
  * 真实 API 数据仓库，替换 MockRepository。
@@ -20,7 +24,7 @@ object ApiRepository {
 
     suspend fun login(username: String, password: String): Result<AuthData> {
         return apiCall {
-            val response = ApiClient.apiService!!.login(AuthRequest(username, password))
+            val response = ApiClient.apiService!!.login(LoginRequest(username, password))
             requireSuccess(response)
             val data = response.body()!!.data!!
             ApiClient.setToken(data.accessToken)
@@ -28,9 +32,9 @@ object ApiRepository {
         }
     }
 
-    suspend fun register(username: String, password: String): Result<AuthData> {
+    suspend fun register(username: String, password: String, nickname: String): Result<AuthData> {
         return apiCall {
-            val response = ApiClient.apiService!!.register(AuthRequest(username, password))
+            val response = ApiClient.apiService!!.register(RegisterRequest(username, password, nickname))
             requireSuccess(response)
             val data = response.body()!!.data!!
             ApiClient.setToken(data.accessToken)
@@ -88,6 +92,35 @@ object ApiRepository {
         return apiCall {
             val response = ApiClient.apiService!!.publishVideo(
                 PublishVideoRequest(caption, videoUrl, coverUrl, durationMs, visibility)
+            )
+            requireSuccess(response)
+            response.body()!!.data!!
+        }
+    }
+
+    suspend fun publishVideoFile(
+        caption: String,
+        videoFile: File,
+        coverFile: File? = null,
+        durationMs: Int? = null,
+        visibility: String = "public"
+    ): Result<CreateVideoData> {
+        return apiCall {
+            val videoBody = videoFile.asRequestBody("video/mp4".toMediaType())
+            val videoPart = MultipartBody.Part.createFormData("videoFile", videoFile.name, videoBody)
+            val coverPart = coverFile?.let {
+                MultipartBody.Part.createFormData(
+                    "coverFile",
+                    it.name,
+                    it.asRequestBody("image/webp".toMediaType())
+                )
+            }
+            val response = ApiClient.apiService!!.publishVideoMultipart(
+                caption = caption.textPart(),
+                videoFile = videoPart,
+                coverFile = coverPart,
+                durationMs = durationMs?.toString()?.textPart(),
+                visibility = visibility.textPart()
             )
             requireSuccess(response)
             response.body()!!.data!!
@@ -198,6 +231,8 @@ object ApiRepository {
             }
         }
     }
+
+    private fun String.textPart() = toRequestBody("text/plain".toMediaType())
 }
 
 class ApiException(val code: Int, override val message: String) : Exception(message)

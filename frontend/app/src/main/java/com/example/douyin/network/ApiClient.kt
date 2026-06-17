@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit
  */
 object ApiClient {
 
-    /** Android 模拟器访问本机后端的默认地址 */
-    private const val DEFAULT_BASE_URL = "http://10.0.2.2:8080/"
+    /** Default deployed API server address. */
+    private const val DEFAULT_BASE_URL = "http://47.95.238.140:18090/"
 
     private var baseUrl: String = DEFAULT_BASE_URL
     private var token: String? = null
@@ -27,7 +27,7 @@ object ApiClient {
 
     fun init(context: Context, customBaseUrl: String? = null) {
         if (customBaseUrl != null) {
-            baseUrl = customBaseUrl
+            baseUrl = normalizeBaseUrl(customBaseUrl)
         }
         preferences = context.getSharedPreferences("simple_douyin_prefs", Context.MODE_PRIVATE)
         token = preferences?.getString("access_token", null)
@@ -47,6 +47,18 @@ object ApiClient {
     fun getToken(): String? = token
 
     fun isLoggedIn(): Boolean = !token.isNullOrBlank()
+
+    fun getBaseUrl(): String = baseUrl
+
+    fun resolveUrl(value: String?): String? {
+        if (value.isNullOrBlank()) return null
+        val trimmed = value.trim()
+        if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+            return trimmed
+        }
+        val path = trimmed.removePrefix("/")
+        return normalizeBaseUrl(baseUrl) + path
+    }
 
     private fun buildRetrofit() {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -79,7 +91,12 @@ object ApiClient {
     }
 
     fun updateBaseUrl(newBaseUrl: String) {
-        baseUrl = newBaseUrl
+        baseUrl = normalizeBaseUrl(newBaseUrl)
         buildRetrofit()
+    }
+
+    private fun normalizeBaseUrl(value: String): String {
+        val trimmed = value.trim()
+        return if (trimmed.endsWith("/")) trimmed else "$trimmed/"
     }
 }

@@ -14,23 +14,27 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import com.example.douyin.network.ApiClient
 
 @Composable
 fun LocalVideoPlayer(
-    @RawRes videoRes: Int,
+    @RawRes videoRes: Int? = null,
+    videoUrl: String? = null,
     isActive: Boolean,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val player = remember(videoRes) {
+    val mediaUri = remember(videoRes, videoUrl) {
+        ApiClient.resolveUrl(videoUrl)?.let(Uri::parse)
+            ?: videoRes?.let { Uri.parse("android.resource://${context.packageName}/$it") }
+    }
+    val player = remember(mediaUri) {
         ExoPlayer.Builder(context).build().apply {
             repeatMode = Player.REPEAT_MODE_ONE
-            setMediaItem(
-                MediaItem.fromUri(
-                    Uri.parse("android.resource://${context.packageName}/$videoRes")
-                )
-            )
-            prepare()
+            mediaUri?.let {
+                setMediaItem(MediaItem.fromUri(it))
+                prepare()
+            }
         }
     }
 

@@ -176,15 +176,15 @@ git diff --name-only -- frontend
 
 ## 前端说明
 
-`frontend/` 当前是 Android 前端 Demo。README 只说明当前仓库状态，不声称前端已经完成真实后端联调。
+`frontend/` 当前是 Android 前端 Demo，已接入真实后端 API，登录页仍支持手动修改 API Base URL。
 
-后续 Android 模拟器联调本机后端时，通常需要把 API Base URL 配置为：
+当前已部署后端联调时，API Base URL 默认为：
 
 ```text
-http://10.0.2.2:8080
+http://47.95.238.140:18090
 ```
 
-如果在真机上调试，需要使用电脑在局域网中的实际 IP 地址。
+如果需要改回本机后端调试，可在登录页改为模拟器宿主机地址，例如 `http://10.0.2.2:8080`。
 
 ## 非 P0 / 暂不实现
 

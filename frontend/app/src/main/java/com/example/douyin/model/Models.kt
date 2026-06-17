@@ -13,9 +13,16 @@ data class VideoPost(
     val likes: Int,
     val comments: Int,
     val shares: Int,
-    @RawRes val videoRes: Int,
+    @RawRes val videoRes: Int? = null,
     @DrawableRes val coverRes: Int,
-    @DrawableRes val avatarRes: Int
+    @DrawableRes val avatarRes: Int,
+    val videoUrl: String? = null,
+    val coverUrl: String? = null,
+    val avatarUrl: String? = null,
+    val isOwner: Boolean = false,
+    val isViewed: Boolean = false,
+    val isLiked: Boolean = false,
+    val remoteId: Long? = id.toLongOrNull()
 )
 
 data class Comment(

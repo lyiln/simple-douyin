@@ -22,7 +22,7 @@ https://api.example.com/api/v1
 开发环境可替换为：
 
 ```text
-http://10.0.2.2:8080/api/v1
+http://47.95.238.140:18090/api/v1
 ```
 
 ### 2.2 REST 资源风格
