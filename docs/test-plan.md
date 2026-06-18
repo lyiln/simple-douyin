@@ -198,7 +198,7 @@ Tests run: 111, Failures: 0, Errors: 0, Skipped: 0
 | N09 | 重复删除 | VideoServiceTest | ✅ |
 | N10 | 点赞视频 | LikeControllerTest | ✅ |
 | N11 | 取消点赞 | LikeControllerTest | ✅ |
-| N12 | 推荐流 | ⬜ 依赖成员B T15-T17 | ⬜ |
+| N12 | 推荐流 | FeedControllerTest | ✅ |
 | N13 | 记录访问 | ViewControllerTest | ✅ |
 | N14 | 健康检查 | HealthControllerTest | ✅ |
 | I01 | 重复点赞 | LikeControllerTest / VideoRepositoryTest | ✅ |
@@ -207,12 +207,12 @@ Tests run: 111, Failures: 0, Errors: 0, Skipped: 0
 | I04 | 重复删除 | VideoRepositoryTest | ✅ |
 | E01-E10 | 异常用例 | 各 Controller Test | ✅ |
 | P01-P08 | 权限测试 | LikeControllerTest / ViewControllerTest / CommentControllerTest | ✅ |
-| R01-R08 | 推荐规则测试 | ⬜ 依赖成员B T20 | ⬜ |
+| R01-R08 | 推荐规则测试 | RecommendRepositoryTest / FeedControllerTest | ✅ |
 | L01-L07 | 日志测试 | LikeControllerTest / ViewControllerTest / CommentControllerTest / HealthControllerTest | ✅ |
 | H01-H04 | 健康检查测试 | HealthControllerTest | ✅ |
 | C01-C06 | 评论测试 | CommentControllerTest | ✅ |
 | D01-D04 | 数据库测试 | VideoRepositoryTest (真实 MySQL) | ✅ |
-| F01-F04 | 前端演示链路 | ⬜ 依赖成员B T15-T17 + 完整联调 | ⬜ |
+| F01-F04 | 前端演示链路 | Android 端到端 + Web 补充端 | ✅ |
 
 ### 14.3 环境信息
 
@@ -225,4 +225,4 @@ Tests run: 111, Failures: 0, Errors: 0, Skipped: 0
 | JUnit | 5 (via Spring Boot) |
 | Mockito | via spring-boot-starter-test |
 
-> **说明：** 推荐流 (N12) 和推荐规则测试 (R01-R08, T20) 依赖成员 B 的 T15-T17，尚未执行。前端演示链路 (F01-F04) 完整联调也需等待推荐服务就绪。评论 (C01-C06) 和前端联调 (T26-T27) 由成员 C 已完成。
+> **说明：** 推荐流 (N12) 和推荐规则测试 (R01-R08, T20) 由成员 B 完成（FeedControllerTest 10 用例 + RecommendRepositoryTest 7 用例）。前端演示链路 (F01-F04) 由成员 C 完成 Android/Web 联调。评论 (C01-C06) 由成员 C 完成。
