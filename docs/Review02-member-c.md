@@ -99,7 +99,7 @@
 | 网络权限 | ✅ | `AndroidManifest.xml` 添加 INTERNET + usesCleartextTraffic |
 | Token 管理 | ✅ | `ApiClient` 通过 SharedPreferences 持久化 |
 | 评论 API 对接 | ✅ | `DouyinApp.kt` 评论双模式（API 优先 + mock 回退） |
-| Base URL 配置 | ✅ | 默认 `http://10.0.2.2:8080/`（模拟器），可自定义 |
+| Base URL 配置 | ✅ | 默认 `http://47.95.238.140:18090/`（已部署后端），可自定义 |
 
 ---
 

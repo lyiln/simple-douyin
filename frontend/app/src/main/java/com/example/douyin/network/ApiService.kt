@@ -1,6 +1,8 @@
 package com.example.douyin.network
 
 import com.example.douyin.network.model.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -9,10 +11,10 @@ interface ApiService {
     // ======================== Auth ========================
 
     @POST("api/v1/auth/register")
-    suspend fun register(@Body request: AuthRequest): Response<ApiResponseWrapper<AuthData>>
+    suspend fun register(@Body request: RegisterRequest): Response<ApiResponseWrapper<AuthData>>
 
     @POST("api/v1/auth/login")
-    suspend fun login(@Body request: AuthRequest): Response<ApiResponseWrapper<AuthData>>
+    suspend fun login(@Body request: LoginRequest): Response<ApiResponseWrapper<AuthData>>
 
     @POST("api/v1/auth/logout")
     suspend fun logout(): Response<ApiResponseWrapper<Void>>
@@ -30,9 +32,15 @@ interface ApiService {
         @Query("limit") limit: Int? = null
     ): Response<ApiResponseWrapper<MyVideosData>>
 
+    @Multipart
     @POST("api/v1/videos")
-    @Headers("Content-Type: application/json")
-    suspend fun publishVideo(@Body request: PublishVideoRequest): Response<ApiResponseWrapper<CreateVideoData>>
+    suspend fun publishVideoMultipart(
+        @Part("caption") caption: RequestBody,
+        @Part videoFile: MultipartBody.Part,
+        @Part coverFile: MultipartBody.Part? = null,
+        @Part("durationMs") durationMs: RequestBody? = null,
+        @Part("visibility") visibility: RequestBody? = null
+    ): Response<ApiResponseWrapper<CreateVideoData>>
 
     @DELETE("api/v1/videos/{videoId}")
     suspend fun deleteVideo(@Path("videoId") videoId: Long): Response<ApiResponseWrapper<DeleteVideoData>>

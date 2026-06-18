@@ -13,9 +13,16 @@ data class VideoPost(
     val likes: Int,
     val comments: Int,
     val shares: Int,
-    @RawRes val videoRes: Int,
+    @RawRes val videoRes: Int? = null,
     @DrawableRes val coverRes: Int,
-    @DrawableRes val avatarRes: Int
+    @DrawableRes val avatarRes: Int,
+    val videoUrl: String? = null,
+    val coverUrl: String? = null,
+    val avatarUrl: String? = null,
+    val isOwner: Boolean = false,
+    val isViewed: Boolean = false,
+    val isLiked: Boolean = false,
+    val remoteId: Long? = id.toLongOrNull()
 )
 
 data class Comment(
@@ -23,20 +30,3 @@ data class Comment(
     val content: String,
     val time: String
 )
-
-data class ChatPreview(
-    val title: String,
-    val message: String,
-    val time: String,
-    @DrawableRes val avatarRes: Int,
-    val unread: Int = 0
-)
-
-enum class AppScreen {
-    Home,
-    Friends,
-    Publish,
-    Messages,
-    Profile,
-    Search
-}

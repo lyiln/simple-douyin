@@ -28,6 +28,16 @@ target/
 */target/
 **/target/
 
+# Node / Vite build state
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+*.tsbuildinfo
+web/dev-server.log
+web/vite.config.d.ts
+web/vite.config.js
+
 # Android build outputs
 *.apk
 *.ap_
@@ -38,6 +48,8 @@ target/
 *.hprof
 app/release/
 app/debug/
+frontend/app/release/
+frontend/app/debug/
 
 !gradle/wrapper/gradle-wrapper.jar
 
@@ -51,6 +63,8 @@ app/debug/
 tmp/
 temp/
 .cache/
+.playwright-mcp/
+tictok-*.png
 .DS_Store
 Thumbs.db
 desktop.ini
@@ -58,6 +72,11 @@ desktop.ini
 # Local uploaded media
 uploads/*
 !uploads/.gitkeep
+
+# Reverse-engineering and analysis artifacts
+assets/
+source_only/
+docs/reports/
 
 # simple-douyin deployment generated files
 deploy/simple-douyin/images/

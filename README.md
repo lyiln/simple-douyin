@@ -48,7 +48,7 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | T21 权限测试 | 已完成（成员A） | 点赞、取消点赞、访问记录接口的未登录/无效 token 测试全部通过。 |
 | T22 日志测试 | 已完成（成员A） | requestId、userId、path、statusCode、businessCode、durationMs 记录验证通过。 |
 | T23-T25 评论闭环 | 已完成（成员C） | 评论列表、发表评论及测试，最终演示必做。 |
-| T26-T27 前端联调 | 已完成（成员C） | Android Demo 已添加 Retrofit 网络层、ApiClient/ApiService/ApiRepository，评论功能支持真实 API 对接（登录状态下优先 API，否则回退本地 mock）。 |
+| T26-T27 前端联调 | 已完成（成员C） | Android 前端已添加 Retrofit 网络层、ApiClient/ApiService/ApiRepository，主线账号、推荐、点赞、评论、发布、我的作品和删除流程接入真实 API；评论能力在登录状态下优先调用真实 API，未登录时回退本地 mock 展示。 |
 | T28 评分点验收 | 已完成（成员C） | `scoring-matrix.md` 17/17 评分点全部验收通过。 |
 | T29 文档完善 | 已完成（成员C） | README、final-checklist.md、代码审查报告已更新。 |
 | T30 答辩材料 | 部分完成（成员C） | 团队分工/评分表结构已完成，PPT/演示视频待制作。 |
@@ -179,15 +179,17 @@ git diff --name-only -- frontend
 
 ## 前端说明
 
-`frontend/` 当前是 Android 前端 Demo。README 只说明当前仓库状态，不声称前端已经完成真实后端联调。
+`frontend/` 当前是 Android 前端，已接入真实后端 API，登录页默认连接已部署后端，不再暴露 API Base URL 输入项。
 
-后续 Android 模拟器联调本机后端时，通常需要把 API Base URL 配置为：
+当前已部署后端联调时，API Base URL 固定默认为：
 
 ```text
-http://10.0.2.2:8080
+http://47.95.238.140:18090
 ```
 
-如果在真机上调试，需要使用电脑在局域网中的实际 IP 地址。
+如果需要改回本机后端调试，可调整 `ApiClient.DEFAULT_BASE_URL` 或在 `ApiClient.init` 中传入自定义地址，例如 `http://10.0.2.2:8080`。
+
+`web/` 目录提供 React + Vite 的课程演示客户端，可通过 `VITE_API_BASE_URL` 指向同一后端，或使用 Vite 代理联调。
 
 ## 非 P0 / 暂不实现
 

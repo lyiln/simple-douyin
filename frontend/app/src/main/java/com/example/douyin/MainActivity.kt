@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.douyin.network.ApiClient
-import com.example.douyin.ui.DouyinApp
+import com.example.douyin.ui.RealDouyinApp
 import com.example.douyin.ui.theme.DouyinTheme
 import kotlinx.coroutines.delay
 
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        // 初始化 API 客户端（模拟器默认地址 http://10.0.2.2:8080）
+        // 初始化真实后端 API 客户端，默认连接已部署服务。
         ApiClient.init(applicationContext)
 
         setContent {
@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
                     showApp = true
                 }
                 if (showApp) {
-                    DouyinApp()
+                    RealDouyinApp()
                 } else {
                     StartupScreen()
                 }

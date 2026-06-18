@@ -9,9 +9,15 @@ data class ApiResponseWrapper<T>(
 )
 
 /** 注册/登录请求 */
-data class AuthRequest(
+data class LoginRequest(
     val username: String,
     val password: String
+)
+
+data class RegisterRequest(
+    val username: String,
+    val password: String,
+    val nickname: String
 )
 
 /** 注册/登录响应 data */
@@ -30,13 +36,17 @@ data class UserInfo(
 )
 
 /** GET /api/v1/me 响应 */
-data class MeData(
+data class UserProfile(
     val id: Long,
     val username: String,
     val nickname: String,
     val avatarUrl: String?,
     val videoCount: Long,
     val likedCount: Long
+)
+
+data class MeData(
+    val profile: UserProfile
 )
 
 /** 作者摘要 */
@@ -78,18 +88,9 @@ data class MyVideosData(
     val hasMore: Boolean
 )
 
-/** 发布视频请求（JSON 方式） */
-data class PublishVideoRequest(
-    val caption: String,
-    val videoUrl: String,
-    val coverUrl: String?,
-    val durationMs: Int?,
-    val visibility: String
-)
-
 /** 发布视频响应 */
 data class CreateVideoData(
-    val videoPost: VideoPostResponse
+    val video: VideoPostResponse
 )
 
 /** 点赞响应 */
@@ -109,8 +110,7 @@ data class ViewRequest(
 data class ViewData(
     val videoId: Long,
     val viewed: Boolean,
-    val viewCount: Long,
-    val created: Boolean
+    val viewCount: Long
 )
 
 /** 删除视频响应 */
