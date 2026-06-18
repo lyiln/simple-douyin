@@ -77,6 +77,8 @@ uploads/*
 assets/
 source_only/
 docs/reports/
+!web/src/assets/
+!web/src/assets/**
 
 # simple-douyin deployment generated files
 deploy/simple-douyin/images/

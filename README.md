@@ -22,7 +22,7 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | 后端框架 | Spring Boot |
 | 构建工具 | Maven |
 | 数据库 | MySQL 8 |
-| 推荐服务 RPC | gRPC（已实现 RecommendService.ListRecommendedVideos，proto 和服务逻辑已完成） |
+| 推荐服务 RPC | gRPC（已实现 `RecommendService.ListRecommendedVideos` 和 `ResetRecommendedHistory`，proto 和服务逻辑已完成） |
 | 视频存储 | 后端本地 `uploads/` 目录 |
 
 ## 当前实现进度
@@ -41,7 +41,7 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | T12 删除视频权限控制 | 已完成 | 已实现 `DELETE /api/v1/videos/{videoId}`，支持所有权校验、软删除和重复删除幂等。 |
 | T13 点赞 | 已完成 | 已实现 `PUT/DELETE /api/v1/videos/{videoId}/likes/me`，INSERT IGNORE 幂等，维护 like_count。 |
 | T14 访问记录 | 已完成 | 已实现 `POST /api/v1/videos/{videoId}/views/me`，ON DUPLICATE KEY UPDATE 幂等，首次访问递增 view_count。 |
-| T15-T17 gRPC 推荐和推荐流 | 已完成（成员B） | proto、Recommend Service、推荐规则和 REST 推荐流已实现。`GET /api/v1/feeds/recommended/videos` 通过 gRPC 调用 RecommendService，按 like_count DESC 排序并排除已访问视频。 |
+| T15-T17 gRPC 推荐和推荐流 | 已完成（成员B） | proto、Recommend Service、推荐规则和 REST 推荐流已实现。`GET /api/v1/feeds/recommended/videos` 通过 gRPC 调用 RecommendService，按 like_count DESC 排序并排除已访问视频；`POST /api/v1/feeds/recommended/reset` 通过 gRPC 清空当前用户推荐过滤历史。 |
 | T18 health | 已完成 | `GET /api/v1/health` 已完成，检查 API Server、MySQL、gRPC Recommend Service。 |
 | T19 核心接口测试 | 已完成（成员A） | 新增 LikeControllerTest (12)、ViewControllerTest (8)、HealthControllerTest (6)，覆盖正常/异常/幂等。 |
 | T20 推荐规则测试 | 已完成（成员B） | RecommendRepositoryTest (7 用例，真实 MySQL)、FeedControllerTest (10 用例，MockMvc)，R01-R08 + E10 全部通过。 |
@@ -72,12 +72,12 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | `POST /api/v1/videos/{videoId}/views/me` | 是 | 记录视频访问，首次访问递增 view_count | 已实现 |
 | `GET /api/v1/health` | 否 | 检查 API Server、MySQL、gRPC Recommend Service | 已实现 |
 | `GET /api/v1/feeds/recommended/videos` | 是 | 推荐视频流，通过 gRPC 调用 RecommendService，按 like_count DESC 排序并排除已访问视频 | 已实现 |
+| `POST /api/v1/feeds/recommended/reset` | 是 | 重置当前用户推荐过滤历史，让所有公开视频可再次进入推荐 | 已实现 |
 
 ## 未实现接口 / 后续计划
 
 | 方法和路径 | 主要用途 | 当前状态 |
 | --- | --- | --- |
-| `GET /api/v1/feeds/recommended/videos` | 推荐视频流，API Server 通过 gRPC 获取推荐 videoIds | 已完成（成员B） |
 | `GET /api/v1/videos/{videoId}/comments` | 评论列表，最终演示闭环必做 | 已完成 |
 | `POST /api/v1/videos/{videoId}/comments` | 发表评论，最终演示闭环必做 | 已完成 |
 
@@ -120,7 +120,7 @@ $env:MYSQL_PASSWORD="password"; mvn -pl backend/api-server clean spring-boot:run
 mvn -pl backend/recommend-service spring-boot:run
 ```
 
-说明：recommend-service 已实现完整的 gRPC proto、gRPC server 和推荐算法（按 like_count DESC, created_at DESC, id DESC 排序，排除已访问视频），启动后监听 gRPC 端口 9090。
+说明：recommend-service 已实现完整的 gRPC proto、gRPC server、推荐算法（按 like_count DESC, created_at DESC, id DESC 排序，排除已访问视频）和推荐历史重置 RPC，启动后监听 gRPC 端口 9090。
 
 ## 配置说明
 
@@ -153,7 +153,7 @@ git diff --check
 git diff --name-only -- frontend
 ```
 
-当前 112 个测试用例全部通过，覆盖范围：
+当前自动化测试覆盖范围：
 
 | 测试类 | 用例数 | 覆盖内容 |
 | --- | --- | --- |
@@ -167,15 +167,15 @@ git diff --name-only -- frontend
 | `ViewControllerTest` | 10 | 访问记录、首次/重复、404、权限、日志、watchDurationMs |
 | `CommentControllerTest` | 16 | 发表评论/评论列表正常、分页、空列表、404、权限、日志 |
 | `HealthControllerTest` | 6 | 全UP/部分DOWN、无鉴权、日志 |
-| `FeedControllerTest` | 10 | 推荐列表、分页、401/400/500、日志、脱敏（成员B） |
-| `RecommendRepositoryTest` | 7 | 排序、过滤、分页、已删除/私密排除（成员B，真实 MySQL） |
+| `FeedControllerTest` | 14 | 推荐列表、分页、重置推荐历史、401/400/500、日志、脱敏（成员B） |
+| `RecommendRepositoryTest` | 8 | 排序、过滤、重置推荐历史、分页、已删除/私密排除（成员B，真实 MySQL） |
 | `VideoRepositoryTest` | 14 | 点赞/取消/访问幂等、COUNT 一致性、TOCTOU 防护（成员A，真实 MySQL） |
 | `VideoServiceTest` | 10 | 发布/分页/删除业务逻辑 |
 | `LocalUploadStorageServiceTest` | 6 | 文件保存/读取/类型校验 |
 | `UploadStoragePropertiesTest` | 1 | 配置注入 |
 | `UploadWebMvcConfigTest` | 1 | 静态资源映射 |
 
-> 其中 `VideoRepositoryTest` 和 `RecommendRepositoryTest` 需本地 MySQL 8 连接（通过 `MYSQL_PASSWORD` 环境变量），其余 91 个测试使用 MockMvc/Mock 不依赖数据库。
+> 其中 `VideoRepositoryTest` 和 `RecommendRepositoryTest` 需本地 MySQL 8 连接（通过 `MYSQL_PASSWORD` 环境变量），其余测试使用 MockMvc/Mock 不依赖数据库。
 
 ## 前端说明
 

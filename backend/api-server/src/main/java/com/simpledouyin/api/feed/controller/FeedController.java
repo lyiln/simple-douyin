@@ -2,10 +2,12 @@ package com.simpledouyin.api.feed.controller;
 
 import com.simpledouyin.api.common.ApiResponse;
 import com.simpledouyin.api.feed.dto.RecommendedFeedResponse;
+import com.simpledouyin.api.feed.dto.ResetRecommendedHistoryResponse;
 import com.simpledouyin.api.feed.service.FeedService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,5 +30,12 @@ public class FeedController {
     ) {
         return ResponseEntity.ok(ApiResponse.success(
                 feedService.listRecommended(request, cursor, limit)));
+    }
+
+    @PostMapping("/feeds/recommended/reset")
+    public ResponseEntity<ApiResponse<ResetRecommendedHistoryResponse>> resetRecommendedHistory(
+            HttpServletRequest request
+    ) {
+        return ResponseEntity.ok(ApiResponse.success(feedService.resetRecommendedHistory(request)));
     }
 }

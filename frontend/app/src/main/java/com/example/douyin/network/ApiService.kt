@@ -85,6 +85,9 @@ interface ApiService {
         @Query("limit") limit: Int? = null
     ): Response<ApiResponseWrapper<RecommendedFeedData>>
 
+    @POST("api/v1/feeds/recommended/reset")
+    suspend fun resetRecommendedHistory(): Response<ApiResponseWrapper<ResetRecommendedHistoryData>>
+
     // ======================== Health ========================
 
     @GET("api/v1/health")

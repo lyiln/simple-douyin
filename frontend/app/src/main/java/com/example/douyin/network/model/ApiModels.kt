@@ -160,3 +160,9 @@ data class RecommendedFeedData(
     val hasMore: Boolean,
     val strategy: String?
 )
+
+/** 重置推荐历史响应 */
+data class ResetRecommendedHistoryData(
+    val reset: Boolean,
+    val clearedCount: Long
+)

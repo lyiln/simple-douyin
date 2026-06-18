@@ -1,7 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ApiError, getRecommendedVideos, isLoggedIn, likeVideo, recordView, unlikeVideo } from "../api";
+import {
+  ApiError,
+  getRecommendedVideos,
+  isLoggedIn,
+  likeVideo,
+  recordView,
+  resetRecommendedHistory,
+  unlikeVideo
+} from "../api";
 import { CommentDrawer } from "../components/CommentDrawer";
-import { IconChevronDown, IconChevronUp } from "../components/Icons";
+import { IconChevronDown, IconChevronUp, IconRefresh } from "../components/Icons";
 import { VideoCard } from "../components/VideoCard";
 import type { VideoPostResponse } from "../types";
 
@@ -16,6 +24,7 @@ export function RecommendPage({ authVersion, onRequireAuth }: RecommendPageProps
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [resetting, setResetting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [drawerPost, setDrawerPost] = useState<VideoPostResponse | null>(null);
   const viewedIds = useRef<Set<number>>(new Set());
@@ -144,6 +153,36 @@ export function RecommendPage({ authVersion, onRequireAuth }: RecommendPageProps
     }
   }
 
+  async function handleResetRecommendedHistory() {
+    if (!isLoggedIn()) {
+      onRequireAuth();
+      return;
+    }
+    if (loading || resetting) return;
+    setLoading(true);
+    setResetting(true);
+    setError(null);
+    try {
+      await resetRecommendedHistory();
+      viewedIds.current.clear();
+      setPosts([]);
+      setActiveIndex(0);
+      setNextCursor(null);
+      setHasMore(true);
+
+      const data = await getRecommendedVideos(null, 10);
+      setPosts(data.items);
+      setNextCursor(data.nextCursor);
+      setHasMore(data.hasMore);
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 401) onRequireAuth();
+      setError(err instanceof Error ? err.message : "重置推荐失败");
+    } finally {
+      setResetting(false);
+      setLoading(false);
+    }
+  }
+
   const updateCommentCount = useCallback((videoId: number, count: number) => {
     setPosts((current) => current.map((post) => (post.id === videoId ? { ...post, commentCount: count } : post)));
     setDrawerPost((current) =>
@@ -154,7 +193,16 @@ export function RecommendPage({ authVersion, onRequireAuth }: RecommendPageProps
   return (
     <main className="recommend-page" onWheel={handleWheel}>
       <section className="feed-stage" aria-label="推荐视频流">
-        {statusText && <div className="feed-state">{statusText}</div>}
+        {statusText && (
+          <div className="feed-state">
+            <span>{statusText}</span>
+            {!loading && posts.length === 0 && (
+              <button type="button" onClick={() => void handleResetRecommendedHistory()} disabled={resetting}>
+                重置推荐
+              </button>
+            )}
+          </div>
+        )}
         {error && (
           <div className="feed-state error-state">
             <p>{error}</p>
@@ -174,7 +222,16 @@ export function RecommendPage({ authVersion, onRequireAuth }: RecommendPageProps
           </div>
         ))}
       </section>
-      <div className="feed-switcher" aria-label="视频切换">
+      <div className="feed-switcher" aria-label="推荐控制">
+        <button
+          type="button"
+          onClick={() => void handleResetRecommendedHistory()}
+          disabled={loading || resetting}
+          aria-label="重置推荐历史"
+          title="重置推荐"
+        >
+          <IconRefresh />
+        </button>
         <button type="button" onClick={() => move(-1)} disabled={!canGoPrev} aria-label="上一个视频">
           <IconChevronUp />
         </button>

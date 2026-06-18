@@ -3,6 +3,8 @@ package com.simpledouyin.api.recommend.client;
 import com.simpledouyin.recommend.proto.ListRecommendedVideosRequest;
 import com.simpledouyin.recommend.proto.ListRecommendedVideosResponse;
 import com.simpledouyin.recommend.proto.RecommendServiceGrpc;
+import com.simpledouyin.recommend.proto.ResetRecommendedHistoryRequest;
+import com.simpledouyin.recommend.proto.ResetRecommendedHistoryResponse;
 import io.grpc.ManagedChannel;
 import org.springframework.stereotype.Component;
 
@@ -27,5 +29,13 @@ public class RecommendGrpcClient {
                 .setStrategy("like_count_desc")
                 .build();
         return stub.listRecommendedVideos(request);
+    }
+
+    public ResetRecommendedHistoryResponse resetRecommendedHistory(String requestId, long userId) {
+        ResetRecommendedHistoryRequest request = ResetRecommendedHistoryRequest.newBuilder()
+                .setRequestId(requestId != null ? requestId : "")
+                .setUserId(userId)
+                .build();
+        return stub.resetRecommendedHistory(request);
     }
 }

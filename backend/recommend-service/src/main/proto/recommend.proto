@@ -8,6 +8,7 @@ option java_outer_classname = "RecommendProto";
 
 service RecommendService {
     rpc ListRecommendedVideos (ListRecommendedVideosRequest) returns (ListRecommendedVideosResponse);
+    rpc ResetRecommendedHistory (ResetRecommendedHistoryRequest) returns (ResetRecommendedHistoryResponse);
 }
 
 message ListRecommendedVideosRequest {
@@ -25,4 +26,14 @@ message ListRecommendedVideosResponse {
     bool has_more = 3;
     string strategy = 4;
     string debug_message = 5;
+}
+
+message ResetRecommendedHistoryRequest {
+    string request_id = 1;
+    int64 user_id = 2;
+}
+
+message ResetRecommendedHistoryResponse {
+    bool reset = 1;
+    int64 cleared_count = 2;
 }

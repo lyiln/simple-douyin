@@ -67,6 +67,11 @@ export interface RecommendedFeedData {
   strategy?: string | null;
 }
 
+export interface ResetRecommendedHistoryData {
+  reset: boolean;
+  clearedCount: number;
+}
+
 export interface MyVideosData {
   items: VideoPostResponse[];
   nextCursor: string | null;

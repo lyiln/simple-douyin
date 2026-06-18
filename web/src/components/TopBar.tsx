@@ -1,5 +1,5 @@
 import type { UserProfile, UserSummary } from "../types";
-import { IconSearch, IconUpload, IconUser } from "./Icons";
+import { IconUpload, IconUser } from "./Icons";
 import logoMark from "../assets/douyin/logo-mark.svg";
 import avatarFallback from "../assets/douyin/avatar-fallback.svg";
 import { resolveAssetUrl } from "../api";
@@ -21,14 +21,6 @@ export function TopBar({ route, user, onNavigate, onAuthClick }: TopBarProps) {
       <button className="brand-button" type="button" onClick={() => onNavigate("/")} aria-label="回到推荐">
         <img src={logoMark} alt="" />
       </button>
-      <div className="search-box" aria-label="搜索框展示">
-        <input value="" placeholder="搜索你感兴趣的内容" readOnly />
-        <span className="search-divider" />
-        <button type="button" aria-label="搜索未实现">
-          <IconSearch />
-          搜索
-        </button>
-      </div>
       <nav className="top-actions" aria-label="主导航">
         <button type="button" className={route === "/" ? "active" : ""} onClick={() => onNavigate("/")}>
           推荐
