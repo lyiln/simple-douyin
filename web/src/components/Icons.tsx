@@ -58,6 +58,14 @@ export function IconChevronDown(props: IconProps) {
   );
 }
 
+export function IconRefresh(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path d="M17.7 6.3A8 8 0 0 0 4 12h-2a10 10 0 0 1 17.1-7.1L21 3v6h-6l2.7-2.7ZM6.3 17.7A8 8 0 0 0 20 12h2A10 10 0 0 1 4.9 19.1L3 21v-6h6l-2.7 2.7Z" />
+    </svg>
+  );
+}
+
 export function IconPlay(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>

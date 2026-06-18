@@ -3,6 +3,8 @@ package com.simpledouyin.recommend;
 import com.simpledouyin.recommend.proto.ListRecommendedVideosRequest;
 import com.simpledouyin.recommend.proto.ListRecommendedVideosResponse;
 import com.simpledouyin.recommend.proto.RecommendServiceGrpc;
+import com.simpledouyin.recommend.proto.ResetRecommendedHistoryRequest;
+import com.simpledouyin.recommend.proto.ResetRecommendedHistoryResponse;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
@@ -75,6 +77,37 @@ public class RecommendServiceImpl extends RecommendServiceGrpc.RecommendServiceI
             responseObserver.onError(e);
         } catch (RuntimeException e) {
             log.error("listRecommendedVideos failed", e);
+            responseObserver.onError(
+                    Status.INTERNAL.withDescription("internal error").asRuntimeException()
+            );
+        }
+    }
+
+    @Override
+    public void resetRecommendedHistory(
+            ResetRecommendedHistoryRequest request,
+            StreamObserver<ResetRecommendedHistoryResponse> responseObserver
+    ) {
+        try {
+            long userId = request.getUserId();
+            if (userId <= 0) {
+                throw Status.INVALID_ARGUMENT
+                        .withDescription("userId must be positive")
+                        .asRuntimeException();
+            }
+
+            int clearedCount = repository.resetRecommendedHistory(userId);
+            ResetRecommendedHistoryResponse response = ResetRecommendedHistoryResponse.newBuilder()
+                    .setReset(true)
+                    .setClearedCount(clearedCount)
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (StatusRuntimeException e) {
+            responseObserver.onError(e);
+        } catch (RuntimeException e) {
+            log.error("resetRecommendedHistory failed", e);
             responseObserver.onError(
                     Status.INTERNAL.withDescription("internal error").asRuntimeException()
             );

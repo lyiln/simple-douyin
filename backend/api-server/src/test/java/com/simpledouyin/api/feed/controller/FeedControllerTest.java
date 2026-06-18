@@ -7,6 +7,7 @@ import com.simpledouyin.api.common.BusinessException;
 import com.simpledouyin.api.common.ErrorCode;
 import com.simpledouyin.api.common.GlobalExceptionHandler;
 import com.simpledouyin.api.feed.dto.RecommendedFeedResponse;
+import com.simpledouyin.api.feed.dto.ResetRecommendedHistoryResponse;
 import com.simpledouyin.api.feed.service.FeedService;
 import com.simpledouyin.api.logging.RequestIdFilter;
 import com.simpledouyin.api.logging.RequestLogEntry;
@@ -35,6 +36,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -173,6 +175,18 @@ class FeedControllerTest {
                 .andExpect(jsonPath("$.code").value(50001));
     }
 
+    @Test
+    void resetRecommendedHistoryReturns500WhenGrpcFails() throws Exception {
+        String accessToken = tokenService.issue(1001L).value();
+        when(feedService.resetRecommendedHistory(any(HttpServletRequest.class)))
+                .thenThrow(new BusinessException(ErrorCode.INTERNAL_ERROR));
+
+        mockMvc.perform(post("/api/v1/feeds/recommended/reset")
+                        .header("Authorization", "Bearer " + accessToken))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value(50001));
+    }
+
     // R08: 验证 gRPC 调用发生 — Controller 层通过 mock 验证 service 被调用
     @Test
     void feedEndpointCallsFeedServiceWhichCallsGrpc() throws Exception {
@@ -185,6 +199,34 @@ class FeedControllerTest {
                 .andExpect(status().isOk());
 
         verify(feedService).listRecommended(any(HttpServletRequest.class), isNull(), isNull());
+    }
+
+    @Test
+    void resetsRecommendedHistory() throws Exception {
+        String accessToken = tokenService.issue(1001L).value();
+        when(feedService.resetRecommendedHistory(any(HttpServletRequest.class)))
+                .thenReturn(new ResetRecommendedHistoryResponse(true, 3));
+
+        mockMvc.perform(post("/api/v1/feeds/recommended/reset")
+                        .header("X-Request-Id", REQUEST_ID)
+                        .header("Authorization", "Bearer " + accessToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.data.reset").value(true))
+                .andExpect(jsonPath("$.data.clearedCount").value(3))
+                .andExpect(jsonPath("$.requestId").value(REQUEST_ID));
+
+        verify(feedService).resetRecommendedHistory(any(HttpServletRequest.class));
+    }
+
+    @Test
+    void resetRecommendedHistoryReturns401WithoutToken() throws Exception {
+        mockMvc.perform(post("/api/v1/feeds/recommended/reset")
+                        .header("X-Request-Id", REQUEST_ID))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40101));
+
+        verify(feedService, never()).resetRecommendedHistory(any());
     }
 
     // ======================== 日志测试 ========================
@@ -223,6 +265,28 @@ class FeedControllerTest {
         assertThat(logEntry.getValue().statusCode()).isEqualTo(401);
         assertThat(logEntry.getValue().businessCode()).isEqualTo(40101);
         assertThat(logEntry.getValue().requestId()).isEqualTo("unauth-feed-log");
+    }
+
+    @Test
+    void resetRecommendedHistoryLogsCorrectInfo() throws Exception {
+        String accessToken = tokenService.issue(1001L).value();
+        when(feedService.resetRecommendedHistory(any(HttpServletRequest.class)))
+                .thenReturn(new ResetRecommendedHistoryResponse(true, 2));
+
+        mockMvc.perform(post("/api/v1/feeds/recommended/reset")
+                        .header("X-Request-Id", "reset-feed-log")
+                        .header("Authorization", "Bearer " + accessToken));
+
+        ArgumentCaptor<RequestLogEntry> logEntry = ArgumentCaptor.forClass(RequestLogEntry.class);
+        verify(requestLogRepository).save(logEntry.capture());
+
+        assertThat(logEntry.getValue().requestId()).isEqualTo("reset-feed-log");
+        assertThat(logEntry.getValue().userId()).isEqualTo(1001L);
+        assertThat(logEntry.getValue().path()).isEqualTo("/api/v1/feeds/recommended/reset");
+        assertThat(logEntry.getValue().method()).isEqualTo("POST");
+        assertThat(logEntry.getValue().statusCode()).isEqualTo(200);
+        assertThat(logEntry.getValue().businessCode()).isZero();
+        assertThat(logEntry.getValue().durationMs()).isGreaterThan(0);
     }
 
     @Test

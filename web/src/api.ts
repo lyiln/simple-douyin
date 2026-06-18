@@ -9,6 +9,7 @@ import type {
   MyVideosData,
   PostCommentData,
   RecommendedFeedData,
+  ResetRecommendedHistoryData,
   ViewData
 } from "./types";
 
@@ -80,6 +81,10 @@ export function getMe(): Promise<MeData> {
 
 export function getRecommendedVideos(cursor: string | null, limit = 10): Promise<RecommendedFeedData> {
   return apiRequest<RecommendedFeedData>(withQuery("/api/v1/feeds/recommended/videos", { cursor, limit }));
+}
+
+export function resetRecommendedHistory(): Promise<ResetRecommendedHistoryData> {
+  return apiRequest<ResetRecommendedHistoryData>("/api/v1/feeds/recommended/reset", { method: "POST" });
 }
 
 export function recordView(videoId: number): Promise<ViewData> {

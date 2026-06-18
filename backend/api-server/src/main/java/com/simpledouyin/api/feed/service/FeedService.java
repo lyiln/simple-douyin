@@ -4,6 +4,7 @@ import com.simpledouyin.api.common.BusinessException;
 import com.simpledouyin.api.common.ErrorCode;
 import com.simpledouyin.api.common.RequestContext;
 import com.simpledouyin.api.feed.dto.RecommendedFeedResponse;
+import com.simpledouyin.api.feed.dto.ResetRecommendedHistoryResponse;
 import com.simpledouyin.api.recommend.client.RecommendGrpcClient;
 import com.simpledouyin.api.video.dto.VideoPostResponse;
 import com.simpledouyin.api.video.model.VideoPost;
@@ -64,6 +65,16 @@ public class FeedService {
                 nextCursor != null && !nextCursor.isBlank() ? nextCursor : null,
                 grpcResponse.getHasMore(),
                 grpcResponse.getStrategy()
+        );
+    }
+
+    public ResetRecommendedHistoryResponse resetRecommendedHistory(HttpServletRequest request) {
+        long userId = currentUserId(request);
+        com.simpledouyin.recommend.proto.ResetRecommendedHistoryResponse grpcResponse =
+                grpcClient.resetRecommendedHistory(RequestContext.requestId(), userId);
+        return new ResetRecommendedHistoryResponse(
+                grpcResponse.getReset(),
+                grpcResponse.getClearedCount()
         );
     }
 

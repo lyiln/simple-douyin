@@ -81,6 +81,14 @@ object ApiRepository {
         }
     }
 
+    suspend fun resetRecommendedHistory(): Result<ResetRecommendedHistoryData> {
+        return apiCall {
+            val response = ApiClient.apiService!!.resetRecommendedHistory()
+            requireSuccess(response)
+            response.body()!!.data!!
+        }
+    }
+
     // ======================== Publish ========================
 
     suspend fun publishVideoFile(

@@ -303,6 +303,36 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
         }
     }
 
+    fun resetFeedHistory() {
+        if (loadingFeed) return
+        loadingFeed = true
+        scope.launch {
+            val resetResult = ApiRepository.resetRecommendedHistory()
+            resetResult.onFailure {
+                loadingFeed = false
+                showError("重置推荐失败", it)
+            }.onSuccess {
+                posts.clear()
+                feedCursor = null
+                feedHasMore = true
+                recordedViews.clear()
+
+                val result = ApiRepository.getRecommendedVideos(null, 10)
+                loadingFeed = false
+                result.onSuccess { data ->
+                    val mapped = data.items.map { it.toUiPost() }
+                    posts.addAll(mapped)
+                    mapped.forEach { post -> commentCounts[post.id] = post.comments }
+                    feedCursor = data.nextCursor
+                    feedHasMore = data.hasMore
+                    toast = "推荐已重置"
+                }.onFailure {
+                    showError("加载推荐失败", it)
+                }
+            }
+        }
+    }
+
     fun loadMyVideos(reset: Boolean) {
         if (loadingMine) return
         loadingMine = true
@@ -341,6 +371,7 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
                 hasMore = feedHasMore,
                 commentCounts = commentCounts,
                 onRefresh = { loadFeed(reset = true) },
+                onReset = { resetFeedHistory() },
                 onNeedMore = { loadFeed(reset = false) },
                 onVisible = ::recordView,
                 onLike = { post ->
@@ -488,6 +519,7 @@ private fun HomeApiFeed(
     hasMore: Boolean,
     commentCounts: Map<String, Int>,
     onRefresh: () -> Unit,
+    onReset: () -> Unit,
     onNeedMore: () -> Unit,
     onVisible: (VideoPost) -> Unit,
     onLike: (VideoPost) -> Unit,
@@ -498,7 +530,10 @@ private fun HomeApiFeed(
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 if (loading) CircularProgressIndicator(color = Color.White)
                 Text("暂无推荐视频", color = Color.White)
-                Button(onClick = onRefresh) { Text("刷新") }
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Button(onClick = onRefresh, enabled = !loading) { Text("刷新") }
+                    FilledTonalButton(onClick = onReset, enabled = !loading) { Text("重置") }
+                }
             }
         }
         return
@@ -528,7 +563,12 @@ private fun HomeApiFeed(
                 onComment = { onComment(post) }
             )
         }
-        FeedHeader(onRefresh = onRefresh, loading = loading, modifier = Modifier.align(Alignment.TopCenter))
+        FeedHeader(
+            onRefresh = onRefresh,
+            onReset = onReset,
+            loading = loading,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
     }
 }
 
@@ -726,13 +766,14 @@ private fun VideoProgressBar(
 }
 
 @Composable
-private fun FeedHeader(onRefresh: () -> Unit, loading: Boolean, modifier: Modifier = Modifier) {
+private fun FeedHeader(onRefresh: () -> Unit, onReset: () -> Unit, loading: Boolean, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text("推荐", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
         TextButton(onClick = onRefresh, enabled = !loading) { Text(if (loading) "加载中" else "刷新") }
+        TextButton(onClick = onReset, enabled = !loading) { Text("重置") }
     }
 }
 

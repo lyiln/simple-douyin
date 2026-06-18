@@ -20,6 +20,7 @@ export function ProfilePage({ authVersion, onRequireAuth, onLogout }: ProfilePag
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<VideoPostResponse | null>(null);
 
   const loadProfile = useCallback(
     async (reset = false) => {
@@ -60,6 +61,7 @@ export function ProfilePage({ authVersion, onRequireAuth, onLogout }: ProfilePag
     try {
       await deleteVideo(videoId);
       setVideos((current) => current.filter((video) => video.id !== videoId));
+      setSelectedVideo((current) => (current?.id === videoId ? null : current));
       setProfile((current) =>
         current ? { ...current, videoCount: Math.max(0, current.videoCount - 1) } : current
       );
@@ -112,17 +114,24 @@ export function ProfilePage({ authVersion, onRequireAuth, onLogout }: ProfilePag
           <div className="works-grid">
             {videos.map((video) => (
               <article className="work-card" key={video.id}>
-                <img src={resolveAssetUrl(video.coverUrl) || defaultCover} alt="" />
-                <div className="work-gradient" />
+                <button
+                  type="button"
+                  className="work-open"
+                  onClick={() => setSelectedVideo(video)}
+                  aria-label={`查看作品：${video.caption || "未命名视频"}`}
+                >
+                  <img src={resolveAssetUrl(video.coverUrl) || defaultCover} alt="" />
+                  <span className="work-gradient" />
+                  <span className="work-copy">
+                    <span className="work-caption">{video.caption}</span>
+                    <span className="work-meta">
+                      {formatDate(video.createdAt)} · {formatCount(video.likeCount)} 赞
+                    </span>
+                  </span>
+                </button>
                 <button type="button" className="delete-work" onClick={() => void handleDelete(video.id)} aria-label="删除作品">
                   <IconTrash />
                 </button>
-                <div className="work-copy">
-                  <p>{video.caption}</p>
-                  <span>
-                    {formatDate(video.createdAt)} · {formatCount(video.likeCount)} 赞
-                  </span>
-                </div>
               </article>
             ))}
           </div>
@@ -134,7 +143,96 @@ export function ProfilePage({ authVersion, onRequireAuth, onLogout }: ProfilePag
           </button>
         )}
       </section>
+      {selectedVideo && <ProfileVideoPreview video={selectedVideo} onClose={() => setSelectedVideo(null)} />}
     </main>
+  );
+}
+
+interface ProfileVideoPreviewProps {
+  video: VideoPostResponse;
+  onClose: () => void;
+}
+
+function ProfileVideoPreview({ video, onClose }: ProfileVideoPreviewProps) {
+  const videoUrl = resolveAssetUrl(video.videoUrl);
+  const coverUrl = resolveAssetUrl(video.coverUrl) || defaultCover;
+  const avatarUrl = resolveAssetUrl(video.author.avatarUrl) || avatarFallback;
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
+  return (
+    <div className="profile-viewer" role="dialog" aria-modal="true" aria-label="查看作品视频">
+      <button className="profile-viewer-scrim" type="button" onClick={onClose} aria-label="关闭预览" />
+      <section className="profile-viewer-panel">
+        <div className="profile-viewer-media">
+          {videoUrl ? (
+            <video
+              className="profile-viewer-backdrop-media"
+              src={videoUrl}
+              poster={coverUrl}
+              muted
+              loop
+              autoPlay
+              playsInline
+              preload="metadata"
+              aria-hidden="true"
+            />
+          ) : (
+            <img className="profile-viewer-backdrop-media" src={coverUrl} alt="" />
+          )}
+          {videoUrl ? (
+            <video
+              className="profile-viewer-video"
+              src={videoUrl}
+              poster={coverUrl}
+              controls
+              autoPlay
+              muted
+              playsInline
+              preload="auto"
+            />
+          ) : (
+            <img className="profile-viewer-video profile-viewer-fallback" src={coverUrl} alt="" />
+          )}
+        </div>
+        <aside className="profile-viewer-side">
+          <div className="profile-viewer-author">
+            <img src={avatarUrl} alt={video.author.nickname || video.author.username} />
+            <div>
+              <strong>@{video.author.nickname || video.author.username}</strong>
+              <span>{formatDate(video.createdAt)}</span>
+            </div>
+          </div>
+          <p>{video.caption}</p>
+          <div className="profile-viewer-stats" aria-label="作品数据">
+            <span>
+              <strong>{formatCount(video.likeCount)}</strong>获赞
+            </span>
+            <span>
+              <strong>{formatCount(video.commentCount)}</strong>评论
+            </span>
+            <span>
+              <strong>{formatCount(video.viewCount)}</strong>播放
+            </span>
+          </div>
+        </aside>
+        <button className="profile-viewer-close" type="button" onClick={onClose} autoFocus aria-label="关闭预览">
+          <span />
+          <span />
+        </button>
+      </section>
+    </div>
   );
 }
 
