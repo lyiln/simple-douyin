@@ -88,6 +88,11 @@ interface ApiService {
     @POST("api/v1/feeds/recommended/reset")
     suspend fun resetRecommendedHistory(): Response<ApiResponseWrapper<ResetRecommendedHistoryData>>
 
+    @POST("api/v1/feeds/recommended/videos/{videoId}/reset")
+    suspend fun resetRecommendedVideoHistory(
+        @Path("videoId") videoId: Long
+    ): Response<ApiResponseWrapper<ResetRecommendedVideoHistoryData>>
+
     // ======================== Health ========================
 
     @GET("api/v1/health")

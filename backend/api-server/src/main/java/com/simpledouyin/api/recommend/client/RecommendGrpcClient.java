@@ -5,6 +5,8 @@ import com.simpledouyin.recommend.proto.ListRecommendedVideosResponse;
 import com.simpledouyin.recommend.proto.RecommendServiceGrpc;
 import com.simpledouyin.recommend.proto.ResetRecommendedHistoryRequest;
 import com.simpledouyin.recommend.proto.ResetRecommendedHistoryResponse;
+import com.simpledouyin.recommend.proto.ResetRecommendedVideoHistoryRequest;
+import com.simpledouyin.recommend.proto.ResetRecommendedVideoHistoryResponse;
 import io.grpc.ManagedChannel;
 import org.springframework.stereotype.Component;
 
@@ -37,5 +39,14 @@ public class RecommendGrpcClient {
                 .setUserId(userId)
                 .build();
         return stub.resetRecommendedHistory(request);
+    }
+
+    public ResetRecommendedVideoHistoryResponse resetRecommendedVideoHistory(String requestId, long userId, long videoId) {
+        ResetRecommendedVideoHistoryRequest request = ResetRecommendedVideoHistoryRequest.newBuilder()
+                .setRequestId(requestId != null ? requestId : "")
+                .setUserId(userId)
+                .setVideoId(videoId)
+                .build();
+        return stub.resetRecommendedVideoHistory(request);
     }
 }

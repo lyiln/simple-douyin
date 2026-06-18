@@ -7,6 +7,11 @@ import { RecommendPage } from "./pages/RecommendPage";
 import { UploadPage } from "./pages/UploadPage";
 import type { AuthData, UserProfile, VideoPostResponse } from "./types";
 
+interface ProfilePlaybackRequest {
+  post: VideoPostResponse;
+  token: number;
+}
+
 function normalizePath(pathname: string): RoutePath {
   if (pathname === "/me") return "/me";
   if (pathname === "/upload") return "/upload";
@@ -18,6 +23,7 @@ export default function App() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authVersion, setAuthVersion] = useState(0);
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [profilePlayback, setProfilePlayback] = useState<ProfilePlaybackRequest | null>(null);
 
   const appClassName = useMemo(() => `app-root route-${route === "/" ? "recommend" : route.slice(1)}`, [route]);
   const openAuth = useCallback(() => setAuthOpen(true), []);
@@ -76,12 +82,24 @@ export default function App() {
     navigate("/me");
   }
 
+  function handleProfileVideoPlayback(post: VideoPostResponse) {
+    setProfilePlayback({ post, token: Date.now() });
+    navigate("/");
+  }
+
   return (
     <div className={appClassName}>
       <TopBar route={route} user={user} onNavigate={navigate} onAuthClick={() => setAuthOpen(true)} />
-      {route === "/" && <RecommendPage authVersion={authVersion} onRequireAuth={openAuth} />}
+      {route === "/" && (
+        <RecommendPage authVersion={authVersion} profilePlayback={profilePlayback} onRequireAuth={openAuth} />
+      )}
       {route === "/me" && (
-        <ProfilePage authVersion={authVersion} onRequireAuth={openAuth} onLogout={() => void handleLogout()} />
+        <ProfilePage
+          authVersion={authVersion}
+          onRequireAuth={openAuth}
+          onLogout={() => void handleLogout()}
+          onPlayVideo={handleProfileVideoPlayback}
+        />
       )}
       {route === "/upload" && <UploadPage onRequireAuth={openAuth} onPublished={handlePublished} />}
       <AuthModal open={authOpen} onAuthenticated={handleAuthenticated} onClose={isLoggedIn() ? () => setAuthOpen(false) : undefined} />

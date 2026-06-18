@@ -28,7 +28,7 @@ API Server 和 Recommend Service 都可以访问 MySQL 8。视频文件由 API S
 | `video` | multipart 上传到 `uploads/`、发布视频、我的视频分页、删除视频、视频详情拼装 | `POST /videos`、`GET /me/videos`、`DELETE /videos/{videoId}` |
 | `like` | 点赞、取消点赞、计数一致性 | `PUT /videos/{videoId}/likes/me`、`DELETE /videos/{videoId}/likes/me` |
 | `view` | 记录访问过的视频 | `POST /videos/{videoId}/views/me` |
-| `feed` | 推荐流 REST 入口，调用 gRPC 后补详情；重置当前用户推荐过滤历史 | `GET /feeds/recommended/videos`、`POST /feeds/recommended/reset` |
+| `feed` | 推荐流 REST 入口，调用 gRPC 后补详情；重置当前用户推荐过滤历史 | `GET /feeds/recommended/videos`、`POST /feeds/recommended/reset`、`POST /feeds/recommended/videos/{videoId}/reset` |
 | `recommend-client` | gRPC 客户端封装 | 被 `feed` 模块调用 |
 | `comment` | P0-lite、最终演示必做的评论列表和发表评论 | `GET/POST /videos/{videoId}/comments` |
 | `logging` | 统一 requestId、输入/输出/耗时日志 | 所有 REST 接口 |
@@ -48,8 +48,8 @@ API Server 和 Recommend Service 都可以访问 MySQL 8。视频文件由 API S
 | 模块 | 职责 | 对应 RPC |
 | --- | --- | --- |
 | `recommend-api` | gRPC proto / 契约定义 | `RecommendService.ListRecommendedVideos` |
-| `recommend-core` | 推荐规则：按点赞数降序，过滤访问记录；重置当前用户访问过滤记录 | `ListRecommendedVideos`、`ResetRecommendedHistory` |
-| `recommend-repository` | 查询 `videos`、`video_views`，按用户删除 `video_views` | `ListRecommendedVideos`、`ResetRecommendedHistory` |
+| `recommend-core` | 推荐规则：按点赞数降序，过滤访问记录；重置当前用户访问过滤记录 | `ListRecommendedVideos`、`ResetRecommendedHistory`、`ResetRecommendedVideoHistory` |
+| `recommend-repository` | 查询 `videos`、`video_views`，按用户或按用户+视频删除 `video_views` | `ListRecommendedVideos`、`ResetRecommendedHistory`、`ResetRecommendedVideoHistory` |
 | `recommend-logging` | gRPC requestId、耗时、异常日志 | 全部 gRPC |
 
 ## 4. 模块依赖
@@ -79,6 +79,7 @@ flowchart LR
 | `GET /me` | `user` | `users`、`videos` | 无 |
 | `GET /feeds/recommended/videos` | `feed`、`recommend-client` | `videos`、`video_likes`、`video_views` | `RecommendService.ListRecommendedVideos` |
 | `POST /feeds/recommended/reset` | `feed`、`recommend-client` | `video_views` | `RecommendService.ResetRecommendedHistory` |
+| `POST /feeds/recommended/videos/{videoId}/reset` | `feed`、`recommend-client` | `video_views` | `RecommendService.ResetRecommendedVideoHistory` |
 | `POST /videos/{videoId}/views/me` | `view` | `video_views`、`videos` | 无 |
 | `PUT /videos/{videoId}/likes/me` | `like` | `video_likes`、`videos` | 无 |
 | `DELETE /videos/{videoId}/likes/me` | `like` | `video_likes`、`videos` | 无 |
@@ -95,6 +96,7 @@ flowchart LR
 | --- | --- |
 | 推荐流 | 必须登录，用当前用户过滤访问记录 |
 | 重置推荐历史 | 必须登录，只删除当前用户的 `video_views` |
+| 重置单视频推荐历史 | 必须登录，只删除当前用户与指定视频的 `video_views` |
 | 记录访问 | 必须登录，只能为当前用户写 `video_views` |
 | 点赞 | 必须登录，只能为当前用户写 `video_likes` |
 | 发布视频 | 必须登录，作者固定为当前用户 |

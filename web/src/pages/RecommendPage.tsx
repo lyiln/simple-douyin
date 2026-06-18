@@ -15,10 +15,11 @@ import type { VideoPostResponse } from "../types";
 
 interface RecommendPageProps {
   authVersion: number;
+  profilePlayback: { post: VideoPostResponse; token: number } | null;
   onRequireAuth: () => void;
 }
 
-export function RecommendPage({ authVersion, onRequireAuth }: RecommendPageProps) {
+export function RecommendPage({ authVersion, profilePlayback, onRequireAuth }: RecommendPageProps) {
   const [posts, setPosts] = useState<VideoPostResponse[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
@@ -27,6 +28,7 @@ export function RecommendPage({ authVersion, onRequireAuth }: RecommendPageProps
   const [resetting, setResetting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [drawerPost, setDrawerPost] = useState<VideoPostResponse | null>(null);
+  const profilePostRef = useRef<VideoPostResponse | null>(null);
   const viewedIds = useRef<Set<number>>(new Set());
   const wheelLock = useRef(0);
 
@@ -45,7 +47,9 @@ export function RecommendPage({ authVersion, onRequireAuth }: RecommendPageProps
       setError(null);
       try {
         const data = await getRecommendedVideos(reset ? null : nextCursor, 10);
-        setPosts((current) => (reset ? data.items : mergePosts(current, data.items)));
+        setPosts((current) =>
+          reset ? pinPostFirst(data.items, profilePostRef.current) : mergePosts(current, data.items)
+        );
         setNextCursor(data.nextCursor);
         setHasMore(data.hasMore);
         if (reset) {
@@ -64,6 +68,7 @@ export function RecommendPage({ authVersion, onRequireAuth }: RecommendPageProps
 
   useEffect(() => {
     if (!isLoggedIn()) {
+      profilePostRef.current = null;
       setPosts([]);
       setActiveIndex(0);
       onRequireAuth();
@@ -71,6 +76,16 @@ export function RecommendPage({ authVersion, onRequireAuth }: RecommendPageProps
     }
     void loadFeed(true);
   }, [authVersion]);
+
+  useEffect(() => {
+    if (!profilePlayback) return;
+    const post = markPostUnviewed(profilePlayback.post);
+    profilePostRef.current = post;
+    viewedIds.current.delete(post.id);
+    setPosts((current) => pinPostFirst(current, post));
+    setActiveIndex(0);
+    setError(null);
+  }, [profilePlayback?.token]);
 
   useEffect(() => {
     if (!activePost || viewedIds.current.has(activePost.id)) return;
@@ -164,6 +179,7 @@ export function RecommendPage({ authVersion, onRequireAuth }: RecommendPageProps
     setError(null);
     try {
       await resetRecommendedHistory();
+      profilePostRef.current = null;
       viewedIds.current.clear();
       setPosts([]);
       setActiveIndex(0);
@@ -253,4 +269,19 @@ export function RecommendPage({ authVersion, onRequireAuth }: RecommendPageProps
 function mergePosts(current: VideoPostResponse[], incoming: VideoPostResponse[]): VideoPostResponse[] {
   const ids = new Set(current.map((post) => post.id));
   return current.concat(incoming.filter((post) => !ids.has(post.id)));
+}
+
+function pinPostFirst(items: VideoPostResponse[], post: VideoPostResponse | null): VideoPostResponse[] {
+  if (!post) return items;
+  return [post, ...items.filter((item) => item.id !== post.id)];
+}
+
+function markPostUnviewed(post: VideoPostResponse): VideoPostResponse {
+  return {
+    ...post,
+    viewerState: {
+      ...post.viewerState,
+      viewed: false
+    }
+  };
 }

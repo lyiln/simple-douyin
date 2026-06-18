@@ -30,6 +30,7 @@ public class BearerAuthenticationFilter extends OncePerRequestFilter {
     private static final String MY_VIDEOS_PATH = "/api/v1/me/videos";
     private static final String FEED_PATH = "/api/v1/feeds/recommended/videos";
     private static final String FEED_RESET_PATH = "/api/v1/feeds/recommended/reset";
+    private static final String FEED_VIDEO_PREFIX = "/api/v1/feeds/recommended/videos/";
     private static final String BEARER_PREFIX = "Bearer ";
 
     private final HmacTokenService tokenService;
@@ -88,8 +89,20 @@ public class BearerAuthenticationFilter extends OncePerRequestFilter {
                 || ("POST".equalsIgnoreCase(method) && isVideoActionPath(path, "/views/me"))
                 || ("GET".equalsIgnoreCase(method) && FEED_PATH.equals(path))
                 || ("POST".equalsIgnoreCase(method) && FEED_RESET_PATH.equals(path))
+                || ("POST".equalsIgnoreCase(method) && isFeedVideoResetPath(path))
                 || ("GET".equalsIgnoreCase(method) && isVideoActionPath(path, "/comments"))
                 || ("POST".equalsIgnoreCase(method) && isVideoActionPath(path, "/comments"));
+    }
+
+    private boolean isFeedVideoResetPath(String path) {
+        if (!path.startsWith(FEED_VIDEO_PREFIX) || !path.endsWith("/reset")) {
+            return false;
+        }
+        String videoIdPart = path.substring(
+                FEED_VIDEO_PREFIX.length(),
+                path.length() - "/reset".length()
+        );
+        return !videoIdPart.isBlank() && videoIdPart.indexOf('/') < 0;
     }
 
     private boolean isVideoActionPath(String path, String suffix) {
