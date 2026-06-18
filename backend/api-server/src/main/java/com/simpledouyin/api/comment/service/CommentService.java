@@ -1,5 +1,16 @@
 package com.simpledouyin.api.comment.service;
 
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.simpledouyin.api.comment.dto.CommentResponse;
 import com.simpledouyin.api.comment.dto.GetCommentsResponse;
 import com.simpledouyin.api.comment.dto.PostCommentRequest;
@@ -11,16 +22,9 @@ import com.simpledouyin.api.common.BusinessException;
 import com.simpledouyin.api.common.ErrorCode;
 import com.simpledouyin.api.common.RequestContext;
 import com.simpledouyin.api.video.dto.AuthorSummary;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.simpledouyin.api.video.repository.VideoRepository;
 
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class CommentService {
@@ -30,9 +34,11 @@ public class CommentService {
     private static final int MAX_LIMIT = 50;
 
     private final CommentRepository commentRepository;
+    private final VideoRepository videoRepository;
 
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, VideoRepository videoRepository) {
         this.commentRepository = commentRepository;
+        this.videoRepository = videoRepository;
     }
 
     /**
@@ -52,13 +58,16 @@ public class CommentService {
         // 校验内容
         String content = validateContent(body != null ? body.content() : null);
 
-        // 验证视频存在
-        if (!commentRepository.videoExists(videoId)) {
-            throw new BusinessException(ErrorCode.VIDEO_NOT_FOUND);
+        // 发表评论（create 内部通过子查询验证视频存在，并发删除时抛 IllegalStateException）
+        Comment comment;
+        try {
+            comment = commentRepository.create(videoId, currentUserId, content);
+        } catch (IllegalStateException e) {
+            if (e.getMessage() != null && e.getMessage().startsWith("video not found or deleted")) {
+                throw new BusinessException(ErrorCode.VIDEO_NOT_FOUND);
+            }
+            throw e;
         }
-
-        // 发表评论
-        Comment comment = commentRepository.create(videoId, currentUserId, content);
 
         // 获取最新评论数
         long commentCount = commentRepository.countByVideoId(videoId);
@@ -82,15 +91,16 @@ public class CommentService {
         // 需要登录
         currentUserId(request);
 
-        // 验证视频存在
-        if (!commentRepository.videoExists(videoId)) {
-            throw new BusinessException(ErrorCode.VIDEO_NOT_FOUND);
-        }
-
         int pageSize = normalizeLimit(limit);
         CommentPageCursor pageCursor = decodeCursor(cursor);
 
         List<Comment> comments = commentRepository.findByVideoId(videoId, pageCursor, pageSize + 1);
+
+        // 仅在首页无评论时校验视频是否存在（有评论时无需额外查询）
+        if (comments.isEmpty() && pageCursor == null && !videoRepository.videoExists(videoId)) {
+            throw new BusinessException(ErrorCode.VIDEO_NOT_FOUND);
+        }
+
         boolean hasMore = comments.size() > pageSize;
         List<Comment> page = hasMore ? comments.subList(0, pageSize) : comments;
 
@@ -137,7 +147,8 @@ public class CommentService {
             return DEFAULT_LIMIT;
         }
         if (limit < 1 || limit > MAX_LIMIT) {
-            throw new BusinessException(ErrorCode.INVALID_PARAMETER, "invalid limit");
+            throw new BusinessException(ErrorCode.INVALID_PARAMETER,
+                    "limit must be between 1 and " + MAX_LIMIT + ", but was " + limit);
         }
         return limit;
     }
@@ -159,7 +170,7 @@ public class CommentService {
     }
 
     private String encodeCursor(Comment comment) {
-        String value = comment.createdAt() + "|" + comment.id();
+        String value = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(comment.createdAt()) + "|" + comment.id();
         return Base64.getUrlEncoder().withoutPadding()
                 .encodeToString(value.getBytes(StandardCharsets.UTF_8));
     }

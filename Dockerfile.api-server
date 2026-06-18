@@ -1,0 +1,9 @@
+FROM eclipse-temurin:17-jre
+
+WORKDIR /app
+
+COPY backend/api-server/target/api-server-0.1.0-SNAPSHOT.jar /app/api-server.jar
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "/app/api-server.jar"]

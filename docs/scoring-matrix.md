@@ -8,9 +8,10 @@
 
 | # | 课程评分点 | 实现位置 | 接口 | 数据库表 | 测试 | 演示 | 状态 |
 |---|-----------|---------|------|---------|------|------|------|
-| 1 | 按点赞数最高推荐 | gRPC Recommend Service | `GET /feeds/recommended/videos` | `videos` (idx_videos_recommend) | T20 R01/R02/R05 | 推荐列表排序 | ⬜ 成员B |
-| 2 | 访问过不再推荐 | `video_views` 排除逻辑 | `POST /videos/{id}/views/me` | `video_views` (uk_user_video) | T14 R03/R04 | 已看视频消失 | ⬜ 成员B |
-| 3 | 视频上下滑动 | Android `VerticalPager` | 消费推荐流 API | — | F01 | 上下滑动播放 | ⬜ 依赖推荐流 |
+| 1 | 按点赞数最高推荐 | gRPC Recommend Service | `GET /feeds/recommended/videos` | `videos` (idx_videos_recommend) | T20 R01/R02/R05 | 推荐列表排序 | ✅ |
+|   | *设计取舍：like_count 为实时 COUNT 子查询，idx_videos_recommend 中 like_count 列始终为 0 导致索引排序失效，全表扫描。课程数据量小可接受，生产环境应恢复反规范化计数器。* | | | | | | |
+| 2 | 访问过不再推荐 | `video_views` 排除逻辑 | `POST /videos/{id}/views/me` | `video_views` (uk_user_video) | T14 R03/R04 | 已看视频消失 | ✅ |
+| 3 | 视频上下滑动 | Android `VerticalPager` | 消费推荐流 API | — | F01 | 上下滑动播放 | ✅ |
 | 4 | 视频点赞 | `LikeController` + `VideoService` | `PUT/DELETE /videos/{id}/likes/me` | `video_likes` (uk_user_video) | T13 I01/I02 | 点赞状态更新 | ✅ |
 | 5 | 评论演示闭环 | `CommentController` + `CommentService` | `GET/POST /videos/{id}/comments` | `comments` | T23-T25 C01-C06 | 查看+提交评论 | ✅ |
 | 6 | 发布视频 | `VideoController` + `LocalUploadStorageService` | `POST /videos` (multipart) | `videos` | T10 N05/E05-E07 | 登录后发布 | ✅ |
@@ -22,7 +23,7 @@
 | 12 | 日志监控 | `RequestLoggingFilter` | 所有 REST 接口 | `request_logs` | L01-L07 | 输入/输出/耗时/聚合 | ✅ |
 | 13 | 集成健康检查 | `HealthController` + `GrpcConfig` | `GET /health` | — | H01-H04 | MySQL/gRPC 状态 | ✅ |
 | 14 | 安全与权限 | `BearerAuthenticationFilter` | 所有需登录接口 | — | P01-P08/L04 | 401/403/脱敏 | ✅ |
-| 15 | 主端通过 RPC 推荐 | `GrpcConfig` + gRPC Client | `GET /feeds/recommended/videos` → `RecommendService` | `videos`、`video_views` | R08/E10 | gRPC 调用日志 | ⬜ 成员B |
+| 15 | 主端通过 RPC 推荐 | `GrpcConfig` + gRPC Client | `GET /feeds/recommended/videos` → `RecommendService` | `videos`、`video_views` | R08/E10 | gRPC 调用日志 | ✅ |
 | 16 | 文档与项目管理 | `docs/` + `README.md` + `.gitignore` | — | — | A01-A09 | PPT 展示 | ✅ |
 | 17 | 前端联调 | `frontend/` + `ApiService` + `ApiRepository` | 全部 REST 接口 | — | F01-F04 | Android 真实数据 | ✅ |
 
@@ -30,24 +31,23 @@
 
 | 状态 | 数量 | 评分点 |
 |------|------|--------|
-| ✅ 已完成 | 13 | #4-#14, #16-#17 |
-| ⬜ 待成员B | 4 | #1-#3, #15 |
+| ✅ 已完成 | 17 | #1-#17 |
+| ⬜ 未完成 | 0 | — |
 | **合计** | **17** | |
 
 ## 缺陷 / 遗留项
 
 | # | 项目 | 影响 | 负责人 |
 |---|------|------|--------|
-| 1 | 推荐流 (T15-T17) 未实现 | 无法演示推荐主场景 (F01) | 成员 B |
-| 2 | 推荐规则测试 (T20) 未编写 | 推荐排序/过滤无法自动化验证 | 成员 B |
-| 3 | 演示视频未录制 | T30 交付物缺失 | 成员 C |
+| 1 | 演示视频未录制 | T30 交付物缺失 | 成员 C |
+| 2 | 团队评分表待填写姓名/学号 | T30 交付物不完整 | 成员 C |
+| 3 | 答辩 PPT 待制作 | T30 交付物缺失 | 成员 C |
 
-## 需成员B交付后方可关闭
+## 已完成
 
-- T15：gRPC proto 定义 + Maven 生成配置
-- T16：Recommend Service 推荐规则实现
-- T17：`GET /api/v1/feeds/recommended/videos` REST 端点
-- T20：推荐规则测试（R01-R08）
+- T15-T17 + T20：gRPC 推荐服务和推荐流（成员 B 已完成）
+- T23-T25：评论闭环（成员 C 已完成）
+- T26-T27：前端联调（成员 C 已完成）
 
 ## 验收结论
 

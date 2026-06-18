@@ -16,8 +16,8 @@
 | 成员 | 已完成任务 | 交付物 |
 |------|-----------|--------|
 | 成员 A | T13 点赞/取消点赞、T14 访问记录、T18 健康检查、T19 核心测试(26用例)、T21 权限测试、T22 日志测试 | 点赞/访问/health 接口，VideoRepositoryTest/LikeControllerTest/ViewControllerTest/HealthControllerTest |
-| 成员 B | T15 proto 契约、T16 推荐规则、T17 推荐流 REST、T20 推荐测试（待完成） | proto 文件、Recommend Service、推荐 REST、推荐测试 |
-| 成员 C | T23 评论列表、T24 发表评论、T25 评论测试(16用例)、T26-T27 前端网络层+评论API对接、T28 评分点矩阵、T29 文档更新、T30-T31 交付材料 | CommentController/CommentRepository/CommentService、ApiService/ApiClient/ApiRepository、scoring-matrix.md、test-plan 结果、progress 更新 |
+| 成员 B | T15 proto 契约、T16 推荐规则、T17 推荐流 REST、T20 推荐测试(17用例) | proto 文件、Recommend Service、推荐 REST、RecommendRepositoryTest/FeedControllerTest |
+| 成员 C | T23 评论列表、T24 发表评论、T25 评论测试(16用例)、T26-T27 前端网络层+评论API对接、T28 评分点矩阵、T29 文档更新、T31 最终检查清单、代码审查报告 | CommentController/CommentRepository/CommentService、ApiService/ApiClient/ApiRepository、scoring-matrix.md、final-checklist.md、代码审查报告.md |
 
 ## 评分维度（100 分制）
 
