@@ -1,0 +1,92 @@
+name: simple-douyin-local
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: simple-douyin-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: simple_douyin_local
+      MYSQL_DATABASE: simple_douyin
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  recommend-service:
+    container_name: simple-douyin-recommend-service
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      args:
+        MODULE: backend/recommend-service
+        JAR_FILE: backend/recommend-service/target/recommend-service-0.1.0-SNAPSHOT-exec.jar
+    environment:
+      MYSQL_URL: jdbc:mysql://mysql:3306/simple_douyin?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: simple_douyin_local
+      RECOMMEND_GRPC_PORT: 9090
+      RECOMMEND_ADMIN_PORT: 8081
+      TZ: Asia/Shanghai
+    ports:
+      - "8081:8081"
+      - "9090:9090"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+  api-server:
+    container_name: simple-douyin-api-server
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      args:
+        MODULE: backend/api-server
+        JAR_FILE: backend/api-server/target/api-server-0.1.0-SNAPSHOT.jar
+    environment:
+      MYSQL_URL: jdbc:mysql://mysql:3306/simple_douyin?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: simple_douyin_local
+      API_SERVER_PORT: 8080
+      RECOMMEND_GRPC_HOST: recommend-service
+      RECOMMEND_GRPC_PORT: 9090
+      AUTH_TOKEN_SECRET: local-docker-dev-token-secret-change-before-public-demo
+      UPLOADS_DIR: /app/uploads
+      TZ: Asia/Shanghai
+    ports:
+      - "8080:8080"
+    volumes:
+      - uploads-data:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+      recommend-service:
+        condition: service_started
+    restart: unless-stopped
+
+  web:
+    container_name: simple-douyin-web
+    build:
+      context: web
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      api-server:
+        condition: service_started
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+  uploads-data:

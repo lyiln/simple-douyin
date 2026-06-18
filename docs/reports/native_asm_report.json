@@ -1,0 +1,2262 @@
+{
+  "count": 282,
+  "errors": [],
+  "seconds": 274.62,
+  "items": [
+    {
+      "label": "assets/arm64-v8a/libalog.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\assets\\arm64-v8a\\libalog.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 117576,
+      "exec_size": 49248,
+      "sections": 2
+    },
+    {
+      "label": "assets/libwbsafeedit",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\assets\\libwbsafeedit.asm",
+      "machine": "EM_ARM",
+      "elf_size": 12132,
+      "exec_size": 5456,
+      "sections": 2
+    },
+    {
+      "label": "assets/libwbsafeedit_64",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\assets\\libwbsafeedit_64.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18344,
+      "exec_size": 8972,
+      "sections": 2
+    },
+    {
+      "label": "assets/libwbsafeedit_x86",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\assets\\libwbsafeedit_x86.asm",
+      "machine": "EM_386",
+      "elf_size": 15672,
+      "exec_size": 8322,
+      "sections": 2
+    },
+    {
+      "label": "assets/libwbsafeedit_x86_64",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\assets\\libwbsafeedit_x86_64.asm",
+      "machine": "EM_X86_64",
+      "elf_size": 18168,
+      "exec_size": 9010,
+      "sections": 2
+    },
+    {
+      "label": "assets/mend",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\assets\\mend.asm",
+      "machine": "EM_386",
+      "elf_size": 5520,
+      "exec_size": 1286,
+      "sections": 2
+    },
+    {
+      "label": "assets/plugins/com.ss.android.ugc.aweme.cjplugin.jar!/lib/arm64-v8a/libcaijing_zxing.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\assets\\plugins\\com.ss.android.ugc.aweme.cjplugin.jar__\\lib\\arm64-v8a\\libcaijing_zxing.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 494968,
+      "exec_size": 154736,
+      "sections": 2
+    },
+    {
+      "label": "assets/plugins/com.ss.android.ugc.aweme.kmp_miniapp.jar!/lib/arm64-v8a/libunicorn_neo.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\assets\\plugins\\com.ss.android.ugc.aweme.kmp_miniapp.jar__\\lib\\arm64-v8a\\libunicorn_neo.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1873696,
+      "exec_size": 1285192,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libAGFX.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libAGFX.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1067112,
+      "exec_size": 542480,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libByteVC1_dec.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libByteVC1_dec.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 478608,
+      "exec_size": 411700,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libCKResourceJni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libCKResourceJni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 477264,
+      "exec_size": 184604,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libCoreCpt.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libCoreCpt.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 476856,
+      "exec_size": 382080,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libCtaApiLib.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libCtaApiLib.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 939544,
+      "exec_size": 501160,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libCurve25519Donna.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libCurve25519Donna.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18184,
+      "exec_size": 10456,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libCutSameConsumerJni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libCutSameConsumerJni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 2590848,
+      "exec_size": 1236508,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libCutSameJni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libCutSameJni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 804976,
+      "exec_size": 510616,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libDavinciResourceJni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libDavinciResourceJni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1509504,
+      "exec_size": 623148,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libEffectEditorABTestJni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libEffectEditorABTestJni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51232,
+      "exec_size": 18692,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libEffectEditorJni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libEffectEditorJni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 280664,
+      "exec_size": 128256,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libEncryptor.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libEncryptor.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 83928,
+      "exec_size": 29876,
+      "sections": 3
+    },
+    {
+      "label": "lib/arm64-v8a/libILAMaterialSDK.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libILAMaterialSDK.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 4491648,
+      "exec_size": 2386704,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libILASDK.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libILASDK.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 5901280,
+      "exec_size": 3194140,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libLogTransport.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libLogTransport.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 648128,
+      "exec_size": 290980,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libNLEMediaRemoteJni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libNLEMediaRemoteJni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 248016,
+      "exec_size": 111404,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libNLEPresetJni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libNLEPresetJni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 2461344,
+      "exec_size": 1085640,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libNLEResourcesDAVJni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libNLEResourcesDAVJni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 264560,
+      "exec_size": 98288,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libStreamCore.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libStreamCore.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1216008,
+      "exec_size": 804648,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libTTHtmlParser_dyreader.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libTTHtmlParser_dyreader.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 933144,
+      "exec_size": 543104,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libTTMachineCore.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libTTMachineCore.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 430040,
+      "exec_size": 263428,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libTTWebViewSdkFlipped.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libTTWebViewSdkFlipped.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 8744,
+      "exec_size": 2080,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libTuringYuvUtils.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libTuringYuvUtils.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 188112,
+      "exec_size": 112612,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libabrmodule.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libabrmodule.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 248328,
+      "exec_size": 172120,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libalog.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libalog.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 68056,
+      "exec_size": 32240,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libandroidx.graphics.path.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libandroidx.graphics.path.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 10096,
+      "exec_size": 3852,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libanimax.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libanimax.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 690520,
+      "exec_size": 351180,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libanimax_bytevc1.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libanimax_bytevc1.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51216,
+      "exec_size": 6660,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libanimax_napi.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libanimax_napi.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 84104,
+      "exec_size": 19468,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libanimax_textra.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libanimax_textra.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 83984,
+      "exec_size": 17920,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libapplog_rust.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libapplog_rust.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 558648,
+      "exec_size": 344832,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libarcore_sdk_c.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libarcore_sdk_c.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 68024,
+      "exec_size": 13596,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libarcore_sdk_jni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libarcore_sdk_jni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 100800,
+      "exec_size": 42280,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libart_method_ext.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libart_method_ext.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18560,
+      "exec_size": 2052,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libart_sym.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libart_sym.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 185216,
+      "exec_size": 57760,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libaudio_fingerprint_sdk.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libaudio_fingerprint_sdk.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 378824,
+      "exec_size": 233432,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libaudioeffect.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libaudioeffect.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 7722648,
+      "exec_size": 4495028,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libaudioeffectdls.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libaudioeffectdls.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 625264,
+      "exec_size": 320792,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libavframework.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libavframework.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 3318112,
+      "exec_size": 2144528,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libavmdlbase.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libavmdlbase.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34568,
+      "exec_size": 4580,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libavmdlv2.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libavmdlv2.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 2033880,
+      "exec_size": 1561032,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbach-sdk-jni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbach-sdk-jni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 166264,
+      "exec_size": 104932,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbasedevtool.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbasedevtool.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 543096,
+      "exec_size": 306808,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbat.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbat.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 313392,
+      "exec_size": 132672,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbdbadger.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbdbadger.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 2638640,
+      "exec_size": 1949100,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbdheif.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbdheif.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 101920,
+      "exec_size": 63328,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbdmpg123.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbdmpg123.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 150136,
+      "exec_size": 63772,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbdp_yuv.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbdp_yuv.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 264264,
+      "exec_size": 181892,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbdp_yuvutil.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbdp_yuvutil.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 264248,
+      "exec_size": 166816,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbdsword.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbdsword.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 150352,
+      "exec_size": 93480,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbdvideouploader.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbdvideouploader.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 805112,
+      "exec_size": 497420,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbdzstd.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbdzstd.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 231248,
+      "exec_size": 192964,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libblender_worklet_jni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libblender_worklet_jni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 67688,
+      "exec_size": 29964,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbmf_hydra_lite.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbmf_hydra_lite.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 2440616,
+      "exec_size": 893312,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbrotlicommon.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbrotlicommon.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 149256,
+      "exec_size": 2068,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbrotlidec.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbrotlidec.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 50952,
+      "exec_size": 27796,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbtch_collection.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbtch_collection.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 707744,
+      "exec_size": 386884,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbuffer.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbuffer.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18184,
+      "exec_size": 3016,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbvcparser.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbvcparser.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51416,
+      "exec_size": 26136,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbyteVC2dec.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbyteVC2dec.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 527752,
+      "exec_size": 452432,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbyte_coffee.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbyte_coffee.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 133224,
+      "exec_size": 73852,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbyte_rec.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbyte_rec.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 14240,
+      "exec_size": 5212,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbyteaudio.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbyteaudio.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 4918768,
+      "exec_size": 3225132,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbytebench.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbytebench.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 690592,
+      "exec_size": 412400,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbytehook.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbytehook.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 58008,
+      "exec_size": 34180,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbytelink.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbytelink.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 920712,
+      "exec_size": 365156,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbytemonitor.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbytemonitor.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 67408,
+      "exec_size": 35408,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbytenn.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbytenn.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 3147800,
+      "exec_size": 2346488,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbytenn_plugin_ocl.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbytenn_plugin_ocl.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1099672,
+      "exec_size": 723812,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbytennllm-jni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbytennllm-jni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 166000,
+      "exec_size": 93428,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbytennllm.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbytennllm.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1459968,
+      "exec_size": 881328,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbytennwrapper.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbytennwrapper.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51232,
+      "exec_size": 32364,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbyterts.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbyterts.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 3885488,
+      "exec_size": 2358544,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbytevc0.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbytevc0.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 548760,
+      "exec_size": 431320,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libbytevc1enc.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libbytevc1enc.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1274600,
+      "exec_size": 1009168,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libc++_shared.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libc++_shared.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 919888,
+      "exec_size": 455264,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libcachemodule.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libcachemodule.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 708104,
+      "exec_size": 447456,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libcastproxy.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libcastproxy.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34760,
+      "exec_size": 12848,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libclay.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libclay.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1610040,
+      "exec_size": 1001056,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libcllamaengine-android.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libcllamaengine-android.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 9735192,
+      "exec_size": 6306644,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libcoversong_sdk.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libcoversong_sdk.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 116776,
+      "exec_size": 83208,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libdaemon.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libdaemon.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 14112,
+      "exec_size": 3652,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libdelta.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libdelta.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34656,
+      "exec_size": 7840,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libdexvmp.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libdexvmp.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 492024,
+      "exec_size": 416264,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libdisktracing.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libdisktracing.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 376440,
+      "exec_size": 228180,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libec_jpeg_decoder.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libec_jpeg_decoder.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 198528,
+      "exec_size": 164480,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libec_pdp_perf.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libec_pdp_perf.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 255288,
+      "exec_size": 134528,
+      "sections": 3
+    },
+    {
+      "label": "lib/arm64-v8a/libeffect.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libeffect.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 33648968,
+      "exec_size": 19925992,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libentryexpro.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libentryexpro.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 177624,
+      "exec_size": 80540,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liberis.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liberis.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18256,
+      "exec_size": 2648,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libevil-core.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libevil-core.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 592040,
+      "exec_size": 372768,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libfastcv.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libfastcv.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1091128,
+      "exec_size": 607356,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libfastmalloc.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libfastmalloc.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 232336,
+      "exec_size": 146432,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libfdk-aac.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libfdk-aac.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 625312,
+      "exec_size": 336288,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libfileprotect.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libfileprotect.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51496,
+      "exec_size": 24800,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libflipped.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libflipped.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 7384,
+      "exec_size": 1512,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libflock-lib.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libflock-lib.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18136,
+      "exec_size": 700,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libfwatchdog.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libfwatchdog.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18256,
+      "exec_size": 1592,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libgaia_lib.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libgaia_lib.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 542744,
+      "exec_size": 287568,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libgecko_encrypt.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libgecko_encrypt.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18200,
+      "exec_size": 1740,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libgeckox_bspatch.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libgeckox_bspatch.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 119768,
+      "exec_size": 76180,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libgifimage.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libgifimage.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51696,
+      "exec_size": 21948,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libgkfs.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libgkfs.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 215160,
+      "exec_size": 106156,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libgodzilla-sysopt.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libgodzilla-sysopt.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34616,
+      "exec_size": 18000,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libhdiffpatch.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libhdiffpatch.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 530056,
+      "exec_size": 295344,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libhelios_bm.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libhelios_bm.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18424,
+      "exec_size": 6712,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libhidden_watermark_lib.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libhidden_watermark_lib.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34920,
+      "exec_size": 21732,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libhpatchz.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libhpatchz.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 26352,
+      "exec_size": 16640,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libiesapplogger.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libiesapplogger.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 67616,
+      "exec_size": 35068,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libimagepipeline.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libimagepipeline.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 264328,
+      "exec_size": 219588,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libinterstellar.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libinterstellar.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18568,
+      "exec_size": 2568,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libisecgm.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libisecgm.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 509936,
+      "exec_size": 315492,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libjarvis-binder.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libjarvis-binder.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18440,
+      "exec_size": 1824,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libjarvis-experience-metric.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libjarvis-experience-metric.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51504,
+      "exec_size": 29268,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libjarvis-stacktrace.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libjarvis-stacktrace.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18328,
+      "exec_size": 3244,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libjarvis-trace.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libjarvis-trace.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 658640,
+      "exec_size": 479692,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libjato.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libjato.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1202120,
+      "exec_size": 787540,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libjazz.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libjazz.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 248304,
+      "exec_size": 115464,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libjstack.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libjstack.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 280648,
+      "exec_size": 127660,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkeva.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkeva.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 215680,
+      "exec_size": 93484,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkrypton.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkrypton.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1723616,
+      "exec_size": 941512,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkrypton_dawn.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkrypton_dawn.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 4911056,
+      "exec_size": 2498184,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkrypton_sar.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkrypton_sar.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 379080,
+      "exec_size": 212628,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkryptonaudio.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkryptonaudio.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 313552,
+      "exec_size": 160132,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkryptonaudioaudioeffect.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkryptonaudioaudioeffect.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 116824,
+      "exec_size": 37652,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkryptonaudioeffect.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkryptonaudioeffect.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 36848,
+      "exec_size": 12160,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkryptonaudioogg.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkryptonaudioogg.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 116752,
+      "exec_size": 33080,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkryptonaurum.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkryptonaurum.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 198896,
+      "exec_size": 82148,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkryptoneffect.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkryptoneffect.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 116752,
+      "exec_size": 37720,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkryptoni18n.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkryptoni18n.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 429928,
+      "exec_size": 240452,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkryptonlive.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkryptonlive.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51216,
+      "exec_size": 6484,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkryptonogg.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkryptonogg.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 116752,
+      "exec_size": 32900,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkryptonrtc.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkryptonrtc.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 84168,
+      "exec_size": 25220,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libkryptonvecamera.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libkryptonvecamera.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 84168,
+      "exec_size": 25932,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblens.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblens.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 2674600,
+      "exec_size": 1327344,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblighten-bitmap-monitor.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblighten-bitmap-monitor.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 280840,
+      "exec_size": 131532,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libliveffect.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libliveffect.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 526992,
+      "exec_size": 315276,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libliveplayer.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libliveplayer.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1018120,
+      "exec_size": 500216,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libliveplayer2.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libliveplayer2.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1972744,
+      "exec_size": 1164152,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblivestrategy.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblivestrategy.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 2639992,
+      "exec_size": 1729460,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblogger.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblogger.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18264,
+      "exec_size": 432,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynx.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynx.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 4505488,
+      "exec_size": 2804440,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynx_debug.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynx_debug.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 4325384,
+      "exec_size": 2431348,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynx_krypton.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynx_krypton.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51144,
+      "exec_size": 5316,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynx_markdown.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynx_markdown.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 264320,
+      "exec_size": 180776,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynx_service_api.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynx_service_api.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51216,
+      "exec_size": 1384,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynx_text_service.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynx_text_service.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 84048,
+      "exec_size": 24000,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynx_v8_bridge.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynx_v8_bridge.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 117040,
+      "exec_size": 37376,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynxbase.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynxbase.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 232224,
+      "exec_size": 116380,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynxdebugrouter.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynxdebugrouter.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1264344,
+      "exec_size": 722360,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynxdevtool.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynxdevtool.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 707128,
+      "exec_size": 380160,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynxdevtool_qjs_bridge.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynxdevtool_qjs_bridge.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 215256,
+      "exec_size": 112552,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynxdevtool_v8_bridge.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynxdevtool_v8_bridge.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 149928,
+      "exec_size": 58624,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynxsecurity.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynxsecurity.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51144,
+      "exec_size": 16372,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynxservice.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynxservice.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51224,
+      "exec_size": 3916,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/liblynxtrace.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\liblynxtrace.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51232,
+      "exec_size": 724,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libmali_gpu_perf_counter.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libmali_gpu_perf_counter.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 2590736,
+      "exec_size": 2498152,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libmannorarmor.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libmannorarmor.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 72528,
+      "exec_size": 49724,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libmemorydegradation.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libmemorydegradation.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 4408,
+      "exec_size": 268,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libmetasec_ml.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libmetasec_ml.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 5657800,
+      "exec_size": 3505076,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libmethod_discover.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libmethod_discover.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 149632,
+      "exec_size": 69440,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libmonitor_ext.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libmonitor_ext.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18432,
+      "exec_size": 1824,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libmonitorcollector-lib.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libmonitorcollector-lib.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 313984,
+      "exec_size": 132068,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libmotion.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libmotion.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 575608,
+      "exec_size": 429236,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libmotion_compress.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libmotion_compress.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 297064,
+      "exec_size": 170084,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libn.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libn.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18304,
+      "exec_size": 380,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnapi.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnapi.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 280672,
+      "exec_size": 154272,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnative-filters.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnative-filters.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34824,
+      "exec_size": 14860,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnative_badger_log.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnative_badger_log.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 314616,
+      "exec_size": 186996,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnative_classloader.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnative_classloader.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34928,
+      "exec_size": 6588,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnative_log.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnative_log.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 379768,
+      "exec_size": 223484,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnativebuffer.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnativebuffer.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 215096,
+      "exec_size": 102768,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnativelog.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnativelog.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 986240,
+      "exec_size": 537448,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnativeserver.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnativeserver.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1634072,
+      "exec_size": 882916,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnetecho.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnetecho.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18256,
+      "exec_size": 6360,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnewep.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnewep.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 166360,
+      "exec_size": 118900,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnleimagejni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnleimagejni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 903544,
+      "exec_size": 437556,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 176896,
+      "exec_size": 99480,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_bt.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_bt.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 7344,
+      "exec_size": 1672,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_dl.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_dl.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 27456,
+      "exec_size": 14632,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_dumper.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_dumper.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 102256,
+      "exec_size": 61260,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_fd_tracker.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_fd_tracker.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 38336,
+      "exec_size": 20464,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_fp_unw.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_fp_unw.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 6112,
+      "exec_size": 1248,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_heap_tracker.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_heap_tracker.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 43176,
+      "exec_size": 25420,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_logcat.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_logcat.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 16856,
+      "exec_size": 7536,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_ref_monitor.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_ref_monitor.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 28040,
+      "exec_size": 12296,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_repair.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_repair.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 27896,
+      "exec_size": 10940,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_tls_monitor.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_tls_monitor.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 15872,
+      "exec_size": 7016,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_unw.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_unw.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 31440,
+      "exec_size": 14800,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_unwind.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_unwind.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 222368,
+      "exec_size": 160700,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_vm_monitor.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_vm_monitor.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 55968,
+      "exec_size": 33908,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnpth_xasan.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnpth_xasan.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 40688,
+      "exec_size": 21844,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libnslinker.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libnslinker.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18608,
+      "exec_size": 2784,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libocr_jni.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libocr_jni.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 215144,
+      "exec_size": 141980,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libonetex.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libonetex.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 6621544,
+      "exec_size": 3390500,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libosfix.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libosfix.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 215912,
+      "exec_size": 103964,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libpl_droidsonroids_gif.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libpl_droidsonroids_gif.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 42464,
+      "exec_size": 22928,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libpreload.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libpreload.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 3049416,
+      "exec_size": 2242012,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libprofiler.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libprofiler.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 471600,
+      "exec_size": 302288,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libpush_ka.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libpush_ka.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 5896,
+      "exec_size": 612,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libquick.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libquick.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1935848,
+      "exec_size": 1520992,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libreflect.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libreflect.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18256,
+      "exec_size": 3036,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/librelax.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\librelax.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1117936,
+      "exec_size": 574312,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/librelaxui.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\librelaxui.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 133144,
+      "exec_size": 48300,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libreparo.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libreparo.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 159184,
+      "exec_size": 60476,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libropaencrypt.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libropaencrypt.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34904,
+      "exec_size": 19636,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/librtclive.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\librtclive.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 14796808,
+      "exec_size": 11148204,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/librtclive_nico_extension.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\librtclive_nico_extension.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 528904,
+      "exec_size": 426936,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libserval_svg.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libserval_svg.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 135296,
+      "exec_size": 77160,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libshadowhook.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libshadowhook.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 101816,
+      "exec_size": 63396,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libshadowhook_nothing.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libshadowhook_nothing.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1112,
+      "exec_size": 0,
+      "sections": 0
+    },
+    {
+      "label": "lib/arm64-v8a/libsheo.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsheo.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 477312,
+      "exec_size": 250588,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libskity-codec.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libskity-codec.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 740192,
+      "exec_size": 601332,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libskity-graphics.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libskity-graphics.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 215192,
+      "exec_size": 118328,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libskity.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libskity.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1558808,
+      "exec_size": 985368,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsnapdragon_services_adk.qti.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsnapdragon_services_adk.qti.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 415264,
+      "exec_size": 203320,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsnapdragon_services_qape.qti.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsnapdragon_services_qape.qti.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 520576,
+      "exec_size": 255848,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsniper_record.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsniper_record.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 346296,
+      "exec_size": 157824,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsoloader.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsoloader.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 67736,
+      "exec_size": 19360,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsonicjson.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsonicjson.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 165920,
+      "exec_size": 57188,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libspeechengine.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libspeechengine.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 988016,
+      "exec_size": 731060,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsscronet-wrapper-helper.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsscronet-wrapper-helper.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 428248,
+      "exec_size": 226344,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsscronet-wrapper.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsscronet-wrapper.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 100464,
+      "exec_size": 43544,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsscronet.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsscronet.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 4993816,
+      "exec_size": 3851224,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libstatic-webp.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libstatic-webp.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 396088,
+      "exec_size": 310472,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libstoragehandlerlib.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libstoragehandlerlib.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 85120,
+      "exec_size": 43620,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libstretch.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libstretch.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 452688,
+      "exec_size": 335072,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsweep_tools.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsweep_tools.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34640,
+      "exec_size": 11116,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsys-platform.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsys-platform.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 9992,
+      "exec_size": 1360,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsysmonitor.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsysmonitor.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 100736,
+      "exec_size": 56404,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsysoptimizer.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsysoptimizer.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 609152,
+      "exec_size": 400260,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsysoptimizer_early.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsysoptimizer_early.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51488,
+      "exec_size": 28420,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libsysoptimizer_qape.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libsysoptimizer_qape.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 35024,
+      "exec_size": 17952,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libtailor.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libtailor.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 67664,
+      "exec_size": 31212,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libtexturerender_native.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libtexturerender_native.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 67480,
+      "exec_size": 31056,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libtt_cnpa_sdk.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libtt_cnpa_sdk.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 2915728,
+      "exec_size": 1984560,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libttboringssl.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libttboringssl.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 367512,
+      "exec_size": 193508,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libttcrypto.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libttcrypto.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1250704,
+      "exec_size": 577336,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libttffmpeg.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libttffmpeg.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 3978720,
+      "exec_size": 2778108,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libttheif_dec.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libttheif_dec.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 543000,
+      "exec_size": 351204,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libttheif_enc.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libttheif_enc.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 83792,
+      "exec_size": 59288,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libttmaudioprocess.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libttmaudioprocess.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 903344,
+      "exec_size": 544080,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libttmpaflns.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libttmpaflns.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 67576,
+      "exec_size": 31392,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libttmplayer.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libttmplayer.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 3660352,
+      "exec_size": 2201464,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libttmverify.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libttmverify.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18184,
+      "exec_size": 1844,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libttmverifylite.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libttmverifylite.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34736,
+      "exec_size": 14796,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libtttext_dyreader.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libtttext_dyreader.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 523016,
+      "exec_size": 230416,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libtttext_lite.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libtttext_lite.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 313720,
+      "exec_size": 193816,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libttvesdk.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libttvesdk.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 21867240,
+      "exec_size": 9225312,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libturbo.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libturbo.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51312,
+      "exec_size": 16700,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libturing_live.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libturing_live.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 512560,
+      "exec_size": 323036,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libundead_native_ability_q.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libundead_native_ability_q.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 264448,
+      "exec_size": 119804,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libunicorn-main.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libunicorn-main.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 706648,
+      "exec_size": 505776,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libunicorn.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libunicorn.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 808328,
+      "exec_size": 560696,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libuniplayer.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libuniplayer.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 346152,
+      "exec_size": 237512,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libutils_ext.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libutils_ext.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18360,
+      "exec_size": 992,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libvcbasekit.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libvcbasekit.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 264328,
+      "exec_size": 132524,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libvcn.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libvcn.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 247728,
+      "exec_size": 160976,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libvcnverify.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libvcnverify.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18184,
+      "exec_size": 1948,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libvcnverifylite.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libvcnverifylite.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34640,
+      "exec_size": 13232,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libvctfo.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libvctfo.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18184,
+      "exec_size": 764,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libvideodec.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libvideodec.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 51248,
+      "exec_size": 10500,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libvoip.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libvoip.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1968368,
+      "exec_size": 881100,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libwasm.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libwasm.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 1067160,
+      "exec_size": 617336,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libwatson.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libwatson.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 34640,
+      "exec_size": 12992,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libwcdb2.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libwcdb2.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 3305736,
+      "exec_size": 2381688,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libwhisper.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libwhisper.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 38584,
+      "exec_size": 12440,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libworker.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libworker.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 313400,
+      "exec_size": 173596,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libwppatch.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libwppatch.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 149520,
+      "exec_size": 101832,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libxplay-yuv-utils.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libxplay-yuv-utils.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 18112,
+      "exec_size": 3524,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libyoga.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libyoga.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 362176,
+      "exec_size": 221112,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libyuv.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libyuv.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 215112,
+      "exec_size": 108420,
+      "sections": 2
+    },
+    {
+      "label": "lib/arm64-v8a/libzootopia.so",
+      "output": "D:\\code\\project\\tictok\\source_only\\native_asm\\lib\\arm64-v8a\\libzootopia.so.asm",
+      "machine": "EM_AARCH64",
+      "elf_size": 35024,
+      "exec_size": 8852,
+      "sections": 2
+    }
+  ],
+  "manual_fallbacks": [
+    {
+      "label": "lib/arm64-v8a/libsgmain.so!/lib/arm64-v8a/libsgmainso-5.4.12311756.so",
+      "output": "source_only/native_asm/lib/arm64-v8a/libsgmain.so__lib/arm64-v8a/libsgmainso-5.4.12311756.so.asm",
+      "reason": "malformed section table; disassembled executable PT_LOAD segment"
+    }
+  ]
+}

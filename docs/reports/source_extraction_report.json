@@ -1,0 +1,3155 @@
+{
+  "stats": {
+    "source_files_written": 37752,
+    "source_from_decoded_resources": 36027,
+    "source_from_apk_or_archive": 1725
+  },
+  "archives_processed_count": 29,
+  "archives_processed": [
+    "assets/HDR_Filter.zip",
+    "assets/__dev__ai.zip",
+    "assets/bg_color.zip",
+    "assets/client_ai_dy.pa",
+    "assets/composeResources/files/__dev__bizApp.zip",
+    "assets/composeResources/files/__dev__bizGame.zip",
+    "assets/composeResources/files/__dev__v2.zip",
+    "assets/composeResources/files/__industry__.zip",
+    "assets/duet_default_layout.zip",
+    "assets/duet_vertical_layout.zip",
+    "assets/empty_subtitle_text_template.zip",
+    "assets/fake_plugin_arsc.zip",
+    "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed",
+    "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/search-materials-source-douyinsearch-web/7579281723062485043/res.zst.decompressed",
+    "assets/gecko_build_in/5732db7721bbec6f51a3dde6714837a2/studio_edit_control/100000256/res.zst.decompressed",
+    "assets/gecko_build_in/5fb33cde3ebff01c8433ddc22aac0816/ecommerce_instant_marketing/202603181818181/res.zst.decompressed",
+    "assets/gecko_build_in/5fb33cde3ebff01c8433ddc22aac0816/ecommerce_instant_store_aweme/489668314/res.zst.decompressed",
+    "assets/gecko_build_in/5fb33cde3ebff01c8433ddc22aac0816/ecommerce_instant_store_blender_lynx_aweme/7553178541035094057/res.zst.decompressed",
+    "assets/gecko_build_in/5fb33cde3ebff01c8433ddc22aac0816/revenue_pk_hybrid_douyin/3770/res.zst.decompressed",
+    "assets/jsb_whitelist.zip",
+    "assets/livewallpaper-release",
+    "assets/lottie/search_double_play_guide.zip",
+    "assets/mgl-loading.json.zip",
+    "assets/offline.zip",
+    "assets/plugins/com.ss.android.ugc.aweme.cjplugin.jar",
+    "assets/plugins/com.ss.android.ugc.aweme.kmp_miniapp.jar",
+    "assets/remind_not_slide_up_lottie_default.zip",
+    "lib/arm64-v8a/libsgmain.so",
+    "r/6nq.zip"
+  ],
+  "dex_payloads_seen_in_archives_or_assets": [
+    "assets/client_ai_dy.pa!/oppo0.dex",
+    "assets/client_ai_dy.pa!/classes3.dex",
+    "assets/client_ai_dy.pa!/classes2.dex",
+    "assets/client_ai_dy.pa!/classes.dex",
+    "assets/client_ai_dy.pa!/classes4.dex",
+    "assets/livewallpaper-release!/classes.dex",
+    "assets/plugins/com.ss.android.ugc.aweme.cjplugin.jar!/classes2.dex",
+    "assets/plugins/com.ss.android.ugc.aweme.cjplugin.jar!/classes.dex",
+    "assets/plugins/com.ss.android.ugc.aweme.kmp_miniapp.jar!/classes2.dex",
+    "assets/plugins/com.ss.android.ugc.aweme.kmp_miniapp.jar!/classes.dex",
+    "lib/arm64-v8a/libsgmain.so!/classes.dex"
+  ],
+  "unknown_high_entropy_non_source": [
+    {
+      "path": "assets/ap12d.data",
+      "size": 6485,
+      "ext": ".data",
+      "entropy": 7.942,
+      "magic": "89504e470d0a1a0a0000000d49484452"
+    },
+    {
+      "path": "assets/ap2d.data",
+      "size": 6588,
+      "ext": ".data",
+      "entropy": 7.953,
+      "magic": "89504e470d0a1a0a0000000d49484452"
+    },
+    {
+      "path": "assets/grs_sp.bks",
+      "size": 1470,
+      "ext": ".bks",
+      "entropy": 7.665,
+      "magic": "0000000200000014458e3bef5e09a5eb"
+    },
+    {
+      "path": "assets/hmsincas.bks",
+      "size": 3081,
+      "ext": ".bks",
+      "entropy": 7.721,
+      "magic": "00000002000000147b6875ff5fc648cc"
+    },
+    {
+      "path": "assets/hmsrootcas.bks",
+      "size": 34432,
+      "ext": ".bks",
+      "entropy": 7.632,
+      "magic": "0000000200000014f6a2f1ccc903de2f"
+    },
+    {
+      "path": "assets/livewallpaper-release!/META-INF/CERT.RSA",
+      "size": 1330,
+      "ext": ".rsa",
+      "entropy": 7.342,
+      "magic": "3082052e06092a864886f70d010702a0"
+    },
+    {
+      "path": "assets/mena.czl",
+      "size": 2094,
+      "ext": ".czl",
+      "entropy": 7.244,
+      "magic": "000101001100b897dcddce97cbd7dbd3"
+    },
+    {
+      "path": "assets/plugins/com.ss.android.ugc.aweme.cjplugin.jar!/META-INF/BYTESIGN.RSA",
+      "size": 1338,
+      "ext": ".rsa",
+      "entropy": 7.333,
+      "magic": "3082053606092a864886f70d010702a0"
+    },
+    {
+      "path": "assets/plugins/com.ss.android.ugc.aweme.kmp_miniapp.jar!/META-INF/BYTESIGN.RSA",
+      "size": 1338,
+      "ext": ".rsa",
+      "entropy": 7.318,
+      "magic": "3082053606092a864886f70d010702a0"
+    },
+    {
+      "path": "assets/updatesdkcas.bks",
+      "size": 33429,
+      "ext": ".bks",
+      "entropy": 7.627,
+      "magic": "000000020000001493d12011d40e5d41"
+    },
+    {
+      "path": "basebundle/game-core.js.zlib",
+      "size": 45644,
+      "ext": ".zlib",
+      "entropy": 7.994,
+      "magic": "ecbddb76dbb8b228fa2b12479626d982"
+    },
+    {
+      "path": "lib/arm64-v8a/libsgmain.so!/META-INF/CERT.RSA",
+      "size": 1382,
+      "ext": ".rsa",
+      "entropy": 7.403,
+      "magic": "3082056206092a864886f70d010702a0"
+    },
+    {
+      "path": "r/6n_.ogg",
+      "size": 6401,
+      "ext": ".ogg",
+      "entropy": 7.564,
+      "magic": "4f67675300020000000000000000df34"
+    },
+    {
+      "path": "META-INF/BYTEDANC.RSA",
+      "size": 1338,
+      "ext": ".rsa",
+      "entropy": 7.344,
+      "magic": "3082053606092a864886f70d010702a0"
+    }
+  ],
+  "skipped_count": 47514,
+  "skipped_sample": [
+    {
+      "path": "AndroidManifest.xml",
+      "reason": "non_source_or_binary",
+      "size": 717112,
+      "ext": ".xml"
+    },
+    {
+      "path": "DebugProbesKt.bin",
+      "reason": "non_source_or_binary",
+      "size": 1738,
+      "ext": ".bin"
+    },
+    {
+      "path": "META-INF/services/coil3.util.FetcherServiceLoaderTarget",
+      "reason": "non_source_or_binary",
+      "size": 5,
+      "ext": ".fetcherserviceloadertarget"
+    },
+    {
+      "path": "META-INF/services/com.android.ttcjpaysdk.base.h5.cjjsb.annotation.ICJJsbIndex",
+      "reason": "non_source_or_binary",
+      "size": 1329,
+      "ext": ".icjjsbindex"
+    },
+    {
+      "path": "META-INF/services/com.android.ttcjpaysdk.base.h5.cjjsb.annotation.ICJXBridgeIndex",
+      "reason": "non_source_or_binary",
+      "size": 91,
+      "ext": ".icjxbridgeindex"
+    },
+    {
+      "path": "META-INF/services/com.aweme.account.thirdservicemanger.BundleActivator",
+      "reason": "non_source_or_binary",
+      "size": 237,
+      "ext": ".bundleactivator"
+    },
+    {
+      "path": "META-INF/services/com.bytedance.android.ec.common.api.IECCommonService",
+      "reason": "non_source_or_binary",
+      "size": 6,
+      "ext": ".ieccommonservice"
+    },
+    {
+      "path": "META-INF/services/com.bytedance.geckox.settings.IGeckoRegister",
+      "reason": "non_source_or_binary",
+      "size": 173,
+      "ext": ".igeckoregister"
+    },
+    {
+      "path": "META-INF/services/com.bytedance.ies.stark.plugin.Plugin",
+      "reason": "non_source_or_binary",
+      "size": 62,
+      "ext": ".plugin"
+    },
+    {
+      "path": "META-INF/services/com.lynx.animax.service.IAutoRegisterAnimaXService",
+      "reason": "non_source_or_binary",
+      "size": 107,
+      "ext": ".iautoregisteranimaxservice"
+    },
+    {
+      "path": "META-INF/services/com.lynx.tasm.service.IServiceProvider",
+      "reason": "non_source_or_binary",
+      "size": 104,
+      "ext": ".iserviceprovider"
+    },
+    {
+      "path": "META-INF/services/com.lynx.tasm.service.security.ILynxSecurityService",
+      "reason": "non_source_or_binary",
+      "size": 56,
+      "ext": ".ilynxsecurityservice"
+    },
+    {
+      "path": "META-INF/services/djb.b",
+      "reason": "non_source_or_binary",
+      "size": 6,
+      "ext": ".b"
+    },
+    {
+      "path": "META-INF/services/io.opentelemetry.context.ContextStorageProvider",
+      "reason": "non_source_or_binary",
+      "size": 62,
+      "ext": ".contextstorageprovider"
+    },
+    {
+      "path": "META-INF/services/java.security.Provider",
+      "reason": "non_source_or_binary",
+      "size": 112,
+      "ext": ".provider"
+    },
+    {
+      "path": "META-INF/services/javax.ws.rs.ext.MessageBodyReader",
+      "reason": "non_source_or_binary",
+      "size": 37,
+      "ext": ".messagebodyreader"
+    },
+    {
+      "path": "META-INF/services/javax.ws.rs.ext.MessageBodyWriter",
+      "reason": "non_source_or_binary",
+      "size": 37,
+      "ext": ".messagebodywriter"
+    },
+    {
+      "path": "META-INF/services/javax.ws.rs.ext.Providers",
+      "reason": "non_source_or_binary",
+      "size": 37,
+      "ext": ".providers"
+    },
+    {
+      "path": "META-INF/services/kotlinx.coroutines.CoroutineExceptionHandler",
+      "reason": "non_source_or_binary",
+      "size": 7,
+      "ext": ".coroutineexceptionhandler"
+    },
+    {
+      "path": "META-INF/services/kotlinx.coroutines.internal.MainDispatcherFactory",
+      "reason": "non_source_or_binary",
+      "size": 52,
+      "ext": ".maindispatcherfactory"
+    },
+    {
+      "path": "META-INF/services/org.glassfish.jersey.internal.spi.AutoDiscoverable",
+      "reason": "non_source_or_binary",
+      "size": 37,
+      "ext": ".autodiscoverable"
+    },
+    {
+      "path": "META-INF/services/x6l.c",
+      "reason": "non_source_or_binary",
+      "size": 6,
+      "ext": ".c"
+    },
+    {
+      "path": "assets/AZURE2d.png",
+      "reason": "non_source_or_binary",
+      "size": 2367,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/AkzidenzGrotesk-BoldCondAlt.otf",
+      "reason": "non_source_or_binary",
+      "size": 29952,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/BLUE2d.png",
+      "reason": "non_source_or_binary",
+      "size": 3196,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/CYAN2d.png",
+      "reason": "non_source_or_binary",
+      "size": 3094,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/DIN-Condensed-Bold.otf",
+      "reason": "non_source_or_binary",
+      "size": 63224,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/DINCond-Black.otf",
+      "reason": "non_source_or_binary",
+      "size": 31144,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/DINCond-BoldAlternate.otf",
+      "reason": "non_source_or_binary",
+      "size": 31488,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/FZZhengHeiS-EB-GB.ttf",
+      "reason": "non_source_or_binary",
+      "size": 3088,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/GREEN2d.png",
+      "reason": "non_source_or_binary",
+      "size": 3190,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/HDR_Filter.zip!/__MACOSX/._content.json",
+      "reason": "non_source_or_binary",
+      "size": 210,
+      "ext": ".json"
+    },
+    {
+      "path": "assets/MAGENTAV2d.png",
+      "reason": "non_source_or_binary",
+      "size": 3151,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/Montserrat-BoldItalic-Stripped.ttf",
+      "reason": "non_source_or_binary",
+      "size": 3776,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/ORANGE2d.png",
+      "reason": "non_source_or_binary",
+      "size": 3171,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/RED2d.png",
+      "reason": "non_source_or_binary",
+      "size": 3178,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ROSE2d.png",
+      "reason": "non_source_or_binary",
+      "size": 3196,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/VIOLET2d.png",
+      "reason": "non_source_or_binary",
+      "size": 3206,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/YELLOW2d.png",
+      "reason": "non_source_or_binary",
+      "size": 3112,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_highlight/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1720,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_highlight/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 17464,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_highlight/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 3900,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1720,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1660,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_10.png",
+      "reason": "non_source_or_binary",
+      "size": 1128,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_11.png",
+      "reason": "non_source_or_binary",
+      "size": 1174,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_12.png",
+      "reason": "non_source_or_binary",
+      "size": 1162,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_13.png",
+      "reason": "non_source_or_binary",
+      "size": 1008,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_14.png",
+      "reason": "non_source_or_binary",
+      "size": 1042,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_15.png",
+      "reason": "non_source_or_binary",
+      "size": 1024,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_16.png",
+      "reason": "non_source_or_binary",
+      "size": 1012,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_17.png",
+      "reason": "non_source_or_binary",
+      "size": 1018,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_18.png",
+      "reason": "non_source_or_binary",
+      "size": 1032,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_19.png",
+      "reason": "non_source_or_binary",
+      "size": 1004,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 1090,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_20.png",
+      "reason": "non_source_or_binary",
+      "size": 9246,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_21.png",
+      "reason": "non_source_or_binary",
+      "size": 10788,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_22.png",
+      "reason": "non_source_or_binary",
+      "size": 5410,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_23.png",
+      "reason": "non_source_or_binary",
+      "size": 3900,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_3.png",
+      "reason": "non_source_or_binary",
+      "size": 1088,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_4.png",
+      "reason": "non_source_or_binary",
+      "size": 1118,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_5.png",
+      "reason": "non_source_or_binary",
+      "size": 1192,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_6.png",
+      "reason": "non_source_or_binary",
+      "size": 1204,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_7.png",
+      "reason": "non_source_or_binary",
+      "size": 1016,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_8.png",
+      "reason": "non_source_or_binary",
+      "size": 1110,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_ad_vv_open_red_packet/img_9.png",
+      "reason": "non_source_or_binary",
+      "size": 1040,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1968,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 4958,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 21184,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/img_3.png",
+      "reason": "non_source_or_binary",
+      "size": 10556,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/img_4.png",
+      "reason": "non_source_or_binary",
+      "size": 12594,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/img_5.png",
+      "reason": "non_source_or_binary",
+      "size": 1372,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/img_6.png",
+      "reason": "non_source_or_binary",
+      "size": 15616,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/seq_0_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1968,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/seq_0_1.png",
+      "reason": "non_source_or_binary",
+      "size": 2046,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/seq_0_2.png",
+      "reason": "non_source_or_binary",
+      "size": 1758,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/seq_0_3.png",
+      "reason": "non_source_or_binary",
+      "size": 1576,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/seq_0_4.png",
+      "reason": "non_source_or_binary",
+      "size": 1290,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/seq_0_5.png",
+      "reason": "non_source_or_binary",
+      "size": 516,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/seq_0_6.png",
+      "reason": "non_source_or_binary",
+      "size": 1340,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/seq_0_7.png",
+      "reason": "non_source_or_binary",
+      "size": 1612,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/seq_0_8.png",
+      "reason": "non_source_or_binary",
+      "size": 1914,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_guide/seq_0_9.png",
+      "reason": "non_source_or_binary",
+      "size": 2054,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_open_red_packet/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 758,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_open_red_packet/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 590,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_open_red_packet/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 796,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_open_red_packet/img_3.png",
+      "reason": "non_source_or_binary",
+      "size": 894,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_open_red_packet/img_4.png",
+      "reason": "non_source_or_binary",
+      "size": 852,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_open_red_packet/img_5.png",
+      "reason": "non_source_or_binary",
+      "size": 838,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_open_red_packet/img_6.png",
+      "reason": "non_source_or_binary",
+      "size": 2062,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_open_red_packet/img_7.png",
+      "reason": "non_source_or_binary",
+      "size": 814,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_coins_open_red_packet/img_8.png",
+      "reason": "non_source_or_binary",
+      "size": 848,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_feedback_images/ad_longpress_feedback_img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1358,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_task_pendant_images/basic_image.png",
+      "reason": "non_source_or_binary",
+      "size": 2156,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ad_task_pendant_images/bottom_square.png",
+      "reason": "non_source_or_binary",
+      "size": 840,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/aic_skeleton_dark/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 21362,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/aic_skeleton_light/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 18390,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/amap_bus.png",
+      "reason": "non_source_or_binary",
+      "size": 1246,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/amap_car.png",
+      "reason": "non_source_or_binary",
+      "size": 1280,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/amap_end.png",
+      "reason": "non_source_or_binary",
+      "size": 2394,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/amap_man.png",
+      "reason": "non_source_or_binary",
+      "size": 1242,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/amap_start.png",
+      "reason": "non_source_or_binary",
+      "size": 2312,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/ap12d.data",
+      "reason": "non_source_or_binary",
+      "size": 6485,
+      "ext": ".data"
+    },
+    {
+      "path": "assets/ap2d.data",
+      "reason": "non_source_or_binary",
+      "size": 6588,
+      "ext": ".data"
+    },
+    {
+      "path": "assets/arm64-v8a/libalog.so",
+      "reason": "non_source_or_binary",
+      "size": 117576,
+      "ext": ".so"
+    },
+    {
+      "path": "assets/audio_metrics_v1.3.model",
+      "reason": "non_source_or_binary",
+      "size": 828,
+      "ext": ".model"
+    },
+    {
+      "path": "assets/av_ic_water_mark_16_9.png",
+      "reason": "non_source_or_binary",
+      "size": 518,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/av_ic_water_mark_9_16.png",
+      "reason": "non_source_or_binary",
+      "size": 536,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bd_badger.abc",
+      "reason": "non_source_or_binary",
+      "size": 201,
+      "ext": ".abc"
+    },
+    {
+      "path": "assets/bg_color.zip!/bg_color/cfcamera_bg06.png",
+      "reason": "non_source_or_binary",
+      "size": 600,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bg_color.zip!/__MACOSX/bg_color/._cfcamera_bg06.png",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bg_color.zip!/bg_color/cfcamera_bg05.png",
+      "reason": "non_source_or_binary",
+      "size": 597,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bg_color.zip!/__MACOSX/bg_color/._cfcamera_bg05.png",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bg_color.zip!/bg_color/cfcamera_bg04.png",
+      "reason": "non_source_or_binary",
+      "size": 601,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bg_color.zip!/__MACOSX/bg_color/._cfcamera_bg04.png",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bg_color.zip!/bg_color/cfcamera_bg01.png",
+      "reason": "non_source_or_binary",
+      "size": 600,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bg_color.zip!/__MACOSX/bg_color/._cfcamera_bg01.png",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bg_color.zip!/bg_color/cfcamera_bg03.png",
+      "reason": "non_source_or_binary",
+      "size": 602,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bg_color.zip!/__MACOSX/bg_color/._cfcamera_bg03.png",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bg_color.zip!/bg_color/cfcamera_bg02.png",
+      "reason": "non_source_or_binary",
+      "size": 601,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/bg_color.zip!/__MACOSX/bg_color/._cfcamera_bg02.png",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/cast_aweme_collect_anim_img_star/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1256,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/cast_aweme_collect_anim_img_star/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 348,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/center_coin/images/btng.png",
+      "reason": "non_source_or_binary",
+      "size": 866,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/center_coin/images/icon.png",
+      "reason": "non_source_or_binary",
+      "size": 978,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/center_coin/images/icon_0_1.png",
+      "reason": "non_source_or_binary",
+      "size": 308,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/center_coin/images/icon_1_2.png",
+      "reason": "non_source_or_binary",
+      "size": 60,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/center_title_bg/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 276,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/center_title_bg/images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 826,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 34,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1008,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 2154,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/img_3.png",
+      "reason": "non_source_or_binary",
+      "size": 1916,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/img_4.png",
+      "reason": "non_source_or_binary",
+      "size": 2084,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/img_5.png",
+      "reason": "non_source_or_binary",
+      "size": 5034,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/img_6.png",
+      "reason": "non_source_or_binary",
+      "size": 902,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/img_7.png",
+      "reason": "non_source_or_binary",
+      "size": 1350,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/kl.png",
+      "reason": "non_source_or_binary",
+      "size": 418,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/kl_0.png",
+      "reason": "non_source_or_binary",
+      "size": 466,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/kl_0_3.png",
+      "reason": "non_source_or_binary",
+      "size": 518,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/kl_1.png",
+      "reason": "non_source_or_binary",
+      "size": 372,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/kl_1_4.png",
+      "reason": "non_source_or_binary",
+      "size": 386,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/coin_award/images/kl_2_5.png",
+      "reason": "non_source_or_binary",
+      "size": 286,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/comment/images/ban.png",
+      "reason": "non_source_or_binary",
+      "size": 256,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/comment/images/bullet1.png",
+      "reason": "non_source_or_binary",
+      "size": 500,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/comment/images/bullet2.png",
+      "reason": "non_source_or_binary",
+      "size": 492,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_collect_anim_img_opt/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1342,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_collect_anim_img_opt/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 992,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_collect_anim_img_opt_mask/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1330,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_collect_anim_img_opt_mask/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1294,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_collect_anim_img_star/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1450,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_collect_anim_img_star/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1112,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_collect_anim_img_star/img_2.webp",
+      "reason": "non_source_or_binary",
+      "size": 856,
+      "ext": ".webp"
+    },
+    {
+      "path": "assets/common_feed_collect_music_bl_music/common_feed_text1_bl_music.png",
+      "reason": "non_source_or_binary",
+      "size": 1020,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_collect_music_bl_music/common_feed_text2_bl_music.png",
+      "reason": "non_source_or_binary",
+      "size": 876,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1288,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right/images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1236,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right/images/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 2206,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right/images_lighter/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1042,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right/images_lighter/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1050,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right/images_lighter/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 1606,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1414,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt/images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1244,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt/images/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 1956,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt0/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1414,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt0/images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1244,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt0/images/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 1956,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt02/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1414,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt02/images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1244,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt02/images/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 1458,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt2/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1414,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt2/images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1244,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_opt2/images/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 1458,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_thumb/images/finger_normal.png",
+      "reason": "non_source_or_binary",
+      "size": 1032,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_thumb/images/finger_press.png",
+      "reason": "non_source_or_binary",
+      "size": 1014,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_thumb_revocable/images/finger_normal.png",
+      "reason": "non_source_or_binary",
+      "size": 1032,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_dislike_right_thumb_revocable/images/finger_press.png",
+      "reason": "non_source_or_binary",
+      "size": 1014,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_interact_light_collect/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 2244,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_interact_light_collect/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1066,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_like_anim_img_opt/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1498,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_like_anim_img_opt/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 890,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_like_anim_img_opt_huoshan/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 978,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_like_anim_img_opt_huoshan/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 850,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_like_anim_img_opt_mask/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1118,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_like_anim_img_opt_mask/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1050,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_like_anim_img_opt_mask_huoshan/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1130,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/common_feed_like_anim_img_opt_mask_huoshan/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1056,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/__dev__bizApp.zip!/__dev__/lynx-main-thread.js",
+      "reason": "non_source_or_binary",
+      "size": 258337,
+      "ext": ".js"
+    },
+    {
+      "path": "assets/composeResources/files/__industry__.zip!/__dev__/main.ttpkg.js",
+      "reason": "non_source_or_binary",
+      "size": 1289615,
+      "ext": ".js"
+    },
+    {
+      "path": "assets/composeResources/files/__industry__.zip!/__dev__/sub.ttpkg.js",
+      "reason": "non_source_or_binary",
+      "size": 13912,
+      "ext": ".js"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 34,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 2970,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 9936,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/img_3.png",
+      "reason": "non_source_or_binary",
+      "size": 6702,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/img_4.png",
+      "reason": "non_source_or_binary",
+      "size": 6596,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/img_5.png",
+      "reason": "non_source_or_binary",
+      "size": 7340,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/img_6.png",
+      "reason": "non_source_or_binary",
+      "size": 2992,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/img_7.png",
+      "reason": "non_source_or_binary",
+      "size": 1304,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/kl.png",
+      "reason": "non_source_or_binary",
+      "size": 418,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/kl_0.png",
+      "reason": "non_source_or_binary",
+      "size": 466,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/kl_0_3.png",
+      "reason": "non_source_or_binary",
+      "size": 518,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/kl_1.png",
+      "reason": "non_source_or_binary",
+      "size": 372,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/kl_1_4.png",
+      "reason": "non_source_or_binary",
+      "size": 386,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/f_pendant/images/kl_2_5.png",
+      "reason": "non_source_or_binary",
+      "size": 286,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/files/supreme/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 320,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/composeResources/font/DouyinSansBold.otf",
+      "reason": "non_source_or_binary",
+      "size": 2082964,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/deep_feed_swipe_tips_anim.webp",
+      "reason": "non_source_or_binary",
+      "size": 63088,
+      "ext": ".webp"
+    },
+    {
+      "path": "assets/default_dy_pendant_animation/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 34,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/default_dy_pendant_animation/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 2974,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/default_dy_pendant_animation/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 7580,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/default_dy_pendant_animation/img_3.png",
+      "reason": "non_source_or_binary",
+      "size": 5718,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/default_dy_pendant_animation/img_4.png",
+      "reason": "non_source_or_binary",
+      "size": 5726,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/default_dy_pendant_animation/img_5.png",
+      "reason": "non_source_or_binary",
+      "size": 4938,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/default_dy_pendant_animation/img_6.png",
+      "reason": "non_source_or_binary",
+      "size": 3048,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/default_dy_pendant_animation/img_7.png",
+      "reason": "non_source_or_binary",
+      "size": 1288,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/devtool_switch/switchPage/template.js",
+      "reason": "non_source_or_binary",
+      "size": 202775,
+      "ext": ".js"
+    },
+    {
+      "path": "assets/dexopt/baseline.prof",
+      "reason": "non_source_or_binary",
+      "size": 0,
+      "ext": ".prof"
+    },
+    {
+      "path": "assets/dexopt/baseline.profm",
+      "reason": "non_source_or_binary",
+      "size": 0,
+      "ext": ".profm"
+    },
+    {
+      "path": "assets/digg_heart/images/heart1.png",
+      "reason": "non_source_or_binary",
+      "size": 444,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/digg_heart_bubbles/images/blue.png",
+      "reason": "non_source_or_binary",
+      "size": 196,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/digg_heart_bubbles/images/pink.png",
+      "reason": "non_source_or_binary",
+      "size": 330,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/digg_heart_bubbles/images/yellow.png",
+      "reason": "non_source_or_binary",
+      "size": 388,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/digg_heart_bubbles_flow/images/blue.png",
+      "reason": "non_source_or_binary",
+      "size": 196,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/digg_heart_bubbles_flow/images/pink.png",
+      "reason": "non_source_or_binary",
+      "size": 330,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/digg_heart_bubbles_flow/images/yellow.png",
+      "reason": "non_source_or_binary",
+      "size": 388,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/draftTransLottie/images/circle.png",
+      "reason": "non_source_or_binary",
+      "size": 4034,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/draftTransLottie/images/circle_complete.png",
+      "reason": "non_source_or_binary",
+      "size": 2670,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/draftTransLottie/images/phone_light.png",
+      "reason": "non_source_or_binary",
+      "size": 288,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/draftTransLottie/images/phone_night.png",
+      "reason": "non_source_or_binary",
+      "size": 266,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/draw_reward_pendant_reward_animation/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1282,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/duet_default_layout.zip!/AmazingFeature/.DS_Store",
+      "reason": "non_source_or_binary",
+      "size": 6148,
+      "ext": ""
+    },
+    {
+      "path": "assets/duet_default_layout.zip!/AmazingFeature/main.scene",
+      "reason": "non_source_or_binary",
+      "size": 2489,
+      "ext": ".scene"
+    },
+    {
+      "path": "assets/duet_default_layout.zip!/AmazingFeature/mesh/Quad.mesh",
+      "reason": "non_source_or_binary",
+      "size": 1255,
+      "ext": ".mesh"
+    },
+    {
+      "path": "assets/duet_default_layout.zip!/AmazingFeature/js/.DS_Store",
+      "reason": "non_source_or_binary",
+      "size": 6148,
+      "ext": ""
+    },
+    {
+      "path": "assets/duet_default_layout.zip!/AmazingFeature/xshader/InputToOutput.xshader",
+      "reason": "non_source_or_binary",
+      "size": 1657,
+      "ext": ".xshader"
+    },
+    {
+      "path": "assets/duet_default_layout.zip!/AmazingFeature/rt/outputTex.rt",
+      "reason": "non_source_or_binary",
+      "size": 510,
+      "ext": ".rt"
+    },
+    {
+      "path": "assets/duet_default_layout.zip!/AmazingFeature/material/InputToOutput.material",
+      "reason": "non_source_or_binary",
+      "size": 853,
+      "ext": ".material"
+    },
+    {
+      "path": "assets/duet_vertical_layout.zip!/AmazingFeature/.DS_Store",
+      "reason": "non_source_or_binary",
+      "size": 6148,
+      "ext": ""
+    },
+    {
+      "path": "assets/duet_vertical_layout.zip!/AmazingFeature/main.scene",
+      "reason": "non_source_or_binary",
+      "size": 3296,
+      "ext": ".scene"
+    },
+    {
+      "path": "assets/duet_vertical_layout.zip!/AmazingFeature/mesh/Quad.mesh",
+      "reason": "non_source_or_binary",
+      "size": 1255,
+      "ext": ".mesh"
+    },
+    {
+      "path": "assets/duet_vertical_layout.zip!/AmazingFeature/xshader/xshader_clip_centerblack.xshader",
+      "reason": "non_source_or_binary",
+      "size": 1609,
+      "ext": ".xshader"
+    },
+    {
+      "path": "assets/duet_vertical_layout.zip!/AmazingFeature/xshader/xshader_clip_centervideo_black.xshader",
+      "reason": "non_source_or_binary",
+      "size": 1592,
+      "ext": ".xshader"
+    },
+    {
+      "path": "assets/duet_vertical_layout.zip!/AmazingFeature/rt/outputTex.rt",
+      "reason": "non_source_or_binary",
+      "size": 567,
+      "ext": ".rt"
+    },
+    {
+      "path": "assets/duet_vertical_layout.zip!/AmazingFeature/material/UserVideoInput.material",
+      "reason": "non_source_or_binary",
+      "size": 735,
+      "ext": ".material"
+    },
+    {
+      "path": "assets/duet_vertical_layout.zip!/AmazingFeature/material/UserCameraInput.material",
+      "reason": "non_source_or_binary",
+      "size": 729,
+      "ext": ".material"
+    },
+    {
+      "path": "assets/dylite_homepage_luckybag_dialog_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 2854,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/dylite_homepage_luckybag_dialog_images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 2016,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/dylite_homepage_luckybag_dialog_images/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 380,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/dylite_homepage_luckybag_dialog_images/img_3.webp",
+      "reason": "non_source_or_binary",
+      "size": 7934,
+      "ext": ".webp"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/._e8ca90cc26721caabbc943962000dc33 2",
+      "reason": "non_source_or_binary",
+      "size": 276,
+      "ext": ""
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/._content.json",
+      "reason": "non_source_or_binary",
+      "size": 275,
+      "ext": ".json"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/e8ca90cc26721caabbc943962000dc33 2/.DS_Store",
+      "reason": "non_source_or_binary",
+      "size": 6148,
+      "ext": ""
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/._.DS_Store",
+      "reason": "non_source_or_binary",
+      "size": 120,
+      "ext": ".ds_store"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/._js",
+      "reason": "non_source_or_binary",
+      "size": 276,
+      "ext": ""
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/._config.json",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ".json"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/._extra.json",
+      "reason": "non_source_or_binary",
+      "size": 574,
+      "ext": ".json"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/._7446766966221574707",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ""
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/js/._version.json",
+      "reason": "non_source_or_binary",
+      "size": 232,
+      "ext": ".json"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/e8ca90cc26721caabbc943962000dc33 2/js/.DS_Store",
+      "reason": "non_source_or_binary",
+      "size": 6148,
+      "ext": ""
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/js/._.DS_Store",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ".ds_store"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/js/._template",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ""
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/js/._main.js",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ".js"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/e8ca90cc26721caabbc943962000dc33 2/7446766966221574707/.DS_Store",
+      "reason": "non_source_or_binary",
+      "size": 6148,
+      "ext": ""
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/7446766966221574707/._.DS_Store",
+      "reason": "non_source_or_binary",
+      "size": 120,
+      "ext": ".ds_store"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/7446766966221574707/._config.json",
+      "reason": "non_source_or_binary",
+      "size": 276,
+      "ext": ".json"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/e8ca90cc26721caabbc943962000dc33 2/7446766966221574707/Inter-Bold.ttf",
+      "reason": "non_source_or_binary",
+      "size": 2208140,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/7446766966221574707/._Inter-Bold.ttf",
+      "reason": "non_source_or_binary",
+      "size": 312,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/empty_subtitle_text_template.zip!/__MACOSX/e8ca90cc26721caabbc943962000dc33 2/js/template/._template.js",
+      "reason": "non_source_or_binary",
+      "size": 176,
+      "ext": ".js"
+    },
+    {
+      "path": "assets/empty_text_template/Inter-Bold.ttf",
+      "reason": "non_source_or_binary",
+      "size": 293448,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/enhance_auto_play_lottie_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 834,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_auto_play_lottie_images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 578,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_auto_play_lottie_images/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 1544,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_auto_play_lottie_images/img_3.png",
+      "reason": "non_source_or_binary",
+      "size": 1388,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_auto_play_lottie_images/img_4.png",
+      "reason": "non_source_or_binary",
+      "size": 2348,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_auto_play_lottie_images/img_5.png",
+      "reason": "non_source_or_binary",
+      "size": 1486,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_auto_play_lottie_images/img_6.png",
+      "reason": "non_source_or_binary",
+      "size": 1392,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_auto_play_lottie_images/img_7.png",
+      "reason": "non_source_or_binary",
+      "size": 332,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_coin_gold_transition_red_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 2538,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_coin_gold_transition_red_images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 2568,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_coin_high_packet_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 2538,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_coin_packet_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1876,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_coin_red_transition_gold_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 2538,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_coin_red_transition_gold_images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 2568,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_hand_play_lottie_image/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 834,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_hand_play_lottie_image/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 578,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_hand_play_lottie_image/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 1544,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_hand_play_lottie_image/img_3.png",
+      "reason": "non_source_or_binary",
+      "size": 2348,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_hand_play_lottie_image/img_4.png",
+      "reason": "non_source_or_binary",
+      "size": 1486,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_hand_play_lottie_image/img_5.png",
+      "reason": "non_source_or_binary",
+      "size": 1392,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_hand_play_lottie_image/img_6.png",
+      "reason": "non_source_or_binary",
+      "size": 1388,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_hand_play_lottie_image/img_7.png",
+      "reason": "non_source_or_binary",
+      "size": 332,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_icon_hasTitle_transition_noTitle_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 2538,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_icon_noTitle_transition_hasTitle_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 2538,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_icon_scale_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 2210,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_particle_lottie_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 4954,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_particle_lottie_images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1810,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_particle_lottie_images/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 2892,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_particle_lottie_images/img_3.png",
+      "reason": "non_source_or_binary",
+      "size": 526,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_particle_lottie_images/img_4.png",
+      "reason": "non_source_or_binary",
+      "size": 2208,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_particle_lottie_images/img_5.png",
+      "reason": "non_source_or_binary",
+      "size": 444,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_pendant_coin_drops_lottie_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 2008,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_pendant_coin_drops_lottie_images/seq_0_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1536,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_pendant_coin_drops_lottie_images/seq_0_1.png",
+      "reason": "non_source_or_binary",
+      "size": 1518,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_pendant_coin_drops_lottie_images/seq_0_2.png",
+      "reason": "non_source_or_binary",
+      "size": 1360,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_pendant_coin_drops_lottie_images/seq_0_3.png",
+      "reason": "non_source_or_binary",
+      "size": 1218,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_pendant_coin_drops_lottie_images/seq_0_4.png",
+      "reason": "non_source_or_binary",
+      "size": 1112,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_pendant_coin_drops_lottie_images/seq_0_5.png",
+      "reason": "non_source_or_binary",
+      "size": 492,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_pendant_coin_drops_lottie_images/seq_0_6.png",
+      "reason": "non_source_or_binary",
+      "size": 1090,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_pendant_coin_drops_lottie_images/seq_0_7.png",
+      "reason": "non_source_or_binary",
+      "size": 1306,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_pendant_coin_drops_lottie_images/seq_0_8.png",
+      "reason": "non_source_or_binary",
+      "size": 1370,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_pendant_coin_drops_lottie_images/seq_0_9.png",
+      "reason": "non_source_or_binary",
+      "size": 1676,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/enhance_red_paper_large_lottie_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 2210,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/entranceguideimages/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 598,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/entranceguideimages/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 952,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/fake_plugin_arsc.zip!/resources.arsc",
+      "reason": "non_source_or_binary",
+      "size": 556,
+      "ext": ".arsc"
+    },
+    {
+      "path": "assets/feed_direct_play_coin_spin/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 964,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/feed_direct_play_coin_spin/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 830,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/feed_direct_play_coin_spin/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 628,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/feed_direct_play_coin_spin/img_3.png",
+      "reason": "non_source_or_binary",
+      "size": 302,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/feed_direct_play_coin_spin/img_4.png",
+      "reason": "non_source_or_binary",
+      "size": 50,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/feed_direct_play_coupon_anim/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 13798,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/feed_direct_play_coupon_anim/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 4056,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/feed_direct_play_coupon_anim/img_2.png",
+      "reason": "non_source_or_binary",
+      "size": 414,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/feed_direct_play_coupon_anim/img_3.png",
+      "reason": "non_source_or_binary",
+      "size": 9548,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/feed_direct_play_coupon_anim/img_4.png",
+      "reason": "non_source_or_binary",
+      "size": 21426,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/feed_older_guide_lottie_horizontal_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 2220,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/flowfeed_collect_anim_img_star/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 528,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/flowfeed_collect_anim_img_star/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 658,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/flowfeed_collect_anim_img_star_night/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 528,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/flowfeed_collect_anim_img_star_night/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 396,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/foldable_image/images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 968,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/follow_collect_images_night/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 438,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/follow_collect_images_night/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 434,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/follow_like_images_night/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 502,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/follow_like_images_night/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 562,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/font/DINNextLTPro-BoldItalic.ttf",
+      "reason": "non_source_or_binary",
+      "size": 14384,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/font/price_dinpro_medium.ttf",
+      "reason": "non_source_or_binary",
+      "size": 92304,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/font/ttlive_base_gift_combo_font.ttf",
+      "reason": "non_source_or_binary",
+      "size": 7680,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/font/ttlive_base_gift_combo_opt_font.ttf",
+      "reason": "non_source_or_binary",
+      "size": 8532,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/font/ttlive_gift_combo_opt.ttf",
+      "reason": "non_source_or_binary",
+      "size": 2372,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/font/ttlive_ktv_midi_combo_font.ttf",
+      "reason": "non_source_or_binary",
+      "size": 7680,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/ByteNumber-Bold.ttf",
+      "reason": "non_source_or_binary",
+      "size": 7984,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/DIN-Condensed-Bold-POI-RANK-CUT.ttf",
+      "reason": "non_source_or_binary",
+      "size": 7424,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/DINCond-Black-Regular.ttf",
+      "reason": "non_source_or_binary",
+      "size": 3872,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/DIN_Alternate.ttf",
+      "reason": "non_source_or_binary",
+      "size": 2916,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/Gilroy.otf",
+      "reason": "non_source_or_binary",
+      "size": 54972,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/fonts/SFCompactDisplay-Bold_Num.ttf",
+      "reason": "non_source_or_binary",
+      "size": 3792,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/SFCompactDisplay-Num.ttf",
+      "reason": "non_source_or_binary",
+      "size": 3684,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/SairaExtraCondensed-Bold.ttf",
+      "reason": "non_source_or_binary",
+      "size": 11900,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/base/jlm_cmex10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 20856,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/base/jlm_cmmi10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 26528,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/base/jlm_cmmib10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 24116,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/clarity_mono_bold.otf",
+      "reason": "non_source_or_binary",
+      "size": 4012,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/fonts/cyrillic/jlm_wnbx10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 31824,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/cyrillic/jlm_wnbxti10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 52044,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/cyrillic/jlm_wnr10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 36072,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/cyrillic/jlm_wnss10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 19736,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/cyrillic/jlm_wnssbx10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 30756,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/cyrillic/jlm_wnssi10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 24944,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/cyrillic/jlm_wnti10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 51160,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/cyrillic/jlm_wntt10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 33256,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/douyin_number_abc_bold.otf",
+      "reason": "non_source_or_binary",
+      "size": 11588,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/fonts/douyin_number_abc_condensed_medium.otf",
+      "reason": "non_source_or_binary",
+      "size": 11356,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/fonts/douyin_number_abc_extra_bold.otf",
+      "reason": "non_source_or_binary",
+      "size": 11628,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/fonts/douyin_number_abc_extra_condensed_medium.otf",
+      "reason": "non_source_or_binary",
+      "size": 11448,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/fonts/douyin_number_abc_medium.otf",
+      "reason": "non_source_or_binary",
+      "size": 11240,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/fonts/euler/jlm_eufb10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 23660,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/euler/jlm_eufm10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 23584,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/greek/jlm_fcmbipg.ttf",
+      "reason": "non_source_or_binary",
+      "size": 63972,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/greek/jlm_fcmbpg.ttf",
+      "reason": "non_source_or_binary",
+      "size": 59620,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/greek/jlm_fcmripg.ttf",
+      "reason": "non_source_or_binary",
+      "size": 65040,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/greek/jlm_fcmrpg.ttf",
+      "reason": "non_source_or_binary",
+      "size": 60212,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/greek/jlm_fcsbpg.ttf",
+      "reason": "non_source_or_binary",
+      "size": 48768,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/greek/jlm_fcsropg.ttf",
+      "reason": "non_source_or_binary",
+      "size": 51748,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/greek/jlm_fcsrpg.ttf",
+      "reason": "non_source_or_binary",
+      "size": 47132,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/greek/jlm_fctrpg.ttf",
+      "reason": "non_source_or_binary",
+      "size": 54716,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/jlm_cmr10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 21592,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/jlm_jlmbi10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 3280,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/jlm_jlmbx10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 3148,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/jlm_jlmi10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 3272,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/jlm_jlmr10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 3968,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/jlm_jlmsb10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 3168,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/jlm_jlmsbi10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 3176,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/jlm_jlmsi10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 2916,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/jlm_jlmss10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 2736,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/jlm_jlmtt10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 2856,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/optional/jlm_cmbx10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 17680,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/optional/jlm_cmbxti10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 24052,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/optional/jlm_cmss10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 12856,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/optional/jlm_cmssbx10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 25464,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/optional/jlm_cmssi10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 13636,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/optional/jlm_cmti10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 32372,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/latin/optional/jlm_cmtt10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 28016,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/maths/jlm_cmbsy10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 19528,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/maths/jlm_cmsy10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 21760,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/maths/jlm_msam10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 21620,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/maths/jlm_msbm10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 29700,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/maths/jlm_rsfs10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 10712,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/maths/jlm_special.ttf",
+      "reason": "non_source_or_binary",
+      "size": 2292,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/maths/jlm_stmary10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 17448,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/maths/optional/jlm_dsrom10.ttf",
+      "reason": "non_source_or_binary",
+      "size": 9420,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/fonts/pk_random.ttf",
+      "reason": "non_source_or_binary",
+      "size": 9396,
+      "ext": ".ttf"
+    },
+    {
+      "path": "assets/full_enhance_award_lottie_images/img_0.png",
+      "reason": "non_source_or_binary",
+      "size": 1126,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/full_enhance_award_lottie_images/img_1.png",
+      "reason": "non_source_or_binary",
+      "size": 2210,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/DIN_Medium.da8b108f.otf",
+      "reason": "non_source_or_binary",
+      "size": 12848,
+      "ext": ".otf"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/alipay.c4c8da12.png",
+      "reason": "non_source_or_binary",
+      "size": 828,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/alipay.ed0a8900.png",
+      "reason": "non_source_or_binary",
+      "size": 676,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/arrow-right.b45c8272.png",
+      "reason": "non_source_or_binary",
+      "size": 202,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/arrow-right.f307ba64.png",
+      "reason": "non_source_or_binary",
+      "size": 387,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/back-modal.e67ec5c1.png",
+      "reason": "non_source_or_binary",
+      "size": 514,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/card-pay.000a3bf6.png",
+      "reason": "non_source_or_binary",
+      "size": 213,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/close-modal.25a836f5.png",
+      "reason": "non_source_or_binary",
+      "size": 376,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/delete.cb6df0dd.png",
+      "reason": "non_source_or_binary",
+      "size": 603,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/douyin-pay.004ed050.png",
+      "reason": "non_source_or_binary",
+      "size": 857,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/loading.11a82b79.gif",
+      "reason": "non_source_or_binary",
+      "size": 16395,
+      "ext": ".gif"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/loading.ed473830.png",
+      "reason": "non_source_or_binary",
+      "size": 1205,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/net-error.a40c8174.png",
+      "reason": "non_source_or_binary",
+      "size": 2698,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/pay-fail.0e3705d9.png",
+      "reason": "non_source_or_binary",
+      "size": 1697,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/pay-processing.c2503fe4.png",
+      "reason": "non_source_or_binary",
+      "size": 1819,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/pay-success.48bb6eff.png",
+      "reason": "non_source_or_binary",
+      "size": 2138,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/pay-success.71a65525.png",
+      "reason": "non_source_or_binary",
+      "size": 1889,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/pay-waiting.0a94f1a3.png",
+      "reason": "non_source_or_binary",
+      "size": 1621,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/pay-warning.327eeef7.png",
+      "reason": "non_source_or_binary",
+      "size": 1733,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/plus.78451b17.png",
+      "reason": "non_source_or_binary",
+      "size": 189,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/selected.f6006dfc.png",
+      "reason": "non_source_or_binary",
+      "size": 816,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/unselected.9209abef.png",
+      "reason": "non_source_or_binary",
+      "size": 625,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/wechat-pay.8ea0f4d7.png",
+      "reason": "non_source_or_binary",
+      "size": 640,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/1de58f02169bef5abeb85e5bc7294239/cjzf/7572178418108825635/res.zst.decompressed!/cjzf/assets/wechat-pay.f8350b81.png",
+      "reason": "non_source_or_binary",
+      "size": 928,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/afghanistan_68455c31f6dca419e36b41d24b04c980.png",
+      "reason": "non_source_or_binary",
+      "size": 3141,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/albania_cba4a012a802259e87c94ead83622ebf.png",
+      "reason": "non_source_or_binary",
+      "size": 1140,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/algeria_817a82f9d43324e2bef95d4581816f4e.png",
+      "reason": "non_source_or_binary",
+      "size": 1003,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/americansamoa_5bc599f259597d62481eed794440d660.png",
+      "reason": "non_source_or_binary",
+      "size": 2152,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/andorra_06ba2c5181c501a70daeb7253a38ba6a.png",
+      "reason": "non_source_or_binary",
+      "size": 1618,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/angola_57b33269423d2ce6528e878d6c678641.png",
+      "reason": "non_source_or_binary",
+      "size": 963,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/antiguaandbarbuda_a8fac3d4592908de874d010119f5d202.png",
+      "reason": "non_source_or_binary",
+      "size": 1455,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/argentina_b9da682903f0d1b7147148aa8aaabda9.png",
+      "reason": "non_source_or_binary",
+      "size": 1393,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/armenia_e7d20cda67854506e3e8e65d16284c5d.png",
+      "reason": "non_source_or_binary",
+      "size": 244,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/aruba_db083d644b5f8294bc04c4cec0a6d233.png",
+      "reason": "non_source_or_binary",
+      "size": 418,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/australia_93898e88a40340a4ff95b68b8abdd6ee.png",
+      "reason": "non_source_or_binary",
+      "size": 1920,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/austria_131a6b13e2ec5177ae5c6d12626754b6.png",
+      "reason": "non_source_or_binary",
+      "size": 207,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/azerbaijan_8b852ab110e036b9a991556809330819.png",
+      "reason": "non_source_or_binary",
+      "size": 635,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/bahamas_81d0d79147a744334195d5f5fdb9fc1c.png",
+      "reason": "non_source_or_binary",
+      "size": 757,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/bahrain_060a5e79d592b4cb053346d0e1b8d2cd.png",
+      "reason": "non_source_or_binary",
+      "size": 756,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/bangladesh_4cbda6e566bfcd5ba68b60eb84c81364.png",
+      "reason": "non_source_or_binary",
+      "size": 603,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/barbados_39a22e071d564065606cdacbb4fe09fb.png",
+      "reason": "non_source_or_binary",
+      "size": 648,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/belarus_16934562558b95d7c7c25ef3cc5b0fd1.png",
+      "reason": "non_source_or_binary",
+      "size": 1664,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/belgium_164691746656abbf29abe91635b2a45f.png",
+      "reason": "non_source_or_binary",
+      "size": 194,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/belize_a2c6cf575d355501a4c79e97eb37c4c0.png",
+      "reason": "non_source_or_binary",
+      "size": 3204,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/benin_77d16deef1f6bcb37f75c3273c905297.png",
+      "reason": "non_source_or_binary",
+      "size": 229,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/bermuda_cfa4fb6f17a41e51dcdc55b8e4a8764a.png",
+      "reason": "non_source_or_binary",
+      "size": 2298,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/bhutan_17f6e905f10721705a7ed842d5bfa888.png",
+      "reason": "non_source_or_binary",
+      "size": 2736,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/bolivia_c9a5dc4c5bff154c6e8f8cd580287934.png",
+      "reason": "non_source_or_binary",
+      "size": 202,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/bosniaandherzegovina_e3970eaaf7a169a19374e9da1d1e2287.png",
+      "reason": "non_source_or_binary",
+      "size": 1187,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/botswana_07fee04bae92a738547f0be67529f22b.png",
+      "reason": "non_source_or_binary",
+      "size": 193,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/brazil_0624faef5802cac17fbaef13ba5a5692.png",
+      "reason": "non_source_or_binary",
+      "size": 1978,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/britishvirginislands_e6936b101b95b0411982f08ba291e9b8.png",
+      "reason": "non_source_or_binary",
+      "size": 2063,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/brunei_905733e94d0f9e0a853f4c670029ffd3.png",
+      "reason": "non_source_or_binary",
+      "size": 2355,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/bulgaria_69a21a57d3e0d2bca167f3b0324c2eb7.png",
+      "reason": "non_source_or_binary",
+      "size": 248,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/burkinafaso_8d72fbe33088c31985dae7edfa1d8d2b.png",
+      "reason": "non_source_or_binary",
+      "size": 471,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/burundi_436927cb03173ef56272f305943f1f85.png",
+      "reason": "non_source_or_binary",
+      "size": 2081,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/cambodia_76b18bed159aa2a5cec01c0636e225db.png",
+      "reason": "non_source_or_binary",
+      "size": 1308,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/cameroon_9ef5ad24eb6f3916d3f1b30bdb34d875.png",
+      "reason": "non_source_or_binary",
+      "size": 437,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/canada_5eb4d698ebf984048993bb4e1eac9d94.png",
+      "reason": "non_source_or_binary",
+      "size": 723,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/capeverde_50771fbf4a1544e8dc46fb4ef9f5e32a.png",
+      "reason": "non_source_or_binary",
+      "size": 994,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/caymanislands_80bf5c3d322ae26de1f0f0a08bebade7.png",
+      "reason": "non_source_or_binary",
+      "size": 1896,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/centralafricanrepublic_e51a6c2122bc04ae4c6e093f226ae90d.png",
+      "reason": "non_source_or_binary",
+      "size": 703,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/chad_5990782e242f30c7c805a532b6f00105.png",
+      "reason": "non_source_or_binary",
+      "size": 169,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/chile_2dd35b4fe5ba2432581edab4d3b3caf7.png",
+      "reason": "non_source_or_binary",
+      "size": 404,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/china_08f234e249210047a12db91549e74456.png",
+      "reason": "non_source_or_binary",
+      "size": 554,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/chinesetaipeiolympiccommitteeflag_2de558b25b12fa657669396c97e89618.png",
+      "reason": "non_source_or_binary",
+      "size": 2505,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/colombia_4bfa499ff70a973ae225868a74db8b7f.png",
+      "reason": "non_source_or_binary",
+      "size": 170,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/comoros_4df275bcf161dbad5f05f6249eefae92.png",
+      "reason": "non_source_or_binary",
+      "size": 1207,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/cookislands_3d01b50fda4db8cf07f118f695d44af5.png",
+      "reason": "non_source_or_binary",
+      "size": 2087,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/costarica_934fd631a8c2261e99f602e2bfc14d5c.png",
+      "reason": "non_source_or_binary",
+      "size": 173,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/coted'ivoire_91afd60daaa25f1364a94e7981335f0f.png",
+      "reason": "non_source_or_binary",
+      "size": 244,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/croatia_af21ac61590639bdcaff5a9e06e478a6.png",
+      "reason": "non_source_or_binary",
+      "size": 1671,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/cuba_d4fd419118056e0ca69d5456076afe5e.png",
+      "reason": "non_source_or_binary",
+      "size": 976,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/curacao_4a17281b2f351b05d0c9ff19baf861e0.png",
+      "reason": "non_source_or_binary",
+      "size": 471,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/cyprus_c40f73227105089b5cc25494f589c59e.png",
+      "reason": "non_source_or_binary",
+      "size": 1146,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/czechrepublic_0e4ebd7749fd146fb1f47deeb13347d2.png",
+      "reason": "non_source_or_binary",
+      "size": 629,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/democraticrepublicofthecongo_80ce0da3ef4907f823c115f314e502b5.png",
+      "reason": "non_source_or_binary",
+      "size": 1693,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/denmark_d4f248ffd185f9c68c88f09b3389cb38.png",
+      "reason": "non_source_or_binary",
+      "size": 260,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/djibouti_1af033865e839f69b2161eae50111a0d.png",
+      "reason": "non_source_or_binary",
+      "size": 1030,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/dominica_9756191d1f931e3177d08bfad9a69ee2.png",
+      "reason": "non_source_or_binary",
+      "size": 1675,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/dominican_07430c3556bbcdefb64b2f1f3f8ac94a.png",
+      "reason": "non_source_or_binary",
+      "size": 948,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/easttimor_c68e1b4825aff412c2dec0e001aa7283.png",
+      "reason": "non_source_or_binary",
+      "size": 1137,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/ecuador_0bd1c267bc16f76bcb1a74d89df3b717.png",
+      "reason": "non_source_or_binary",
+      "size": 1800,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/egypt_5525afa6667052cd118aa2a5b9560a09.png",
+      "reason": "non_source_or_binary",
+      "size": 807,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/elsalvador_ffbe54a8909b786f5ad3ad0d8c88b4d2.png",
+      "reason": "non_source_or_binary",
+      "size": 1308,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/england_c4f90274b8aed251cb4bb6b5697fbde1.png",
+      "reason": "non_source_or_binary",
+      "size": 209,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/equatorialguinea_dbfec61c488a87603112c6997f56a64d.png",
+      "reason": "non_source_or_binary",
+      "size": 1313,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/eritrea_0f6dcf7be6379b96d9df990b9d1ee400.png",
+      "reason": "non_source_or_binary",
+      "size": 2409,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/estonia_136c90dae0e8e3d8571e019afe1423de.png",
+      "reason": "non_source_or_binary",
+      "size": 225,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/ethiopia_261e958fc5c63eb5433cf2d9d0cca150.png",
+      "reason": "non_source_or_binary",
+      "size": 1408,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/europeanunion_6b2381d7f59a47a5de3371c2314a52a4.png",
+      "reason": "non_source_or_binary",
+      "size": 927,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/faroeislands_1134592338c51de290c910a527b25db5.png",
+      "reason": "non_source_or_binary",
+      "size": 392,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/fiji_1da74ea54e872439ee27e454ebe0b721.png",
+      "reason": "non_source_or_binary",
+      "size": 2268,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/finland_fa3a7dfdcd7a0cdd0b906ef018e8f889.png",
+      "reason": "non_source_or_binary",
+      "size": 266,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/france_3ccade4b5be887abf15ae92ac5eb65b3.png",
+      "reason": "non_source_or_binary",
+      "size": 267,
+      "ext": ".png"
+    },
+    {
+      "path": "assets/gecko_build_in/2373bbcf94c1b893dad48961d0a2d086/sport_middle_platform_flags/res/7462214527094882331/res/gabon_1e1599eb9b394887b648472ea55c13cf.png",
+      "reason": "non_source_or_binary",
+      "size": 239,
+      "ext": ".png"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "created_at_local": "2026-06-02",
+  "input_apk": "D:/code/project/tictok/base.apk.1",
+  "input_sha256": "e2a7a3e5f9b9228a1406c2619c37cba380fa7bd995b1c95ac63757aacf3cdf8f",
+  "final_source_dir": "D:/code/project/tictok/source_only",
+  "final_file_count": 713818,
+  "final_size_mb": 7226.62,
+  "forbidden_binary_extensions_found": 0,
+  "counts": {
+    "main_smali": 540974,
+    "plugin_cjplugin_smali": 16475,
+    "plugin_kmp_miniapp_smali": 18252,
+    "nested_client_ai_dy_smali": 45,
+    "nested_livewallpaper_smali": 40,
+    "nested_libsgmain_smali": 55,
+    "java_jadx_files": 99944,
+    "native_asm_files": 282,
+    "decoded_xml_files": 36013,
+    "javascript_files": 70,
+    "json_files": 1496
+  },
+  "tools": {
+    "jadx": "1.5.5",
+    "apktool_primary": "2.12.1",
+    "apktool_downloaded_latest": "3.0.2",
+    "java": "17",
+    "native_disassembler": "pyelftools + capstone"
+  },
+  "unpacked_nested_code": [
+    "assets/plugins/com.ss.android.ugc.aweme.cjplugin.jar",
+    "assets/plugins/com.ss.android.ugc.aweme.kmp_miniapp.jar",
+    "assets/client_ai_dy.pa",
+    "assets/livewallpaper-release",
+    "lib/arm64-v8a/libsgmain.so (zip disguised as .so)",
+    "assets/*.zip archives",
+    "assets/gecko_build_in/**/res.zst",
+    "basebundle/game-core.js.zlib",
+    "okhttp3/internal/publicsuffix/publicsuffixes.gz"
+  ],
+  "notes": [
+    "smali is the complete DEX source baseline; main APK smali count equals root DEX class_defs: 540974.",
+    "JADX Java output is included as high-level pseudocode where completed; smali should be treated as authoritative for completeness.",
+    "ELF native libraries are represented as assembly text under native_asm; original C/C++ cannot be exactly recovered from stripped compiled .so files.",
+    "Binary non-source assets such as images, fonts, audio, models, certificates/keystores, WASM, and proprietary binary blobs are intentionally omitted from source_only."
+  ]
+}

@@ -1,0 +1,4 @@
+node_modules
+dev-server.log
+*.tsbuildinfo
+vite.config.d.ts

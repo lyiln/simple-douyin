@@ -1,5 +1,21 @@
 # Simple Douyin
 
+## Local Docker startup
+
+For local development and demo, use Docker Compose from the repository root:
+
+```bash
+docker compose up --build -d
+```
+
+After startup:
+
+- Web: `http://localhost:5173`
+- API health: `http://localhost:8080/api/v1/health`
+- Web proxy health: `http://localhost:5173/api/v1/health`
+
+This command starts MySQL 8, the Spring Boot API Server, the gRPC Recommend Service, and the web static service. Details, stop/restart commands, log commands, and troubleshooting are in `docs/local-docker-start.md`.
+
 ## 项目简介
 
 本仓库是《API 设计与实现》课程大作业项目，目标是实现一个简易版抖音 / 视频流推荐系统。

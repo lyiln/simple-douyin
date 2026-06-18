@@ -1,0 +1,26 @@
+Decompile summary
+Input: D:/code/project/tictok/base.apk.1
+SHA256: e2a7a3e5f9b9228a1406c2619c37cba380fa7bd995b1c95ac63757aacf3cdf8f
+Final source dir: D:/code/project/tictok/source_only
+Final files: 713818
+Final size MB: 7226.62
+Forbidden binary extensions found: 0
+
+Counts:
+- main_smali: 540974
+- plugin_cjplugin_smali: 16475
+- plugin_kmp_miniapp_smali: 18252
+- nested_client_ai_dy_smali: 45
+- nested_livewallpaper_smali: 40
+- nested_libsgmain_smali: 55
+- java_jadx_files: 99944
+- native_asm_files: 282
+- decoded_xml_files: 36013
+- javascript_files: 70
+- json_files: 1496
+
+Notes:
+- smali is the complete DEX source baseline; main APK smali count equals root DEX class_defs: 540974.
+- JADX Java output is included as high-level pseudocode where completed; smali should be treated as authoritative for completeness.
+- ELF native libraries are represented as assembly text under native_asm; original C/C++ cannot be exactly recovered from stripped compiled .so files.
+- Binary non-source assets such as images, fonts, audio, models, certificates/keystores, WASM, and proprietary binary blobs are intentionally omitted from source_only.
