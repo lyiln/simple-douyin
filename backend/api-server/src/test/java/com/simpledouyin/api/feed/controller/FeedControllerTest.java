@@ -8,6 +8,7 @@ import com.simpledouyin.api.common.ErrorCode;
 import com.simpledouyin.api.common.GlobalExceptionHandler;
 import com.simpledouyin.api.feed.dto.RecommendedFeedResponse;
 import com.simpledouyin.api.feed.dto.ResetRecommendedHistoryResponse;
+import com.simpledouyin.api.feed.dto.ResetRecommendedVideoHistoryResponse;
 import com.simpledouyin.api.feed.service.FeedService;
 import com.simpledouyin.api.logging.RequestIdFilter;
 import com.simpledouyin.api.logging.RequestLogEntry;
@@ -187,6 +188,18 @@ class FeedControllerTest {
                 .andExpect(jsonPath("$.code").value(50001));
     }
 
+    @Test
+    void resetRecommendedVideoHistoryReturns500WhenGrpcFails() throws Exception {
+        String accessToken = tokenService.issue(1001L).value();
+        when(feedService.resetRecommendedVideoHistory(any(HttpServletRequest.class), eq(2001L)))
+                .thenThrow(new BusinessException(ErrorCode.INTERNAL_ERROR));
+
+        mockMvc.perform(post("/api/v1/feeds/recommended/videos/2001/reset")
+                        .header("Authorization", "Bearer " + accessToken))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value(50001));
+    }
+
     // R08: 验证 gRPC 调用发生 — Controller 层通过 mock 验证 service 被调用
     @Test
     void feedEndpointCallsFeedServiceWhichCallsGrpc() throws Exception {
@@ -220,6 +233,39 @@ class FeedControllerTest {
     }
 
     @Test
+    void resetsRecommendedVideoHistory() throws Exception {
+        String accessToken = tokenService.issue(1001L).value();
+        when(feedService.resetRecommendedVideoHistory(any(HttpServletRequest.class), eq(2001L)))
+                .thenReturn(new ResetRecommendedVideoHistoryResponse(2001L, true, 1));
+
+        mockMvc.perform(post("/api/v1/feeds/recommended/videos/2001/reset")
+                        .header("X-Request-Id", REQUEST_ID)
+                        .header("Authorization", "Bearer " + accessToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.data.videoId").value(2001))
+                .andExpect(jsonPath("$.data.reset").value(true))
+                .andExpect(jsonPath("$.data.clearedCount").value(1))
+                .andExpect(jsonPath("$.requestId").value(REQUEST_ID));
+
+        verify(feedService).resetRecommendedVideoHistory(any(HttpServletRequest.class), eq(2001L));
+    }
+
+    @Test
+    void resetRecommendedVideoHistoryReturns400WithInvalidVideoId() throws Exception {
+        String accessToken = tokenService.issue(1001L).value();
+        when(feedService.resetRecommendedVideoHistory(any(HttpServletRequest.class), eq(0L)))
+                .thenThrow(new BusinessException(ErrorCode.INVALID_PARAMETER, "invalid videoId"));
+
+        mockMvc.perform(post("/api/v1/feeds/recommended/videos/0/reset")
+                        .header("Authorization", "Bearer " + accessToken))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(40001));
+
+        verify(feedService).resetRecommendedVideoHistory(any(HttpServletRequest.class), eq(0L));
+    }
+
+    @Test
     void resetRecommendedHistoryReturns401WithoutToken() throws Exception {
         mockMvc.perform(post("/api/v1/feeds/recommended/reset")
                         .header("X-Request-Id", REQUEST_ID))
@@ -227,6 +273,16 @@ class FeedControllerTest {
                 .andExpect(jsonPath("$.code").value(40101));
 
         verify(feedService, never()).resetRecommendedHistory(any());
+    }
+
+    @Test
+    void resetRecommendedVideoHistoryReturns401WithoutToken() throws Exception {
+        mockMvc.perform(post("/api/v1/feeds/recommended/videos/2001/reset")
+                        .header("X-Request-Id", REQUEST_ID))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40101));
+
+        verify(feedService, never()).resetRecommendedVideoHistory(any(), eq(2001L));
     }
 
     // ======================== 日志测试 ========================
@@ -283,6 +339,28 @@ class FeedControllerTest {
         assertThat(logEntry.getValue().requestId()).isEqualTo("reset-feed-log");
         assertThat(logEntry.getValue().userId()).isEqualTo(1001L);
         assertThat(logEntry.getValue().path()).isEqualTo("/api/v1/feeds/recommended/reset");
+        assertThat(logEntry.getValue().method()).isEqualTo("POST");
+        assertThat(logEntry.getValue().statusCode()).isEqualTo(200);
+        assertThat(logEntry.getValue().businessCode()).isZero();
+        assertThat(logEntry.getValue().durationMs()).isGreaterThan(0);
+    }
+
+    @Test
+    void resetRecommendedVideoHistoryLogsCorrectInfo() throws Exception {
+        String accessToken = tokenService.issue(1001L).value();
+        when(feedService.resetRecommendedVideoHistory(any(HttpServletRequest.class), eq(2001L)))
+                .thenReturn(new ResetRecommendedVideoHistoryResponse(2001L, true, 1));
+
+        mockMvc.perform(post("/api/v1/feeds/recommended/videos/2001/reset")
+                        .header("X-Request-Id", "reset-feed-video-log")
+                        .header("Authorization", "Bearer " + accessToken));
+
+        ArgumentCaptor<RequestLogEntry> logEntry = ArgumentCaptor.forClass(RequestLogEntry.class);
+        verify(requestLogRepository).save(logEntry.capture());
+
+        assertThat(logEntry.getValue().requestId()).isEqualTo("reset-feed-video-log");
+        assertThat(logEntry.getValue().userId()).isEqualTo(1001L);
+        assertThat(logEntry.getValue().path()).isEqualTo("/api/v1/feeds/recommended/videos/2001/reset");
         assertThat(logEntry.getValue().method()).isEqualTo("POST");
         assertThat(logEntry.getValue().statusCode()).isEqualTo(200);
         assertThat(logEntry.getValue().businessCode()).isZero();

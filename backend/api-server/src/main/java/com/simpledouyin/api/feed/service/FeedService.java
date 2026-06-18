@@ -5,6 +5,7 @@ import com.simpledouyin.api.common.ErrorCode;
 import com.simpledouyin.api.common.RequestContext;
 import com.simpledouyin.api.feed.dto.RecommendedFeedResponse;
 import com.simpledouyin.api.feed.dto.ResetRecommendedHistoryResponse;
+import com.simpledouyin.api.feed.dto.ResetRecommendedVideoHistoryResponse;
 import com.simpledouyin.api.recommend.client.RecommendGrpcClient;
 import com.simpledouyin.api.video.dto.VideoPostResponse;
 import com.simpledouyin.api.video.model.VideoPost;
@@ -73,6 +74,20 @@ public class FeedService {
         com.simpledouyin.recommend.proto.ResetRecommendedHistoryResponse grpcResponse =
                 grpcClient.resetRecommendedHistory(RequestContext.requestId(), userId);
         return new ResetRecommendedHistoryResponse(
+                grpcResponse.getReset(),
+                grpcResponse.getClearedCount()
+        );
+    }
+
+    public ResetRecommendedVideoHistoryResponse resetRecommendedVideoHistory(HttpServletRequest request, long videoId) {
+        if (videoId <= 0) {
+            throw new BusinessException(ErrorCode.INVALID_PARAMETER, "invalid videoId");
+        }
+        long userId = currentUserId(request);
+        com.simpledouyin.recommend.proto.ResetRecommendedVideoHistoryResponse grpcResponse =
+                grpcClient.resetRecommendedVideoHistory(RequestContext.requestId(), userId, videoId);
+        return new ResetRecommendedVideoHistoryResponse(
+                grpcResponse.getVideoId(),
                 grpcResponse.getReset(),
                 grpcResponse.getClearedCount()
         );

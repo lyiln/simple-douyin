@@ -20,6 +20,8 @@ object ApiRepository {
 
     private const val TAG = "ApiRepository"
     private const val DEFAULT_SOURCE = "recommended_feed"
+    private const val HTTP_UNAUTHORIZED = 401
+    private const val API_UNAUTHORIZED = 40101
 
     // ======================== Auth ========================
 
@@ -44,11 +46,25 @@ object ApiRepository {
     }
 
     suspend fun logout(): Result<Unit> {
-        return apiCall {
+        val result = apiCall {
             val response = ApiClient.apiService!!.logout()
             requireSuccess(response)
-            ApiClient.setToken(null)
         }
+        ApiClient.setToken(null)
+        return if (result.isFailure && isUnauthorized(result.exceptionOrNull())) {
+            Result.success(Unit)
+        } else {
+            result
+        }
+    }
+
+    fun clearSession() {
+        ApiClient.setToken(null)
+    }
+
+    fun isUnauthorized(error: Throwable?): Boolean {
+        val apiException = error as? ApiException ?: return false
+        return apiException.code == HTTP_UNAUTHORIZED || apiException.code == API_UNAUTHORIZED
     }
 
     // ======================== Me ========================
@@ -84,6 +100,14 @@ object ApiRepository {
     suspend fun resetRecommendedHistory(): Result<ResetRecommendedHistoryData> {
         return apiCall {
             val response = ApiClient.apiService!!.resetRecommendedHistory()
+            requireSuccess(response)
+            response.body()!!.data!!
+        }
+    }
+
+    suspend fun resetRecommendedVideoHistory(videoId: Long): Result<ResetRecommendedVideoHistoryData> {
+        return apiCall {
+            val response = ApiClient.apiService!!.resetRecommendedVideoHistory(videoId)
             requireSuccess(response)
             response.body()!!.data!!
         }
@@ -226,6 +250,9 @@ object ApiRepository {
             try {
                 Result.success(block())
             } catch (e: ApiException) {
+                if (isUnauthorized(e)) {
+                    ApiClient.setToken(null)
+                }
                 Log.e(TAG, "API error code=${e.code}: ${e.message}")
                 Result.failure(e)
             } catch (e: Exception) {

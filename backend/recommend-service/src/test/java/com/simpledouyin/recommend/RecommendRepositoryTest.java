@@ -85,6 +85,15 @@ class RecommendRepositoryTest {
         );
     }
 
+    private Integer countViews(long userId, long videoId) {
+        return jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM video_views WHERE user_id = ? AND video_id = ?",
+                Integer.class,
+                userId,
+                videoId
+        );
+    }
+
     // R01: 三条视频 like_count 100/50/10 → 返回顺序 100/50/10
     @Test
     void sortsByLikeCountDesc() {
@@ -172,6 +181,42 @@ class RecommendRepositoryTest {
         assertThat(repository.findRecommended(USER_B, null, 10))
                 .extracting(RecommendVideoRow::videoId)
                 .containsExactly(v1, v2);
+    }
+
+    @Test
+    void resetRecommendedVideoHistoryClearsOnlySelectedVideoForCurrentUser() {
+        long v1 = insertVideo(84601L, USER_A, 100L, "2026-06-01 08:00:00", "public");
+        long v2 = insertVideo(84602L, USER_A, 50L, "2026-06-02 08:00:00", "public");
+        insertLikes(v1, 100);
+        insertLikes(v2, 50);
+
+        insertView(USER_B, v1);
+        insertView(USER_B, v2);
+        insertView(USER_A, v1);
+
+        int clearedCount = repository.resetRecommendedVideoHistory(USER_B, v1);
+
+        assertThat(clearedCount).isEqualTo(1);
+        assertThat(countViews(USER_B, v1)).isZero();
+        assertThat(countViews(USER_B, v2)).isEqualTo(1);
+        assertThat(countViews(USER_A, v1)).isEqualTo(1);
+        assertThat(repository.findRecommended(USER_B, null, 10))
+                .extracting(RecommendVideoRow::videoId)
+                .containsExactly(v1);
+    }
+
+    @Test
+    void resetRecommendedVideoHistoryReturnsZeroWhenNoViewExists() {
+        long v1 = insertVideo(84611L, USER_A, 100L, "2026-06-01 08:00:00", "public");
+        insertLikes(v1, 100);
+
+        int clearedCount = repository.resetRecommendedVideoHistory(USER_B, v1);
+
+        assertThat(clearedCount).isZero();
+        assertThat(countViews(USER_B)).isZero();
+        assertThat(repository.findRecommended(USER_B, null, 10))
+                .extracting(RecommendVideoRow::videoId)
+                .containsExactly(v1);
     }
 
     // R05: limit=2 分两页 → 无重复、排序连续

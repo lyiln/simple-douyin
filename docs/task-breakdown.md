@@ -33,7 +33,7 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | T14 | 实现访问记录 | `video_views`、`videos` | `POST /videos/{videoId}/views/me` | 前端切换并展示视频时调用；记录幂等写入；view_count 合理更新 |
 | T15 | 实现 gRPC 推荐契约 | `docs/rpc-design.md` | proto 和生成配置 | API Server 可调用 `RecommendService.ListRecommendedVideos` |
 | T16 | 实现推荐规则 | `videos`、`video_views` | gRPC Recommend Service 返回 videoIds | 按 `like_count desc, created_at desc, id desc`，排除已访问视频 |
-| T17 | 实现推荐流 REST | gRPC 返回 videoIds | `GET /feeds/recommended/videos` | REST 调 gRPC，并按原顺序补齐视频详情和 viewerState |
+| T17 | 实现推荐流 REST | gRPC 返回 videoIds | `GET /feeds/recommended/videos`、推荐历史重置接口 | REST 调 gRPC，并按原顺序补齐视频详情和 viewerState；支持按当前用户全量或单视频重置推荐过滤历史 |
 | T18 | 实现健康检查 | API Server、MySQL 8、gRPC 状态 | `GET /health` | 返回 API Server、MySQL、Recommend Service 状态 |
 | T19 | 编写核心接口测试 | API 契约 | 自动化测试或接口集合 | Core P0 正常/异常用例通过 |
 | T20 | 编写推荐规则测试 | 推荐规则 | 推荐测试数据和用例 | 验证排序、过滤、分页和 gRPC 调用 |
@@ -43,7 +43,7 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | T24 | 实现 P0-lite 发表评论（最终必做） | `comments`、`videos` | `POST /videos/{videoId}/comments` | 登录用户可评论；空内容 400；视频不存在 404；在最终前端联调前完成 |
 | T25 | 编写 P0-lite 评论测试 | 评论 API | 评论测试用例 | 列表、创建、鉴权、参数异常通过，评论演示链路可验收 |
 | T26 | 前端接入账号和推荐流 | Android Demo、API 契约 | 登录页、推荐流网络数据 | 可登录后刷真实推荐视频，切换时记录访问 |
-| T27 | 前端接入发布、我的视频、删除和评论 | Android Demo、API 契约 | 发布/我的视频/删除/评论联调 | 可发布、分页查看、删除自己的视频、查看和发送评论 |
+| T27 | 前端接入发布、我的视频、删除和评论 | Android Demo、API 契约 | 发布/我的视频/删除/评论联调 | 可发布、分页查看、点击我的作品回主页播放、删除自己的视频、查看和发送评论 |
 | T28 | 作业评分点验收检查 | 课程 PDF、scope、API、数据库、RPC、测试结果 | 评分点验收矩阵和缺陷清单 | 每个评分点能定位到实现、接口、表、测试和演示证据；无未解释缺口 |
 | T29 | 完善 README 和提交文档 | 所有设计和测试结果 | README、需求文档、技术设计文档、测试文档 | README 可按步骤部署；测试文档包含 case 设计逻辑、case 列表和结果 |
 | T30 | 准备答辩与团队材料 | 完成的系统、T28 验收结果 | 答辩 PPT、团队分工、工作量占比、内部分数评定表、演示视频 | PPT 支持 8 分钟讲解；演示视频约 2 分钟并覆盖两个主要场景 |

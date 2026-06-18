@@ -105,13 +105,21 @@ import java.net.URL
 @Composable
 fun RealDouyinApp() {
     var isLoggedIn by remember { mutableStateOf(ApiClient.isLoggedIn()) }
+    var resetFeedAfterLogin by remember { mutableStateOf(false) }
     val defaultUsername = remember { "user_${System.currentTimeMillis().toString().takeLast(6)}" }
     var authUsername by remember { mutableStateOf(defaultUsername) }
     var authPassword by remember { mutableStateOf("Passw0rd!") }
     var authNickname by remember { mutableStateOf("新用户") }
 
     if (isLoggedIn) {
-        RealMainScreen(onLoggedOut = { isLoggedIn = false })
+        RealMainScreen(
+            resetFeedOnStart = resetFeedAfterLogin,
+            onStartupResetConsumed = { resetFeedAfterLogin = false },
+            onLoggedOut = {
+                resetFeedAfterLogin = false
+                isLoggedIn = false
+            }
+        )
     } else {
         AuthScreen(
             initialUsername = authUsername,
@@ -121,6 +129,7 @@ fun RealDouyinApp() {
                 authUsername = username
                 authPassword = password
                 authNickname = nickname
+                resetFeedAfterLogin = true
                 isLoggedIn = true
             }
         )
@@ -243,7 +252,11 @@ private fun AuthScreen(
 }
 
 @Composable
-private fun RealMainScreen(onLoggedOut: () -> Unit) {
+private fun RealMainScreen(
+    resetFeedOnStart: Boolean,
+    onStartupResetConsumed: () -> Unit,
+    onLoggedOut: () -> Unit
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val posts = remember { mutableStateListOf<VideoPost>() }
@@ -273,6 +286,11 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
     }
 
     fun showError(prefix: String, error: Throwable?) {
+        if (ApiRepository.isUnauthorized(error)) {
+            ApiRepository.clearSession()
+            onLoggedOut()
+            return
+        }
         toast = "$prefix：${localizedErrorMessage(error)}"
     }
 
@@ -303,7 +321,7 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
         }
     }
 
-    fun resetFeedHistory() {
+    fun resetFeedHistory(showToast: Boolean = true) {
         if (loadingFeed) return
         loadingFeed = true
         scope.launch {
@@ -325,7 +343,9 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
                     mapped.forEach { post -> commentCounts[post.id] = post.comments }
                     feedCursor = data.nextCursor
                     feedHasMore = data.hasMore
-                    toast = "推荐已重置"
+                    if (showToast) {
+                        toast = "推荐已重置"
+                    }
                 }.onFailure {
                     showError("加载推荐失败", it)
                 }
@@ -354,12 +374,33 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
         recordedViews[post.id] = true
         scope.launch {
             ApiRepository.recordView(videoId)
+                .onFailure { showError("记录浏览失败", it) }
+        }
+    }
+
+    fun openMyVideoInFeed(post: VideoPost) {
+        val videoId = post.remoteId ?: return
+        scope.launch {
+            ApiRepository.resetRecommendedVideoHistory(videoId)
+                .onSuccess {
+                    posts.removeAll { it.id == post.id }
+                    posts.add(0, post.copy(isViewed = false))
+                    commentCounts[post.id] = post.comments
+                    recordedViews.remove(post.id)
+                    screen = RealScreen.Home
+                }
+                .onFailure { showError("打开作品失败", it) }
         }
     }
 
     LaunchedEffect(Unit) {
         refreshMe()
-        loadFeed(reset = true)
+        if (resetFeedOnStart) {
+            resetFeedHistory(showToast = false)
+            onStartupResetConsumed()
+        } else {
+            loadFeed(reset = true)
+        }
         loadMyVideos(reset = true)
     }
 
@@ -413,6 +454,7 @@ private fun RealMainScreen(onLoggedOut: () -> Unit) {
                     loadMyVideos(reset = true)
                 },
                 onLoadMore = { loadMyVideos(reset = false) },
+                onOpen = ::openMyVideoInFeed,
                 onDelete = { post ->
                     val videoId = post.remoteId ?: return@ProfileApiScreen
                     scope.launch {
@@ -976,6 +1018,7 @@ private fun ProfileApiScreen(
     hasMore: Boolean,
     onRefresh: () -> Unit,
     onLoadMore: () -> Unit,
+    onOpen: (VideoPost) -> Unit,
     onDelete: (VideoPost) -> Unit,
     onLogout: () -> Unit
 ) {
@@ -1026,7 +1069,7 @@ private fun ProfileApiScreen(
                 }
             }
             items(videos) { post ->
-                MyVideoRow(post = post, onDelete = { onDelete(post) })
+                MyVideoRow(post = post, onOpen = { onOpen(post) }, onDelete = { onDelete(post) })
             }
             if (hasMore) {
                 item {
@@ -1040,20 +1083,25 @@ private fun ProfileApiScreen(
 }
 
 @Composable
-private fun MyVideoRow(post: VideoPost, onDelete: () -> Unit) {
+private fun MyVideoRow(post: VideoPost, onOpen: () -> Unit, onDelete: () -> Unit) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        NetworkBackedImage(
-            url = post.coverUrl,
-            fallbackRes = post.coverRes,
-            contentDescription = null,
-            modifier = Modifier.width(82.dp).aspectRatio(9f / 16f).clip(RoundedCornerShape(8.dp)),
-            contentScale = ContentScale.Crop
-        )
-        Spacer(Modifier.width(12.dp))
-        Column(Modifier.weight(1f)) {
-            Text(post.caption, color = Color.White, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
-            Spacer(Modifier.height(6.dp))
-            Text("${formatCount(post.likes)} 赞 · ${formatCount(post.comments)} 评论", color = Color.White.copy(alpha = 0.52f), fontSize = 12.sp)
+        Row(
+            modifier = Modifier.weight(1f).clickable(onClick = onOpen),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            NetworkBackedImage(
+                url = post.coverUrl,
+                fallbackRes = post.coverRes,
+                contentDescription = null,
+                modifier = Modifier.width(82.dp).aspectRatio(9f / 16f).clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop
+            )
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                Text(post.caption, color = Color.White, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Spacer(Modifier.height(6.dp))
+                Text("${formatCount(post.likes)} 赞 · ${formatCount(post.comments)} 评论", color = Color.White.copy(alpha = 0.52f), fontSize = 12.sp)
+            }
         }
         TextButton(onClick = onDelete) { Text("删除") }
     }

@@ -72,6 +72,12 @@ export interface ResetRecommendedHistoryData {
   clearedCount: number;
 }
 
+export interface ResetRecommendedVideoHistoryData {
+  videoId: number;
+  reset: boolean;
+  clearedCount: number;
+}
+
 export interface MyVideosData {
   items: VideoPostResponse[];
   nextCursor: string | null;

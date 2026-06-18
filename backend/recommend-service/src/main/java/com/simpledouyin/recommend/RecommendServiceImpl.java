@@ -5,6 +5,8 @@ import com.simpledouyin.recommend.proto.ListRecommendedVideosResponse;
 import com.simpledouyin.recommend.proto.RecommendServiceGrpc;
 import com.simpledouyin.recommend.proto.ResetRecommendedHistoryRequest;
 import com.simpledouyin.recommend.proto.ResetRecommendedHistoryResponse;
+import com.simpledouyin.recommend.proto.ResetRecommendedVideoHistoryRequest;
+import com.simpledouyin.recommend.proto.ResetRecommendedVideoHistoryResponse;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
@@ -108,6 +110,44 @@ public class RecommendServiceImpl extends RecommendServiceGrpc.RecommendServiceI
             responseObserver.onError(e);
         } catch (RuntimeException e) {
             log.error("resetRecommendedHistory failed", e);
+            responseObserver.onError(
+                    Status.INTERNAL.withDescription("internal error").asRuntimeException()
+            );
+        }
+    }
+
+    @Override
+    public void resetRecommendedVideoHistory(
+            ResetRecommendedVideoHistoryRequest request,
+            StreamObserver<ResetRecommendedVideoHistoryResponse> responseObserver
+    ) {
+        try {
+            long userId = request.getUserId();
+            long videoId = request.getVideoId();
+            if (userId <= 0) {
+                throw Status.INVALID_ARGUMENT
+                        .withDescription("userId must be positive")
+                        .asRuntimeException();
+            }
+            if (videoId <= 0) {
+                throw Status.INVALID_ARGUMENT
+                        .withDescription("videoId must be positive")
+                        .asRuntimeException();
+            }
+
+            int clearedCount = repository.resetRecommendedVideoHistory(userId, videoId);
+            ResetRecommendedVideoHistoryResponse response = ResetRecommendedVideoHistoryResponse.newBuilder()
+                    .setVideoId(videoId)
+                    .setReset(true)
+                    .setClearedCount(clearedCount)
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (StatusRuntimeException e) {
+            responseObserver.onError(e);
+        } catch (RuntimeException e) {
+            log.error("resetRecommendedVideoHistory failed", e);
             responseObserver.onError(
                     Status.INTERNAL.withDescription("internal error").asRuntimeException()
             );

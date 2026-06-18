@@ -89,4 +89,12 @@ public class RecommendRepository {
     public int resetRecommendedHistory(long userId) {
         return jdbcTemplate.update("DELETE FROM video_views WHERE user_id = ?", userId);
     }
+
+    public int resetRecommendedVideoHistory(long userId, long videoId) {
+        return jdbcTemplate.update(
+                "DELETE FROM video_views WHERE user_id = ? AND video_id = ?",
+                userId,
+                videoId
+        );
+    }
 }

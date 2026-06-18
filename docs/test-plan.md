@@ -33,6 +33,7 @@ P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后
 | N13 | 记录访问 | 前端切换到视频并开始展示 | 调 `POST /videos/{videoId}/views/me` | 返回 viewed=true；video_views 有记录 |
 | N14 | 健康检查 | 服务启动 | 调 `GET /health` | 返回 API Server、MySQL 8、gRPC Recommend Service 状态 |
 | N15 | 重置推荐历史 | 当前用户已有访问记录 | 调 `POST /feeds/recommended/reset` | 返回 reset=true 和 clearedCount；已访问视频可再次进入推荐流 |
+| N16 | 重置单视频推荐历史 | 当前用户已访问多个视频 | 调 `POST /feeds/recommended/videos/{videoId}/reset` | 只删除当前用户该视频访问记录，返回 videoId/reset/clearedCount |
 
 ## 3. 幂等与数据一致性用例
 
@@ -71,6 +72,7 @@ P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后
 | P07 | 未登录查看评论 | 不带 token 调评论列表 | 401 |
 | P08 | 未登录发表评论 | 不带 token 提交评论 | 401 |
 | P09 | 未登录重置推荐历史 | 不带 token 调 `POST /feeds/recommended/reset` | 401 |
+| P10 | 未登录重置单视频推荐历史 | 不带 token 调 `POST /feeds/recommended/videos/{videoId}/reset` | 401 |
 
 ## 6. 推荐规则测试
 
@@ -85,6 +87,7 @@ P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后
 | R07 | 私密视频高赞 | 请求推荐流 | `visibility=private` 不返回 |
 | R08 | REST 是否调用 gRPC | 观察日志或 mock gRPC | 推荐 REST 产生 `RecommendService.ListRecommendedVideos` 调用 |
 | R09 | 重置推荐历史 | 当前用户访问全部视频后调用 reset | 仅当前用户的 `video_views` 被删除，推荐流重新返回这些视频 |
+| R10 | 重置单视频推荐历史 | 当前用户访问多个视频后调用单视频 reset | 仅指定视频可重新进入当前用户推荐流，其他已访问视频仍被过滤 |
 
 ## 7. 日志测试
 
@@ -137,7 +140,7 @@ P0-lite 测试覆盖：评论列表和发表评论，排在 Core P0 测试之后
 | 编号 | 场景 | 步骤 | 预期 |
 | --- | --- | --- | --- |
 | F01 | 推荐主场景 | 登录 -> 拉取推荐 -> 上下滑动 -> 点赞 -> 查看评论 -> 提交评论 -> 重置推荐 | 真实接口完成完整链路；切换展示时记录访问；刷新后已访问视频不再出现；重置后视频可再次出现 |
-| F02 | 视频管理主场景 | 注册或登录 -> multipart 发布 -> 我的列表分页 -> 删除自己的视频 | 发布文件可播放；列表仅显示本人数据；删除成功且刷新后消失 |
+| F02 | 视频管理主场景 | 注册或登录 -> multipart 发布 -> 我的列表分页 -> 点击我的作品回主页播放 -> 删除自己的视频 | 发布文件可播放；列表仅显示本人数据；点击作品会单视频重置推荐过滤并在主页播放；删除成功且刷新后消失 |
 | F03 | 权限演示 | 未登录访问业务接口；用户 A 删除用户 B 视频 | 分别返回 401 和 403 |
 | F04 | 后台能力演示 | 调推荐、登录等接口后查看日志和 health | 可展示输入输出、耗时、脱敏、gRPC 调用和三个组件健康状态 |
 

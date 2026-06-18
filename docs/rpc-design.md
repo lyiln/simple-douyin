@@ -81,6 +81,24 @@ Method：`ResetRecommendedHistory`
 | `reset` | bool | 是 | 是否已完成重置 |
 | `clearedCount` | int64 | 是 | 删除的当前用户 `video_views` 记录数 |
 
+Method：`ResetRecommendedVideoHistory`
+
+### Request
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `requestId` | string | 是 | API Server 传入，用于日志串联 |
+| `userId` | int64 | 是 | 当前登录用户 ID |
+| `videoId` | int64 | 是 | 要重新进入推荐流的视频 ID |
+
+### Response
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `videoId` | int64 | 是 | 视频 ID |
+| `reset` | bool | 是 | 是否已完成重置 |
+| `clearedCount` | int64 | 是 | 删除的当前用户该视频 `video_views` 记录数，通常为 0 或 1 |
+
 ## 4. 推荐规则（课程必做）
 
 P0 推荐规则必须简单、确定、可测试：
@@ -126,6 +144,7 @@ Recommend Service 查询 MySQL 8，返回 ID 列表，不负责拼完整视频�
 | 参数校验 | 校验 `cursor`、`limit` |
 | gRPC 调用 | 调 `RecommendService.ListRecommendedVideos` |
 | 重置推荐历史 | 调 `RecommendService.ResetRecommendedHistory`，只删除当前用户 `video_views` |
+| 重置单视频推荐历史 | 调 `RecommendService.ResetRecommendedVideoHistory`，只删除当前用户和指定视频的 `video_views` |
 | 详情补全 | 根据 `videoIds` 批量查询 videos、authors、liked/viewed/owner 状态 |
 | 顺序保持 | 返回列表顺序必须与 gRPC 返回 `videoIds` 顺序一致 |
 | 日志 | 记录 REST 输入/输出/耗时；gRPC 耗时可写入扩展字段或日志 |

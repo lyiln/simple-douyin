@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { ApiError, deleteVideo, getMe, getMyVideos, isLoggedIn, resolveAssetUrl } from "../api";
+import { ApiError, deleteVideo, getMe, getMyVideos, isLoggedIn, resetRecommendedVideoHistory, resolveAssetUrl } from "../api";
 import { IconTrash } from "../components/Icons";
 import type { UserProfile, VideoPostResponse } from "../types";
 import { formatCount, formatDate } from "../utils";
@@ -11,16 +11,16 @@ interface ProfilePageProps {
   authVersion: number;
   onRequireAuth: () => void;
   onLogout: () => void;
+  onPlayVideo: (video: VideoPostResponse) => void;
 }
 
-export function ProfilePage({ authVersion, onRequireAuth, onLogout }: ProfilePageProps) {
+export function ProfilePage({ authVersion, onRequireAuth, onLogout, onPlayVideo }: ProfilePageProps) {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [videos, setVideos] = useState<VideoPostResponse[]>([]);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedVideo, setSelectedVideo] = useState<VideoPostResponse | null>(null);
 
   const loadProfile = useCallback(
     async (reset = false) => {
@@ -61,13 +61,28 @@ export function ProfilePage({ authVersion, onRequireAuth, onLogout }: ProfilePag
     try {
       await deleteVideo(videoId);
       setVideos((current) => current.filter((video) => video.id !== videoId));
-      setSelectedVideo((current) => (current?.id === videoId ? null : current));
       setProfile((current) =>
         current ? { ...current, videoCount: Math.max(0, current.videoCount - 1) } : current
       );
     } catch (err) {
       if (err instanceof ApiError && err.status === 401) onRequireAuth();
       setError(err instanceof Error ? err.message : "删除失败");
+    }
+  }
+
+  async function handlePlayVideo(video: VideoPostResponse) {
+    try {
+      await resetRecommendedVideoHistory(video.id);
+      onPlayVideo({
+        ...video,
+        viewerState: {
+          ...video.viewerState,
+          viewed: false
+        }
+      });
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 401) onRequireAuth();
+      setError(err instanceof Error ? err.message : "打开作品失败");
     }
   }
 
@@ -117,7 +132,7 @@ export function ProfilePage({ authVersion, onRequireAuth, onLogout }: ProfilePag
                 <button
                   type="button"
                   className="work-open"
-                  onClick={() => setSelectedVideo(video)}
+                  onClick={() => void handlePlayVideo(video)}
                   aria-label={`查看作品：${video.caption || "未命名视频"}`}
                 >
                   <img src={resolveAssetUrl(video.coverUrl) || defaultCover} alt="" />
@@ -143,96 +158,7 @@ export function ProfilePage({ authVersion, onRequireAuth, onLogout }: ProfilePag
           </button>
         )}
       </section>
-      {selectedVideo && <ProfileVideoPreview video={selectedVideo} onClose={() => setSelectedVideo(null)} />}
     </main>
-  );
-}
-
-interface ProfileVideoPreviewProps {
-  video: VideoPostResponse;
-  onClose: () => void;
-}
-
-function ProfileVideoPreview({ video, onClose }: ProfileVideoPreviewProps) {
-  const videoUrl = resolveAssetUrl(video.videoUrl);
-  const coverUrl = resolveAssetUrl(video.coverUrl) || defaultCover;
-  const avatarUrl = resolveAssetUrl(video.author.avatarUrl) || avatarFallback;
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [onClose]);
-
-  return (
-    <div className="profile-viewer" role="dialog" aria-modal="true" aria-label="查看作品视频">
-      <button className="profile-viewer-scrim" type="button" onClick={onClose} aria-label="关闭预览" />
-      <section className="profile-viewer-panel">
-        <div className="profile-viewer-media">
-          {videoUrl ? (
-            <video
-              className="profile-viewer-backdrop-media"
-              src={videoUrl}
-              poster={coverUrl}
-              muted
-              loop
-              autoPlay
-              playsInline
-              preload="metadata"
-              aria-hidden="true"
-            />
-          ) : (
-            <img className="profile-viewer-backdrop-media" src={coverUrl} alt="" />
-          )}
-          {videoUrl ? (
-            <video
-              className="profile-viewer-video"
-              src={videoUrl}
-              poster={coverUrl}
-              controls
-              autoPlay
-              muted
-              playsInline
-              preload="auto"
-            />
-          ) : (
-            <img className="profile-viewer-video profile-viewer-fallback" src={coverUrl} alt="" />
-          )}
-        </div>
-        <aside className="profile-viewer-side">
-          <div className="profile-viewer-author">
-            <img src={avatarUrl} alt={video.author.nickname || video.author.username} />
-            <div>
-              <strong>@{video.author.nickname || video.author.username}</strong>
-              <span>{formatDate(video.createdAt)}</span>
-            </div>
-          </div>
-          <p>{video.caption}</p>
-          <div className="profile-viewer-stats" aria-label="作品数据">
-            <span>
-              <strong>{formatCount(video.likeCount)}</strong>获赞
-            </span>
-            <span>
-              <strong>{formatCount(video.commentCount)}</strong>评论
-            </span>
-            <span>
-              <strong>{formatCount(video.viewCount)}</strong>播放
-            </span>
-          </div>
-        </aside>
-        <button className="profile-viewer-close" type="button" onClick={onClose} autoFocus aria-label="关闭预览">
-          <span />
-          <span />
-        </button>
-      </section>
-    </div>
   );
 }
 

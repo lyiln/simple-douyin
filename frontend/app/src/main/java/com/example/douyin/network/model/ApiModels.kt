@@ -166,3 +166,10 @@ data class ResetRecommendedHistoryData(
     val reset: Boolean,
     val clearedCount: Long
 )
+
+/** 重置单个视频推荐历史响应 */
+data class ResetRecommendedVideoHistoryData(
+    val videoId: Long,
+    val reset: Boolean,
+    val clearedCount: Long
+)

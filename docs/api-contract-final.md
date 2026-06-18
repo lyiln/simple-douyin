@@ -34,6 +34,7 @@ Android Frontend -> RESTful API over HTTP/JSON -> Spring Boot API Server -> gRPC
 | Core P0 | `GET /api/v1/me` | 当前用户与前端登录态 |
 | Core P0 | `GET /api/v1/feeds/recommended/videos` | gRPC 推荐、点赞排序、访问过滤 |
 | Core P0 | `POST /api/v1/feeds/recommended/reset` | 重置当前用户推荐过滤历史，让已访问视频可再次推荐 |
+| Core P0 | `POST /api/v1/feeds/recommended/videos/{videoId}/reset` | 重置当前用户对单个视频的推荐过滤历史 |
 | Core P0 | `POST /api/v1/videos/{videoId}/views/me` | 记录访问，支持已访问过滤 |
 | Core P0 | `PUT /api/v1/videos/{videoId}/likes/me` | 点赞幂等 |
 | Core P0 | `DELETE /api/v1/videos/{videoId}/likes/me` | 取消点赞幂等 |
@@ -318,7 +319,28 @@ Authorization: Bearer <token>
 
 状态码：`200`、`401`、`500`。
 
-### 7.3 记录访问过的视频
+### 7.3 重置单个视频推荐历史
+
+```http
+POST /api/v1/feeds/recommended/videos/{videoId}/reset
+Authorization: Bearer <token>
+```
+
+该接口只删除当前登录用户与指定视频的一条 `video_views` 记录，让该视频可再次进入当前用户推荐流；不修改 `videos.view_count`、点赞数、评论数或其他用户记录。
+
+响应 `200`：
+
+```json
+{
+  "videoId": 2001,
+  "reset": true,
+  "clearedCount": 1
+}
+```
+
+状态码：`200`、`400`、`401`、`500`。
+
+### 7.4 记录访问过的视频
 
 ```http
 POST /api/v1/videos/{videoId}/views/me
